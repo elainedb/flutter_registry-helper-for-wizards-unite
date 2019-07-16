@@ -175,10 +175,12 @@ class RegistryPageState extends State<RegistryPage> {
                 print(pages.toString());
                 for (var page in pages.documents) {
                   var name = page.data["name_en"];
+                  print(name);
                   page.reference.collection("foundables").getDocuments().then((foundables) {
                     if (foundables != null) {
                       for (var foundable in foundables.documents) {
-                        print(foundable.toString());
+                        print(foundable.documentID.toString());
+//                        var newFoundable = Foundable(foundable.documentID, foundable.data[''])
                       }
                     }
                   });
