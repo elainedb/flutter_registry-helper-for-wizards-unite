@@ -109,23 +109,43 @@ class RegistryPageState extends State<RegistryPage> {
   }
 
   Widget foundableRow(String foundableId, AsyncSnapshot<DocumentSnapshot> snapshot) {
-    return Row(
-      children: <Widget>[
-        Expanded(child: Text(_registryData[foundableId] != null ? _registryData[foundableId].name : "...")),
-        Container(
-          width: 36,
-          child: TextField(
-            controller: TextEditingController(text: (snapshot.hasData && snapshot.data != null) ? snapshot.data[foundableId]['count'].toString() : "..."),
-            onSubmitted: (newText) => {_submit(_userId, foundableId, newText)},
-            keyboardType: TextInputType.number,
+    if (_registry != null) {
+      Foundable foundable;
+      _registry.chapters.forEach((chapter) {
+        chapter.pages.forEach((page) {
+//          print("page ${page.id}");
+//          foundable = page.foundables.firstWhere((foundable) => foundable.id == foundableId);
+          page.foundables.forEach((f) {
+            if (f.id == foundableId) {
+              foundable = f;
+//              return;
+            }
+          });
+        });
+      });
+
+      return Row(
+        children: <Widget>[
+          Expanded(child: Text(foundable.name)),
+          Container(
+            width: 36,
+            child: TextField(
+              controller: TextEditingController(text: (snapshot.hasData && snapshot.data != null) ? snapshot.data[foundableId]['count'].toString() : "..."),
+              onSubmitted: (newText) => {_submit(_userId, foundableId, newText)},
+              keyboardType: TextInputType.number,
+            ),
           ),
-        ),
-        Container(
-          width: 28,
-          child: Text("/${_registryData[foundableId] != null ? _registryData[foundableId].fragmentRequirementStandard : "..."}"),
-        )
-      ],
-    );
+          Container(
+            width: 28,
+            child: Text("/${foundable.fragmentRequirementStandard}"),
+          )
+        ],
+      );
+    } else {
+      return Center(
+        child: Text("..."),
+      );
+    }
   }
 
   _submit(String userId, String foundableId, String newValue) {
@@ -168,39 +188,38 @@ class RegistryPageState extends State<RegistryPage> {
   _getRegistry() {
     Firestore.instance.collection("registryData").snapshots().forEach((snapshot) async {
       if (snapshot != null) {
-          List<Chapter> chapterList = List();
-          for (var chapter in snapshot.documents) {
-            String chapterId = chapter.documentID;
-            String chapterName = chapter.data["name_en"];
-            List<Page> pageList = List();
-            await chapter.reference.collection("pages").getDocuments().then((pages) async {
-              if (pages != null) {
-                for (var page in pages.documents) {
-                  String pageId = page.documentID;
-                  String pageName = page.data["name_en"];
-                  List<Foundable> foundableList = List();
-                  await page.reference.collection("foundables").getDocuments().then((foundables) {
-                    if (foundables != null) {
-                      for (var foundable in foundables.documents) {
-                        foundableList.add(Foundable(foundable.documentID, foundable.data['name_en'], foundable.data['frag_req1'],
-                            foundable.data['frag_req2'], foundable.data['frag_req3'], foundable.data['frag_req4']));
-
-                      }
+        List<Chapter> chapterList = List();
+        for (var chapter in snapshot.documents) {
+          String chapterId = chapter.documentID;
+          String chapterName = chapter.data["name_en"];
+          List<Page> pageList = List();
+          await chapter.reference.collection("pages").getDocuments().then((pages) async {
+            if (pages != null) {
+              for (var page in pages.documents) {
+                String pageId = page.documentID;
+                String pageName = page.data["name_en"];
+                List<Foundable> foundableList = List();
+                await page.reference.collection("foundables").getDocuments().then((foundables) {
+                  if (foundables != null) {
+                    for (var foundable in foundables.documents) {
+                      foundableList.add(Foundable(foundable.documentID, foundable.data['name_en'], foundable.data['frag_req1'], foundable.data['frag_req2'],
+                          foundable.data['frag_req3'], foundable.data['frag_req4']));
                     }
-                  });
-                  print("pageList.add(Page(pageId, pageName, foundableList));");
-                  pageList.add(Page(pageId, pageName, foundableList));
-                }
+                  }
+                });
+                print("pageList.add(Page(pageId, pageName, foundableList));");
+                pageList.add(Page(pageId, pageName, foundableList));
               }
-            });
-            print("chapterList.add(Chapter(chapterId, chapterName, pageList));");
-            chapterList.add(Chapter(chapterId, chapterName, pageList));
-          }
-          print("registry = Registry(chapterList);");
-          setState(() {
-            print("setstate");
-            _registry = Registry(chapterList);
+            }
           });
+          print("chapterList.add(Chapter(chapterId, chapterName, pageList));");
+          chapterList.add(Chapter(chapterId, chapterName, pageList));
+        }
+        print("registry = Registry(chapterList);");
+        setState(() {
+          print("setstate");
+          _registry = Registry(chapterList);
+        });
       }
     });
   }
