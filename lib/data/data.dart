@@ -30,3 +30,44 @@ class Foundable {
 
   Foundable(this.id, this.name, this.fragmentRequirementStandard, this.fragmentRequirementBronze, this.fragmentRequirementSilver, this.fragmentRequirementGold);
 }
+
+Chapter getChapterWithId(Registry registry, String id) {
+  Chapter chapter;
+  registry.chapters.forEach((c) {
+    if (c.id == id) {
+      chapter = c;
+    }
+  });
+
+  return chapter;
+}
+
+List<String> getPagesIds(Chapter chapter) {
+  return chapter.pages.map((p) => p.id).toList();
+}
+
+Page getPageWithId(Chapter chapter, String id) {
+  Page page;
+  chapter.pages.forEach((p) {
+    if (p.id == id) {
+      page = p;
+    }
+  });
+
+  return page;
+}
+
+List<String> getFoundablesIds(Page page) {
+  return page.foundables.map((f) => f.id).toList();
+}
+
+Foundable getFoundableWithId(Page page, String id) {
+  Foundable foundable;
+  page.foundables.forEach((f) {
+    if (f.id == id) {
+      foundable = f;
+    }
+  });
+
+  return foundable;
+}
