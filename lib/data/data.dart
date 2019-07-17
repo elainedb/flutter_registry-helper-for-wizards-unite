@@ -1,3 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+const prestigeValues = ['Standard', 'Bronze', 'Silver', 'Gold'];
+
 class Registry {
   final List<Chapter> chapters;
 
@@ -70,4 +74,56 @@ Foundable getFoundableWithId(Page page, String id) {
   });
 
   return foundable;
+}
+
+List<String> getAllFoundablesIds(Registry registry) {
+  List<String> ids = List();
+  registry.chapters.forEach((chapter) {
+    chapter.pages.forEach((page) {
+      ids.addAll(getFoundablesIds(page));
+    });
+  });
+  return ids;
+}
+
+String getPrestigeLevelWithPageId(String pageId, DocumentSnapshot data) {
+  switch (data.data["${pageId}_1"]["level"]) {
+    case 1:
+      return prestigeValues[0];
+    case 2:
+      return prestigeValues[1];
+    case 3:
+      return prestigeValues[2];
+    case 4:
+      return prestigeValues[3];
+  }
+  return prestigeValues[0];
+}
+
+int getPrestigeLevelWithPrestigeValue(String value) {
+  switch (value) {
+    case 'Standard':
+      return 1;
+    case 'Bronze':
+      return 2;
+    case 'Silver':
+      return 3;
+    case 'Gold':
+      return 4;
+  }
+  return 1;
+}
+
+String getFragmentRequirement(Foundable foundable, String dropdownValue) {
+  switch (dropdownValue) {
+    case 'Standard':
+      return "/${foundable.fragmentRequirementStandard}";
+    case 'Bronze':
+      return "/${foundable.fragmentRequirementBronze}";
+    case 'Silver':
+      return "/${foundable.fragmentRequirementSilver}";
+    case 'Gold':
+      return "/${foundable.fragmentRequirementGold}";
+  }
+  return "/${foundable.fragmentRequirementStandard}";
 }
