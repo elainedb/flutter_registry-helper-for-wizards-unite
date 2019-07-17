@@ -7,9 +7,6 @@ class Registry {
 
   Registry(this.chapters);
 
-//  factory Registry.fromJson(Map<String, dynamic> json) {
-//    var list = json['chapters'] as List;
-//  }
   factory Registry.fromJson(Map<String, dynamic> json) {
     var list = json['chapters'] as List;
     List<Chapter> chaptersList = list.map((i) => Chapter.fromJson(i)).toList();
@@ -19,8 +16,7 @@ class Registry {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'chapters': chapters,
       };
 }
@@ -43,8 +39,7 @@ class Chapter {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
         'pages': pages,
@@ -69,8 +64,7 @@ class Page {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
         'foundables': foundables,
@@ -95,8 +89,7 @@ class Foundable {
         fragmentRequirementSilver = json['fragmentRequirementSilver'],
         fragmentRequirementGold = json['fragmentRequirementGold'];
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
         'fragmentRequirementStandard': fragmentRequirementStandard,
