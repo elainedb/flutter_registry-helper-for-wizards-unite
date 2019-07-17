@@ -6,6 +6,23 @@ class Registry {
   final List<Chapter> chapters;
 
   Registry(this.chapters);
+
+//  factory Registry.fromJson(Map<String, dynamic> json) {
+//    var list = json['chapters'] as List;
+//  }
+  factory Registry.fromJson(Map<String, dynamic> json) {
+    var list = json['chapters'] as List;
+    List<Chapter> chaptersList = list.map((i) => Chapter.fromJson(i)).toList();
+
+    return Registry(
+      chaptersList,
+    );
+  }
+
+  Map<String, dynamic> toJson() =>
+      {
+        'chapters': chapters,
+      };
 }
 
 class Chapter {
@@ -14,6 +31,24 @@ class Chapter {
   final List<Page> pages;
 
   Chapter(this.id, this.name, this.pages);
+
+  factory Chapter.fromJson(Map<String, dynamic> json) {
+    var list = json['pages'] as List;
+    List<Page> pagesList = list.map((i) => Page.fromJson(i)).toList();
+
+    return Chapter(
+      json['id'],
+      json['name'],
+      pagesList,
+    );
+  }
+
+  Map<String, dynamic> toJson() =>
+      {
+        'id': id,
+        'name': name,
+        'pages': pages,
+      };
 }
 
 class Page {
@@ -22,6 +57,24 @@ class Page {
   final List<Foundable> foundables;
 
   Page(this.id, this.name, this.foundables);
+
+  factory Page.fromJson(Map<String, dynamic> json) {
+    var list = json['foundables'] as List;
+    List<Foundable> foundablesList = list.map((i) => Foundable.fromJson(i)).toList();
+
+    return Page(
+      json['id'],
+      json['name'],
+      foundablesList,
+    );
+  }
+
+  Map<String, dynamic> toJson() =>
+      {
+        'id': id,
+        'name': name,
+        'foundables': foundables,
+      };
 }
 
 class Foundable {
@@ -33,6 +86,24 @@ class Foundable {
   final int fragmentRequirementGold;
 
   Foundable(this.id, this.name, this.fragmentRequirementStandard, this.fragmentRequirementBronze, this.fragmentRequirementSilver, this.fragmentRequirementGold);
+
+  Foundable.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        fragmentRequirementStandard = json['fragmentRequirementStandard'],
+        fragmentRequirementBronze = json['fragmentRequirementBronze'],
+        fragmentRequirementSilver = json['fragmentRequirementSilver'],
+        fragmentRequirementGold = json['fragmentRequirementGold'];
+
+  Map<String, dynamic> toJson() =>
+      {
+        'id': id,
+        'name': name,
+        'fragmentRequirementStandard': fragmentRequirementStandard,
+        'fragmentRequirementBronze': fragmentRequirementBronze,
+        'fragmentRequirementSilver': fragmentRequirementSilver,
+        'fragmentRequirementGold': fragmentRequirementGold,
+      };
 }
 
 Chapter getChapterWithId(Registry registry, String id) {

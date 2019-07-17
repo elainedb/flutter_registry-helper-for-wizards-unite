@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/data.dart';
 
@@ -8,7 +11,6 @@ const cmcColor1 = Color.fromRGBO(73, 113, 136, 1);
 const cmcColor2 = Color.fromRGBO(203, 235, 252, 1);
 
 class RegistryWidget extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() => RegistryWidgetState();
 }
@@ -20,6 +22,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
   @override
   void initState() {
     super.initState();
+
     FirebaseAuth.instance.currentUser().then((user) {
       if (user != null) {
         setState(() {
@@ -42,10 +45,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
         );
       }
       return StreamBuilder<DocumentSnapshot>(
-          stream: Firestore.instance
-              .collection('userData')
-              .document(_userId)
-              .snapshots(),
+          stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
           builder: (context, snapshot) {
             return ListView(
               scrollDirection: Axis.vertical,
@@ -61,8 +61,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
     });
   }
 
-  Widget chapterCard(
-      String chapterId, AsyncSnapshot<DocumentSnapshot> snapshot) {
+  Widget chapterCard(String chapterId, AsyncSnapshot<DocumentSnapshot> snapshot) {
     if (_registry != null) {
       Chapter chapter = getChapterWithId(_registry, chapterId);
 
@@ -71,8 +70,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
         "${chapter.name}",
         style: TextStyle(color: Colors.white),
       ));
-      widgets.addAll(
-          getPagesIds(chapter).map((p) => pageCard(p, chapter, snapshot.data)));
+      widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, snapshot.data)));
 
       return Card(
         color: cmcColor1,
@@ -98,14 +96,13 @@ class RegistryWidgetState extends State<RegistryWidget> {
         DropdownButton<String>(
           value: dropdownValue,
           onChanged: (newValue) {
-          page.foundables.forEach((foundable) {
-            Firestore.instance.collection('userData').document(_userId).setData({
-              foundable.id: {'count': 0, 'level': getPrestigeLevelWithPrestigeValue(newValue)}
-            }, merge: true);
-          });
+            page.foundables.forEach((foundable) {
+              Firestore.instance.collection('userData').document(_userId).setData({
+                foundable.id: {'count': 0, 'level': getPrestigeLevelWithPrestigeValue(newValue)}
+              }, merge: true);
+            });
 
-          setState(() { });
-
+            setState(() {});
           },
           items: prestigeValues.map<DropdownMenuItem<String>>((value) {
             return DropdownMenuItem<String>(
@@ -119,8 +116,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
 
     List<Widget> widgets = List();
     widgets.add(header);
-    widgets.addAll(
-        getFoundablesIds(page).map((f) => foundableRow(f, page, data, dropdownValue)));
+    widgets.addAll(getFoundablesIds(page).map((f) => foundableRow(f, page, data, dropdownValue)));
 
     return Card(
       color: cmcColor2,
@@ -133,8 +129,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
     );
   }
 
-  Widget foundableRow(
-      String foundableId, Page page, DocumentSnapshot data, String dropdownValue) {
+  Widget foundableRow(String foundableId, Page page, DocumentSnapshot data, String dropdownValue) {
     Foundable foundable = getFoundableWithId(page, foundableId);
     String text = "";
     var _focusNode = FocusNode();
@@ -151,8 +146,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
         Container(
           width: 36,
           child: TextField(
-            controller: TextEditingController(
-                text: data[foundableId]['count'].toString()),
+            controller: TextEditingController(text: data[foundableId]['count'].toString()),
             onSubmitted: (newText) => {_submit(_userId, foundableId, newText)},
             onChanged: (newText) => text = newText,
             focusNode: _focusNode,
@@ -174,8 +168,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
         foundableId: {'count': newInt}
       }, merge: true);
     } else {
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text("Please enter a number")));
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Please enter a number")));
       // TODO set textfield text to old value
     }
   }
@@ -192,56 +185,11 @@ class RegistryWidgetState extends State<RegistryWidget> {
     Firestore.instance.collection('userData').document(userId).setData(map);
   }
 
-  _getRegistry() {
-    Firestore.instance
-        .collection("registryData")
-        .snapshots()
-        .forEach((snapshot) async {
-      if (snapshot != null) {
-        List<Chapter> chapterList = List();
-        for (var chapter in snapshot.documents) {
-          String chapterId = chapter.documentID;
-          String chapterName = chapter.data["name_en"];
-          List<Page> pageList = List();
-          await chapter.reference
-              .collection("pages")
-              .getDocuments()
-              .then((pages) async {
-            if (pages != null) {
-              for (var page in pages.documents) {
-                String pageId = page.documentID;
-                String pageName = page.data["name_en"];
-                List<Foundable> foundableList = List();
-                await page.reference
-                    .collection("foundables")
-                    .getDocuments()
-                    .then((foundables) {
-                  if (foundables != null) {
-                    for (var foundable in foundables.documents) {
-                      foundableList.add(Foundable(
-                          foundable.documentID,
-                          foundable.data['name_en'],
-                          foundable.data['frag_req1'],
-                          foundable.data['frag_req2'],
-                          foundable.data['frag_req3'],
-                          foundable.data['frag_req4']));
-                    }
-                  }
-                });
-                print("pageList.add(Page(pageId, pageName, foundableList));");
-                pageList.add(Page(pageId, pageName, foundableList));
-              }
-            }
-          });
-          print("chapterList.add(Chapter(chapterId, chapterName, pageList));");
-          chapterList.add(Chapter(chapterId, chapterName, pageList));
-        }
-        print("registry = Registry(chapterList);");
-        setState(() {
-          print("setstate");
-          _registry = Registry(chapterList);
-        });
-      }
+  _getRegistry() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      Map registryMap = jsonDecode(prefs.getString('registry'));
+      _registry = Registry.fromJson(registryMap) ?? null;
     });
   }
 }
