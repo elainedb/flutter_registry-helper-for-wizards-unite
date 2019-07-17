@@ -2,24 +2,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'data/data.dart';
+import '../data/data.dart';
 
 const cmcColor1 = Color.fromRGBO(73, 113, 136, 1);
 const cmcColor2 = Color.fromRGBO(203, 235, 252, 1);
 
-class RegistryPage extends StatefulWidget {
-  final String title = 'Registration';
+class RegistryWidget extends StatefulWidget {
 
   @override
-  State<StatefulWidget> createState() => RegistryPageState();
+  State<StatefulWidget> createState() => RegistryWidgetState();
 }
 
-class RegistryPageState extends State<RegistryPage> {
+class RegistryWidgetState extends State<RegistryWidget> {
   String _userId = "";
   Registry _registry;
 
   @override
   void initState() {
+    super.initState();
     FirebaseAuth.instance.currentUser().then((user) {
       if (user != null) {
         setState(() {
@@ -34,35 +34,31 @@ class RegistryPageState extends State<RegistryPage> {
   @override
   Widget build(BuildContext context) {
     print('build for _userId = $_userId');
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Builder(builder: (BuildContext context) {
-        if (_userId.isEmpty) {
-          return Center(
-            child: Text("Loading"),
-          );
-        }
-        return StreamBuilder<DocumentSnapshot>(
-            stream: Firestore.instance
-                .collection('userData')
-                .document(_userId)
-                .snapshots(),
-            builder: (context, snapshot) {
-              return ListView(
-                scrollDirection: Axis.vertical,
-                children: <Widget>[
-                  chapterCard("cmc", snapshot),
-                  RaisedButton(
-                    child: const Text('Init Firebase'),
-                    onPressed: () => _initUserData(_userId),
-                  )
-                ],
-              );
-            });
-      }),
-    );
+
+    return Builder(builder: (BuildContext context) {
+      if (_userId.isEmpty) {
+        return Center(
+          child: Text("Loading"),
+        );
+      }
+      return StreamBuilder<DocumentSnapshot>(
+          stream: Firestore.instance
+              .collection('userData')
+              .document(_userId)
+              .snapshots(),
+          builder: (context, snapshot) {
+            return ListView(
+              scrollDirection: Axis.vertical,
+              children: <Widget>[
+                chapterCard("cmc", snapshot),
+                RaisedButton(
+                  child: const Text('Init Firebase'),
+                  onPressed: () => _initUserData(_userId),
+                )
+              ],
+            );
+          });
+    });
   }
 
   Widget chapterCard(
@@ -248,19 +244,4 @@ class RegistryPageState extends State<RegistryPage> {
       }
     });
   }
-}
-
-String _handleSignIn() {
-  /*bool loggedIn = false;
-  var userUid;
-  FirebaseAuth.instance.currentUser().then((user) {
-    if (user != null) {
-      userUid = user.uid;
-      loggedIn = true;
-    }
-    print('trsting $loggedIn');
-
-  });*/
-
-  return "";
 }

@@ -5,54 +5,22 @@ import 'package:google_sign_in/google_sign_in.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-class SignInPage extends StatefulWidget {
-  final String title = 'Registration';
+class SignInWidget extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => SignInPageState();
+  State<StatefulWidget> createState() => SignInWidgetState();
 }
 
-class SignInPageState extends State<SignInPage> {
+class SignInWidgetState extends State<SignInWidget> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[
-          Builder(builder: (BuildContext context) {
-            return FlatButton(
-              child: const Text('Sign out'),
-              textColor: Theme.of(context).buttonColor,
-              onPressed: () async {
-                final FirebaseUser user = await _auth.currentUser();
-                if (user == null) {
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                    content: const Text('No one has signed in.'),
-                  ));
-                  return;
-                }
-                _signOut();
-                final String uid = user.uid;
-                Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text(uid + ' has successfully signed out.'),
-                ));
-              },
-            );
-          })
+    return Builder(builder: (BuildContext context) {
+      return ListView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          _GoogleSignInSection(),
         ],
-      ),
-      body: Builder(builder: (BuildContext context) {
-        return ListView(
-          scrollDirection: Axis.vertical,
-          children: <Widget>[
-            _GoogleSignInSection(),
-          ],
-        );
-      }),
-    );
-  }
-
-  void _signOut() async {
-    await _auth.signOut();
+      );
+    });
   }
 }
 
@@ -87,11 +55,7 @@ class _GoogleSignInSectionState extends State<_GoogleSignInSection> {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            _success == null
-                ? ''
-                : (_success
-                ? 'Successfully signed in, uid: ' + _userID
-                : 'Sign in failed'),
+            _success == null ? '' : (_success ? 'Successfully signed in, uid: ' + _userID : 'Sign in failed'),
             style: TextStyle(color: Colors.red),
           ),
         )
@@ -101,8 +65,7 @@ class _GoogleSignInSectionState extends State<_GoogleSignInSection> {
 
   void _signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-    await googleUser.authentication;
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
