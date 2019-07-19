@@ -35,6 +35,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String _userId = "";
   bool _isDataLoading = false;
+  Registry _registry;
 
   @override
   void initState() {
@@ -81,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
           case "null":
             return SignInWidget();
         }
-        return RegistryWidget();
+        return RegistryWidget(_registry);
       }),
     );
   }
@@ -158,8 +159,9 @@ class _MyHomePageState extends State<MyHomePage> {
           _isDataLoading = false;
         });
 
+        _registry = Registry(chapterList);
         await prefs.setInt('registryVersion', firestoreVersion);
-        await prefs.setString('registry', jsonEncode(Registry(chapterList)));
+        await prefs.setString('registry', jsonEncode(_registry));
       }
     });
   }
