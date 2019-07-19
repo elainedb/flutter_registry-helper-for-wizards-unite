@@ -9,6 +9,21 @@ import 'package:registry_helper_for_wu/widgets/registry.dart';
 import 'package:registry_helper_for_wu/widgets/signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+Map<int, Color> backgroundColorMap = {
+  50: Color.fromRGBO(55, 31, 33, .1),
+  100: Color.fromRGBO(55, 31, 33, .2),
+  200: Color.fromRGBO(55, 31, 33, .3),
+  300: Color.fromRGBO(55, 31, 33, .4),
+  400: Color.fromRGBO(55, 31, 33, .5),
+  500: Color.fromRGBO(55, 31, 33, .6),
+  600: Color.fromRGBO(55, 31, 33, .7),
+  700: Color.fromRGBO(55, 31, 33, .8),
+  800: Color.fromRGBO(55, 31, 33, .9),
+  900: Color.fromRGBO(55, 31, 33, 1),
+};
+
+MaterialColor backgroundColor = MaterialColor(0xFF371F21, backgroundColorMap);
+
 void main() {
   runApp(MyApp());
 }
@@ -18,6 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Registry Helper for Wizards Unite',
+      theme: ThemeData(primarySwatch: backgroundColor),
       home: MyHomePage(title: 'Registry Helper for Wizards Unite'),
     );
   }
@@ -66,6 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: settingsIcon,
+        elevation: 0,
       ),
       body: Builder(builder: (BuildContext context) {
         if (_isDataLoading) {
@@ -84,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
         }
         return RegistryWidget(_registry);
       }),
+      backgroundColor: backgroundColor,
     );
   }
 

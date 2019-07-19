@@ -93,6 +93,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
                       chapterCard("loh", snapshot, lohDark, lohLight),
                       chapterCard("mom", snapshot, momDark, momLight),
                       chapterCard("m", snapshot, mDark, mLight),
+                      chapterCard("mgs", snapshot, mgsDark, mgsLight),
                       chapterCard("ma", snapshot, maDark, maLight),
                       chapterCard("www", snapshot, wwwDark, wwwLight),
                       chapterCard("o", snapshot, oDark, oLight),
