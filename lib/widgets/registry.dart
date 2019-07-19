@@ -104,10 +104,6 @@ class RegistryWidgetState extends State<RegistryWidget> {
                       chapterCard("ma", snapshot, maDark, maLight, 7),
                       chapterCard("www", snapshot, wwwDark, wwwLight, 8),
                       chapterCard("o", snapshot, oDark, oLight, 9),
-                      RaisedButton(
-                        child: const Text('Init Firebase'),
-                        onPressed: () => _initUserData(_userId),
-                      )
                     ],
                   );
                 }),
@@ -253,18 +249,6 @@ class RegistryWidgetState extends State<RegistryWidget> {
       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Please enter a number")));
       // TODO set textfield text to old value
     }
-  }
-
-  _initUserData(String userId) {
-    List<String> ids = getAllFoundablesIds(_registry);
-
-    Map<String, dynamic> map = Map();
-
-    for (var id in ids) {
-      map[id] = {'count': 0, 'level': 1};
-    }
-
-    Firestore.instance.collection('userData').document(userId).setData(map);
   }
 
   _getRegistryFromSharedPrefs() async {

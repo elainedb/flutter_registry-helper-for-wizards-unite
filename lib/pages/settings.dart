@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 class SettingsPage extends StatefulWidget {
   final String title = 'Settings';
@@ -14,7 +16,7 @@ class SettingsPageState extends State<SettingsPage> {
   void initState() {
     super.initState();
 
-    FirebaseAuth.instance.onAuthStateChanged.listen((user) {
+    _auth.onAuthStateChanged.listen((user) {
       if (user == null) {
         Navigator.pop(context);
       }
@@ -30,7 +32,7 @@ class SettingsPageState extends State<SettingsPage> {
       body: Builder(builder: (BuildContext context) {
         return Center(
           child: RaisedButton(
-            onPressed: () => _signOut(),
+            onPressed: () => _firebaseSignOut(),
             child: Text("Sign Out"),
           ),
         );
@@ -38,7 +40,8 @@ class SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  void _signOut() async {
+  Future<void> _firebaseSignOut() async {
     await _auth.signOut();
+    await _googleSignIn.signOut();
   }
 }

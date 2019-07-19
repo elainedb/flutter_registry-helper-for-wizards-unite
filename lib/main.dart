@@ -50,7 +50,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String _userId = "";
-  bool _isDataLoading = false;
+  bool _isRegistryLoading = false;
+  bool _isUserLoading = false;
   Registry _registry;
 
   @override
@@ -69,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> settingsIcon;
-    if (_userId.isNotEmpty && _userId != "null" && !_isDataLoading) {
+    if (_userId.isNotEmpty && _userId != "null" && !_isRegistryLoading && !_isUserLoading) {
       settingsIcon = <Widget>[
         IconButton(
           onPressed: () => _pushPage(context, SettingsPage()),
@@ -85,9 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 0,
       ),
       body: Builder(builder: (BuildContext context) {
-        if (_isDataLoading) {
+        if (_isRegistryLoading || _isUserLoading) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.white,
+            ),
           );
         }
 
@@ -136,8 +139,10 @@ class _MyHomePageState extends State<MyHomePage> {
     if (firestoreVersion > localVersion) {
       _getRegistry(prefs, firestoreVersion);
       setState(() {
-        _isDataLoading = true;
+        _isRegistryLoading = true;
       });
+    } else {
+      _initUserData(_userId);
     }
   }
 
@@ -174,13 +179,56 @@ class _MyHomePageState extends State<MyHomePage> {
         print("registry = Registry(chapterList);");
         setState(() {
           print("setstate");
-          _isDataLoading = false;
+          _isRegistryLoading = false;
         });
 
         _registry = Registry(chapterList);
         await prefs.setInt('registryVersion', firestoreVersion);
         await prefs.setString('registry', jsonEncode(_registry));
+
+        _initUserData(_userId);
       }
     });
+  }
+
+  _initUserData(String userId) {
+    setState(() {
+      _isUserLoading = true;
+    });
+    Firestore.instance.collection('userData').document(userId).get().then((snapshot) async {
+      if (!snapshot.exists) {
+        if (_registry == null) {
+          await _getRegistryFromSharedPrefs();
+        }
+        List<String> ids = getAllFoundablesIds(_registry);
+
+        Map<String, dynamic> map = Map();
+
+        for (var id in ids) {
+          map[id] = {'count': 0, 'level': 1};
+        }
+
+        Firestore.instance.collection('userData').document(userId).setData(map).then((_) {
+          setState(() {
+            _isUserLoading = false;
+          });
+        });
+      } else {
+        setState(() {
+          _isUserLoading = false;
+        });
+      }
+    });
+  }
+
+  _getRegistryFromSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var registryString = prefs.getString('registry') ?? "";
+    if (registryString.isNotEmpty) {
+      setState(() {
+        Map registryMap = jsonDecode(registryString);
+        _registry = Registry.fromJson(registryMap) ?? null;
+      });
+    }
   }
 }

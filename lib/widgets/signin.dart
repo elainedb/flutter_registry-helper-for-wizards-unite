@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 class SignInWidget extends StatefulWidget {
   @override
@@ -39,6 +38,7 @@ class SignInWidgetState extends State<SignInWidget> {
   }
 
   void _signInWithGoogle() async {
+    final GoogleSignIn _googleSignIn = GoogleSignIn();
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
     final AuthCredential credential = GoogleAuthProvider.getCredential(
