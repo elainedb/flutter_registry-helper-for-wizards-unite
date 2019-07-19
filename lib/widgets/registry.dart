@@ -138,8 +138,6 @@ class RegistryWidgetState extends State<RegistryWidget> {
     });
   }
 
-  bla() {}
-
   Widget chapterCard(String chapterId, AsyncSnapshot<DocumentSnapshot> snapshot, Color dark, Color light, int index) {
     if (_registry != null && snapshot.hasData) {
       Chapter chapter = getChapterWithId(_registry, chapterId);
@@ -238,7 +236,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
           ),
         ),
         Container(
-          width: 28,
+          width: 30,
           child: Text(getFragmentRequirement(foundable, dropdownValue)),
         )
       ],
