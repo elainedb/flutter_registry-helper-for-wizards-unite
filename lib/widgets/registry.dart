@@ -44,25 +44,55 @@ class RegistryWidgetState extends State<RegistryWidget> {
           child: Text("Loading"),
         );
       }
-      return StreamBuilder<DocumentSnapshot>(
-          stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
-          builder: (context, snapshot) {
-            return ListView(
-              scrollDirection: Axis.vertical,
+      return Row(
+        children: <Widget>[
+          Expanded(
+            child: StreamBuilder<DocumentSnapshot>(
+                stream: Firestore.instance
+                    .collection('userData')
+                    .document(_userId)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  return ListView(
+                    scrollDirection: Axis.vertical,
+                    children: <Widget>[
+                      chapterCard("cmc", snapshot),
+                      RaisedButton(
+                        child: const Text('Init Firebase'),
+                        onPressed: () => _initUserData(_userId),
+                      )
+                    ],
+                  );
+                }),
+          ),
+          Container(
+            width: 42,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                chapterCard("cmc", snapshot),
-                RaisedButton(
-                  child: const Text('Init Firebase'),
-                  onPressed: () => _initUserData(_userId),
-                )
+                Image.asset("images/cmc.png"),//https://www.wizardunite.com/2019/05/hpwu-foundables-and-traces.html
+                Image.asset("images/da.png"),//https://github.com/hpwizardsunite-dev-contrib
+                Image.asset("images/hs.png"),
+                Image.asset("images/loh.png"),
+                Image.asset("images/mom.png"),
+                Image.asset("images/m.png"),
+                Image.asset("images/mgs.png"),
+                Image.asset("images/ma.png"),
+                Image.asset("images/www.png"),
+                Image.asset("images/o.png"),
               ],
-            );
-          });
+            ),
+          ),
+        ],
+      );
     });
   }
 
-  Widget chapterCard(String chapterId, AsyncSnapshot<DocumentSnapshot> snapshot) {
-    if (_registry != null) {
+  bla() {}
+
+  Widget chapterCard(
+      String chapterId, AsyncSnapshot<DocumentSnapshot> snapshot) {
+    if (_registry != null && snapshot.hasData) {
       Chapter chapter = getChapterWithId(_registry, chapterId);
 
       List<Widget> widgets = List();
@@ -70,7 +100,8 @@ class RegistryWidgetState extends State<RegistryWidget> {
         "${chapter.name}",
         style: TextStyle(color: Colors.white),
       ));
-      widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, snapshot.data)));
+      widgets.addAll(
+          getPagesIds(chapter).map((p) => pageCard(p, chapter, snapshot.data)));
 
       return Card(
         color: cmcColor1,
@@ -97,8 +128,14 @@ class RegistryWidgetState extends State<RegistryWidget> {
           value: dropdownValue,
           onChanged: (newValue) {
             page.foundables.forEach((foundable) {
-              Firestore.instance.collection('userData').document(_userId).setData({
-                foundable.id: {'count': 0, 'level': getPrestigeLevelWithPrestigeValue(newValue)}
+              Firestore.instance
+                  .collection('userData')
+                  .document(_userId)
+                  .setData({
+                foundable.id: {
+                  'count': 0,
+                  'level': getPrestigeLevelWithPrestigeValue(newValue)
+                }
               }, merge: true);
             });
 
@@ -116,7 +153,8 @@ class RegistryWidgetState extends State<RegistryWidget> {
 
     List<Widget> widgets = List();
     widgets.add(header);
-    widgets.addAll(getFoundablesIds(page).map((f) => foundableRow(f, page, data, dropdownValue)));
+    widgets.addAll(getFoundablesIds(page)
+        .map((f) => foundableRow(f, page, data, dropdownValue)));
 
     return Card(
       color: cmcColor2,
@@ -129,7 +167,8 @@ class RegistryWidgetState extends State<RegistryWidget> {
     );
   }
 
-  Widget foundableRow(String foundableId, Page page, DocumentSnapshot data, String dropdownValue) {
+  Widget foundableRow(String foundableId, Page page, DocumentSnapshot data,
+      String dropdownValue) {
     Foundable foundable = getFoundableWithId(page, foundableId);
     String text = "";
     var _focusNode = FocusNode();
@@ -146,7 +185,8 @@ class RegistryWidgetState extends State<RegistryWidget> {
         Container(
           width: 36,
           child: TextField(
-            controller: TextEditingController(text: data[foundableId]['count'].toString()),
+            controller: TextEditingController(
+                text: data[foundableId]['count'].toString()),
             onSubmitted: (newText) => {_submit(_userId, foundableId, newText)},
             onChanged: (newText) => text = newText,
             focusNode: _focusNode,
@@ -168,7 +208,8 @@ class RegistryWidgetState extends State<RegistryWidget> {
         foundableId: {'count': newInt}
       }, merge: true);
     } else {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Please enter a number")));
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text("Please enter a number")));
       // TODO set textfield text to old value
     }
   }
