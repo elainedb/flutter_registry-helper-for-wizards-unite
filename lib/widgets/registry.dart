@@ -4,8 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../data/data.dart';
+
+//https://www.wizardunite.com/2019/05/hpwu-foundables-and-traces.html
+//https://github.com/hpwizardsunite-dev-contrib
 
 final cmcDark = const Color(0xFF3B748C);
 final cmcLight = const Color(0xFFB7DAEF);
@@ -40,6 +44,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
   final Registry _firebaseRegistry;
   String _userId = "";
   Registry _registry;
+  AutoScrollController controller;
 
   RegistryWidgetState(this._firebaseRegistry);
 
@@ -63,6 +68,10 @@ class RegistryWidgetState extends State<RegistryWidget> {
       _getRegistryFromSharedPrefs();
     }
 
+    controller = AutoScrollController(
+      viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
+      axis: Axis.vertical,
+    );
   }
 
   @override
@@ -79,24 +88,22 @@ class RegistryWidgetState extends State<RegistryWidget> {
         children: <Widget>[
           Expanded(
             child: StreamBuilder<DocumentSnapshot>(
-                stream: Firestore.instance
-                    .collection('userData')
-                    .document(_userId)
-                    .snapshots(),
+                stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
                 builder: (context, snapshot) {
                   return ListView(
                     scrollDirection: Axis.vertical,
+                    controller: controller,
                     children: <Widget>[
-                      chapterCard("cmc", snapshot, cmcDark, cmcLight),
-                      chapterCard("da", snapshot, daDark, daLight),
-                      chapterCard("hs", snapshot, hsDark, hsLight),
-                      chapterCard("loh", snapshot, lohDark, lohLight),
-                      chapterCard("mom", snapshot, momDark, momLight),
-                      chapterCard("m", snapshot, mDark, mLight),
-                      chapterCard("mgs", snapshot, mgsDark, mgsLight),
-                      chapterCard("ma", snapshot, maDark, maLight),
-                      chapterCard("www", snapshot, wwwDark, wwwLight),
-                      chapterCard("o", snapshot, oDark, oLight),
+                      chapterCard("cmc", snapshot, cmcDark, cmcLight, 0),
+                      chapterCard("da", snapshot, daDark, daLight, 1),
+                      chapterCard("hs", snapshot, hsDark, hsLight, 2),
+                      chapterCard("loh", snapshot, lohDark, lohLight, 3),
+                      chapterCard("mom", snapshot, momDark, momLight, 4),
+                      chapterCard("m", snapshot, mDark, mLight, 5),
+                      chapterCard("mgs", snapshot, mgsDark, mgsLight, 6),
+                      chapterCard("ma", snapshot, maDark, maLight, 7),
+                      chapterCard("www", snapshot, wwwDark, wwwLight, 8),
+                      chapterCard("o", snapshot, oDark, oLight, 9),
                       RaisedButton(
                         child: const Text('Init Firebase'),
                         onPressed: () => _initUserData(_userId),
@@ -105,22 +112,25 @@ class RegistryWidgetState extends State<RegistryWidget> {
                   );
                 }),
           ),
-          Container(
-            width: 42,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Image.asset("images/cmc.png"),//https://www.wizardunite.com/2019/05/hpwu-foundables-and-traces.html
-                Image.asset("images/da.png"),//https://github.com/hpwizardsunite-dev-contrib
-                Image.asset("images/hs.png"),
-                Image.asset("images/loh.png"),
-                Image.asset("images/mom.png"),
-                Image.asset("images/m.png"),
-                Image.asset("images/mgs.png"),
-                Image.asset("images/ma.png"),
-                Image.asset("images/www.png"),
-                Image.asset("images/o.png"),
-              ],
+          Padding(
+            padding: const EdgeInsets.only(right: 4),
+            child: Container(
+              width: 42,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  GestureDetector(child: Image.asset("images/cmc.png"), onTap: () => _scrollToIndex(0)),
+                  GestureDetector(child: Image.asset("images/da.png"), onTap: () => _scrollToIndex(1)),
+                  GestureDetector(child: Image.asset("images/hs.png"), onTap: () => _scrollToIndex(2)),
+                  GestureDetector(child: Image.asset("images/loh.png"), onTap: () => _scrollToIndex(3)),
+                  GestureDetector(child: Image.asset("images/mom.png"), onTap: () => _scrollToIndex(4)),
+                  GestureDetector(child: Image.asset("images/m.png"), onTap: () => _scrollToIndex(5)),
+                  GestureDetector(child: Image.asset("images/mgs.png"), onTap: () => _scrollToIndex(6)),
+                  GestureDetector(child: Image.asset("images/ma.png"), onTap: () => _scrollToIndex(7)),
+                  GestureDetector(child: Image.asset("images/www.png"), onTap: () => _scrollToIndex(8)),
+                  GestureDetector(child: Image.asset("images/o.png"), onTap: () => _scrollToIndex(9)),
+                ],
+              ),
             ),
           ),
         ],
@@ -130,8 +140,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
 
   bla() {}
 
-  Widget chapterCard(
-      String chapterId, AsyncSnapshot<DocumentSnapshot> snapshot, Color dark, Color light) {
+  Widget chapterCard(String chapterId, AsyncSnapshot<DocumentSnapshot> snapshot, Color dark, Color light, int index) {
     if (_registry != null && snapshot.hasData) {
       Chapter chapter = getChapterWithId(_registry, chapterId);
 
@@ -140,13 +149,17 @@ class RegistryWidgetState extends State<RegistryWidget> {
         "${chapter.name}",
         style: TextStyle(color: Colors.white),
       ));
-      widgets.addAll(
-          getPagesIds(chapter).map((p) => pageCard(p, chapter, light, snapshot.data)));
+      widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, light, snapshot.data)));
 
-      return Card(
-        color: dark,
-        child: Column(
-          children: widgets,
+      return AutoScrollTag(
+        controller: controller,
+        key: ValueKey(index),
+        index: index,
+        child: Card(
+          color: dark,
+          child: Column(
+            children: widgets,
+          ),
         ),
       );
     } else {
@@ -168,14 +181,8 @@ class RegistryWidgetState extends State<RegistryWidget> {
           value: dropdownValue,
           onChanged: (newValue) {
             page.foundables.forEach((foundable) {
-              Firestore.instance
-                  .collection('userData')
-                  .document(_userId)
-                  .setData({
-                foundable.id: {
-                  'count': 0,
-                  'level': getPrestigeLevelWithPrestigeValue(newValue)
-                }
+              Firestore.instance.collection('userData').document(_userId).setData({
+                foundable.id: {'count': 0, 'level': getPrestigeLevelWithPrestigeValue(newValue)}
               }, merge: true);
             });
 
@@ -193,8 +200,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
 
     List<Widget> widgets = List();
     widgets.add(header);
-    widgets.addAll(getFoundablesIds(page)
-        .map((f) => foundableRow(f, page, data, dropdownValue)));
+    widgets.addAll(getFoundablesIds(page).map((f) => foundableRow(f, page, data, dropdownValue)));
 
     return Card(
       color: light,
@@ -207,8 +213,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
     );
   }
 
-  Widget foundableRow(String foundableId, Page page, DocumentSnapshot data,
-      String dropdownValue) {
+  Widget foundableRow(String foundableId, Page page, DocumentSnapshot data, String dropdownValue) {
     Foundable foundable = getFoundableWithId(page, foundableId);
     String text = "";
     var _focusNode = FocusNode();
@@ -225,8 +230,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
         Container(
           width: 36,
           child: TextField(
-            controller: TextEditingController(
-                text: data[foundableId]['count'].toString()),
+            controller: TextEditingController(text: data[foundableId]['count'].toString()),
             onSubmitted: (newText) => {_submit(_userId, foundableId, newText)},
             onChanged: (newText) => text = newText,
             focusNode: _focusNode,
@@ -248,8 +252,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
         foundableId: {'count': newInt}
       }, merge: true);
     } else {
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text("Please enter a number")));
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Please enter a number")));
       // TODO set textfield text to old value
     }
   }
@@ -275,5 +278,9 @@ class RegistryWidgetState extends State<RegistryWidget> {
         _registry = Registry.fromJson(registryMap) ?? null;
       });
     }
+  }
+
+  Future _scrollToIndex(int index) async {
+    await controller.scrollToIndex(index, preferPosition: AutoScrollPosition.begin, duration: Duration(seconds: 1));
   }
 }

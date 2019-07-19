@@ -26,6 +26,7 @@ dependencies:
   firebase_auth: ^0.11.1+8
   cloud_firestore: ^0.12.7
   shared_preferences: ^0.5.3+4
+  scroll_to_index: any
 
 dev_dependencies:
   flutter_test:
