@@ -187,6 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
         print("registry = Registry(chapterList);");
         setState(() {
           print("setstate");
+          _isUserLoading = true;
           _isRegistryLoading = false;
         });
 
@@ -200,31 +201,37 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _initUserData(String userId) {
-    setState(() {
-      _isUserLoading = true;
-    });
     Firestore.instance.collection('userData').document(userId).get().then((snapshot) async {
+      if (_registry == null) {
+        // registry was up to date
+        await _getRegistryFromSharedPrefs();
+      }
+
+      var registryIds = getAllFoundablesIds(_registry);
+
       if (!snapshot.exists) {
-        if (_registry == null) {
-          await _getRegistryFromSharedPrefs();
-        }
-        List<String> ids = getAllFoundablesIds(_registry);
+        _addUserData(registryIds, userId);
+      } else {
+        // if user exists & new version, check for new foundables
+        var userIds = List<String>();
+        var toAddIds = List<String>();
+        snapshot.data.forEach((id, value) {
+          userIds.add(id);
+        });
 
-        Map<String, dynamic> map = Map();
+        registryIds.forEach((registryId) {
+          if (!userIds.contains(registryId)) {
+            toAddIds.add(registryId);
+          }
+        });
 
-        for (var id in ids) {
-          map[id] = {'count': 0, 'level': 1};
-        }
-
-        Firestore.instance.collection('userData').document(userId).setData(map).then((_) {
+        if (toAddIds.isNotEmpty) {
+          _addUserData(toAddIds, userId);
+        } else {
           setState(() {
             _isUserLoading = false;
           });
-        });
-      } else {
-        setState(() {
-          _isUserLoading = false;
-        });
+        }
       }
     });
   }
@@ -238,5 +245,19 @@ class _MyHomePageState extends State<MyHomePage> {
         _registry = Registry.fromJson(registryMap) ?? null;
       });
     }
+  }
+
+  _addUserData(List<String> ids, String userId) {
+    Map<String, dynamic> map = Map();
+
+    for (var id in ids) {
+      map[id] = {'count': 0, 'level': 1};
+    }
+
+    Firestore.instance.collection('userData').document(userId).setData(map, merge: true).then((_) {
+      setState(() {
+        _isUserLoading = false;
+      });
+    });
   }
 }
