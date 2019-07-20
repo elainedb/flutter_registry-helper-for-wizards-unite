@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    
+
     return MaterialApp(
       title: 'Registry Helper for Wizards Unite',
       theme: ThemeData(primarySwatch: backgroundMaterialColor),
@@ -162,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
           String chapterId = chapter.documentID;
           String chapterName = chapter.data["name_en"];
           List<Page> pageList = List();
-          await chapter.reference.collection("pages").getDocuments().then((pages) async {
+          await chapter.reference.collection("pages").orderBy("order").getDocuments().then((pages) async {
             if (pages != null) {
               for (var page in pages.documents) {
                 String pageId = page.documentID;
