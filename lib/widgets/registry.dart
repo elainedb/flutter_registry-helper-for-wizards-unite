@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../data/data.dart';
+import '../main.dart';
 
 //https://www.wizardunite.com/2019/05/hpwu-foundables-and-traces.html
 //https://github.com/hpwizardsunite-dev-contrib
@@ -210,6 +211,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
   Widget foundableRow(String foundableId, Page page, DocumentSnapshot data, String dropdownValue) {
     Foundable foundable = getFoundableWithId(page, foundableId);
     String text = "";
+    int currentCount = data[foundableId]['count'];
     var _focusNode = FocusNode();
 
     _focusNode.addListener(() {
@@ -223,8 +225,20 @@ class RegistryWidgetState extends State<RegistryWidget> {
         Expanded(child: Text(foundable.name)),
         Container(
           width: 36,
+          child: RaisedButton(
+            color: backgroundColor,
+            padding: EdgeInsets.all(0),
+            child: Text("+", style: TextStyle(color: Colors.white),),
+            onPressed: () => _submit(_userId, foundableId, (currentCount + 1).toString()),
+          ),
+        ),
+        Container(
+          width: 8,
+        ),
+        Container(
+          width: 36,
           child: TextField(
-            controller: TextEditingController(text: data[foundableId]['count'].toString()),
+            controller: TextEditingController(text: currentCount.toString()),
             onSubmitted: (newText) => {_submit(_userId, foundableId, newText)},
             onChanged: (newText) => text = newText,
             focusNode: _focusNode,

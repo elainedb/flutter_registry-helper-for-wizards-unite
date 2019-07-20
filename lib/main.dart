@@ -22,7 +22,9 @@ Map<int, Color> backgroundColorMap = {
   900: Color.fromRGBO(55, 31, 33, 1),
 };
 
-MaterialColor backgroundColor = MaterialColor(0xFF371F21, backgroundColorMap);
+final backgroundColorInt = 0xFF371F21;
+final Color backgroundColor = Color(backgroundColorInt);
+final MaterialColor backgroundMaterialColor = MaterialColor(backgroundColorInt, backgroundColorMap);
 
 void main() {
   runApp(MyApp());
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Registry Helper for Wizards Unite',
-      theme: ThemeData(primarySwatch: backgroundColor),
+      theme: ThemeData(primarySwatch: backgroundMaterialColor),
       home: MyHomePage(title: 'Registry Helper for Wizards Unite'),
     );
   }
@@ -104,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
         }
         return RegistryWidget(_registry);
       }),
-      backgroundColor: backgroundColor,
+      backgroundColor: backgroundMaterialColor,
     );
   }
 
