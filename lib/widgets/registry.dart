@@ -11,6 +11,7 @@ import '../main.dart';
 
 //https://www.wizardunite.com/2019/05/hpwu-foundables-and-traces.html
 //https://github.com/hpwizardsunite-dev-contrib
+//https://wizardsunitehub.info/foundables/
 
 final cmcDark = const Color(0xFF3B748C);
 final cmcLight = const Color(0xFFB7DAEF);
@@ -222,13 +223,21 @@ class RegistryWidgetState extends State<RegistryWidget> {
 
     return Row(
       children: <Widget>[
+        Container(
+          width: 50,
+          height: 50,
+          child: Image.asset("images/foundables/$foundableId.png"),
+        ),
         Expanded(child: Text(foundable.name)),
         Container(
           width: 36,
           child: RaisedButton(
             color: backgroundColor,
             padding: EdgeInsets.all(0),
-            child: Text("+", style: TextStyle(color: Colors.white),),
+            child: Text(
+              "+",
+              style: TextStyle(color: Colors.white),
+            ),
             onPressed: () => _submit(_userId, foundableId, (currentCount + 1).toString()),
           ),
         ),
