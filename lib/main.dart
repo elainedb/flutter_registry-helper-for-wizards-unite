@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
       title: 'Registry Helper for Wizards Unite',
       theme: ThemeData(primarySwatch: backgroundMaterialColor),
       home: MyHomePage(title: 'Registry Helper for Wizards Unite'),
+//      debugShowCheckedModeBanner: false,
     );
   }
 }
