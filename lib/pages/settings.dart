@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:registry_helper_for_wu/widgets/version.dart';
+
+import '../main.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -30,13 +33,21 @@ class SettingsPageState extends State<SettingsPage> {
         title: Text(widget.title),
       ),
       body: Builder(builder: (BuildContext context) {
-        return Center(
-          child: RaisedButton(
-            onPressed: () => _firebaseSignOut(),
-            child: Text("Sign Out"),
-          ),
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Center(
+              child: RaisedButton(
+                onPressed: () => _firebaseSignOut(),
+                child: Text("Sign Out"),
+              ),
+            ),
+            Container(height: 24,),
+            Center(child: VersionWidget()),
+          ],
         );
       }),
+      backgroundColor: backgroundMaterialColor,
     );
   }
 

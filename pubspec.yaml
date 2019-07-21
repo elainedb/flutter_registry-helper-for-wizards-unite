@@ -20,6 +20,7 @@ dependencies:
   cloud_firestore: ^0.12.7
   shared_preferences: ^0.5.3+4
   scroll_to_index: any
+  package_info: ^0.4.0+3
 
 dev_dependencies:
   flutter_test:

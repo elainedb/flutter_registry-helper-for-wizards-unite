@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:registry_helper_for_wu/widgets/version.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -10,28 +11,60 @@ class SignInWidget extends StatefulWidget {
 }
 
 class SignInWidgetState extends State<SignInWidget> {
-
   @override
   Widget build(BuildContext context) {
-
     return Builder(builder: (BuildContext context) {
-      return ListView(
-        scrollDirection: Axis.vertical,
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                alignment: Alignment.center,
-                child: RaisedButton(
-                  onPressed: () async {
-                    _signInWithGoogle();
-                  },
-                  child: const Text('Sign in with Google'),
-                ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Welcome to Registry Helper for Wizards Unite!\n\nIn order to synchronize your data accross devices, please sign in.',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
               ),
-            ],
+              textAlign: TextAlign.center,
+            ),
           ),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            alignment: Alignment.center,
+            child: RaisedButton(
+              onPressed: () async {
+                _signInWithGoogle();
+              },
+              child: const Text('Sign in with Google'),
+            ),
+          ),
+          Container(
+            height: 24,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: Text(
+              'If you wish to try out first, you can sign in anonymously.',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            alignment: Alignment.center,
+            child: RaisedButton(
+              onPressed: () async {
+                _signInAnonymous();
+              },
+              child: const Text('Anonymous sign in'),
+            ),
+          ),
+          Expanded(
+              child: Center(child: VersionWidget(),
+          )),
         ],
       );
     });
@@ -47,5 +80,8 @@ class SignInWidgetState extends State<SignInWidget> {
     );
     await _auth.signInWithCredential(credential);
   }
-}
 
+  void _signInAnonymous() async {
+    await _auth.signInAnonymously();
+  }
+}
