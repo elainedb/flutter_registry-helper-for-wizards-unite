@@ -8,7 +8,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="registry_helper_for_wu"
+        android:label="Registry Helper"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
