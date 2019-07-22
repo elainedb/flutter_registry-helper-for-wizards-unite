@@ -24,7 +24,10 @@ Map<int, Color> backgroundColorMap = {
 };
 
 final backgroundColorInt = 0xFF371F21;
+//final bottomBarColorInt = 0xFF371F21;
 final Color backgroundColor = Color(backgroundColorInt);
+final Color backgroundColorUnselected = Color(0x88371F21);
+final Color backgroundColorBottomBar = Color(0xFFf4c862);
 final MaterialColor backgroundMaterialColor = MaterialColor(backgroundColorInt, backgroundColorMap);
 
 void main() {
@@ -78,22 +81,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> settingsIcon;
-    if (_userId.isNotEmpty && _userId != "null" && !_isRegistryLoading && !_isUserLoading) {
-      settingsIcon = <Widget>[
-        IconButton(
-          onPressed: () => _pushPage(context, SettingsPage()),
-          icon: const Icon(Icons.settings),
-        ),
-      ];
-    }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: settingsIcon,
-        elevation: 0,
-      ),
       body: Builder(builder: (BuildContext context) {
         if (_isRegistryLoading || _isUserLoading) {
           return Center(

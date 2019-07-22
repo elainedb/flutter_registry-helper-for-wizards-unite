@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:registry_helper_for_wu/pages/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
@@ -47,8 +48,30 @@ class RegistryWidgetState extends State<RegistryWidget> {
   String _userId = "";
   Registry _registry;
   AutoScrollController controller;
+  List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Loading',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Loading',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: Loading',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 3: Loading',
+      style: optionStyle,
+    ),
+  ];
 
   RegistryWidgetState(this._firebaseRegistry);
+
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   @override
   void initState() {
@@ -65,6 +88,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
     if (_firebaseRegistry != null) {
       setState(() {
         _registry = _firebaseRegistry;
+        _updateWidgets();
       });
     } else {
       _getRegistryFromSharedPrefs();
@@ -86,54 +110,94 @@ class RegistryWidgetState extends State<RegistryWidget> {
           child: Text("Loading"),
         );
       }
-      return Row(
-        children: <Widget>[
-          Expanded(
-            child: StreamBuilder<DocumentSnapshot>(
-                stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
-                builder: (context, snapshot) {
-                  return ListView(
-                    scrollDirection: Axis.vertical,
-                    controller: controller,
-                    children: <Widget>[
-                      chapterCard("cmc", snapshot, cmcDark, cmcLight, 0),
-                      chapterCard("da", snapshot, daDark, daLight, 1),
-                      chapterCard("hs", snapshot, hsDark, hsLight, 2),
-                      chapterCard("loh", snapshot, lohDark, lohLight, 3),
-                      chapterCard("mom", snapshot, momDark, momLight, 4),
-                      chapterCard("m", snapshot, mDark, mLight, 5),
-                      chapterCard("mgs", snapshot, mgsDark, mgsLight, 6),
-                      chapterCard("ma", snapshot, maDark, maLight, 7),
-                      chapterCard("www", snapshot, wwwDark, wwwLight, 8),
-                      chapterCard("o", snapshot, oDark, oLight, 9),
-                    ],
-                  );
-                }),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 4),
-            child: Container(
-              width: 42,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  GestureDetector(child: Image.asset("images/cmc.png"), onTap: () => _scrollToIndex(0)),
-                  GestureDetector(child: Image.asset("images/da.png"), onTap: () => _scrollToIndex(1)),
-                  GestureDetector(child: Image.asset("images/hs.png"), onTap: () => _scrollToIndex(2)),
-                  GestureDetector(child: Image.asset("images/loh.png"), onTap: () => _scrollToIndex(3)),
-                  GestureDetector(child: Image.asset("images/mom.png"), onTap: () => _scrollToIndex(4)),
-                  GestureDetector(child: Image.asset("images/m.png"), onTap: () => _scrollToIndex(5)),
-                  GestureDetector(child: Image.asset("images/mgs.png"), onTap: () => _scrollToIndex(6)),
-                  GestureDetector(child: Image.asset("images/ma.png"), onTap: () => _scrollToIndex(7)),
-                  GestureDetector(child: Image.asset("images/www.png"), onTap: () => _scrollToIndex(8)),
-                  GestureDetector(child: Image.asset("images/o.png"), onTap: () => _scrollToIndex(9)),
-                ],
-              ),
+      return Scaffold(
+        body: _widgetOptions.elementAt(_selectedIndex),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.folder),
+              title: Text('Registry'),
             ),
-          ),
-        ],
+            BottomNavigationBarItem(
+              icon: Icon(Icons.insert_chart),
+              title: Text('Stats'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.info),
+              title: Text('Info'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              title: Text('Settings'),
+            ),
+          ],
+          selectedItemColor: backgroundColor,
+//          fixedColor: backgroundColor,
+          unselectedItemColor: backgroundColorUnselected,
+          backgroundColor: backgroundColorBottomBar,
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+        ),
+        backgroundColor: backgroundColor,
       );
     });
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  Widget registryWidget() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: StreamBuilder<DocumentSnapshot>(
+              stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
+              builder: (context, snapshot) {
+                return ListView(
+                  scrollDirection: Axis.vertical,
+                  controller: controller,
+                  children: <Widget>[
+                    chapterCard("cmc", snapshot, cmcDark, cmcLight, 0),
+                    chapterCard("da", snapshot, daDark, daLight, 1),
+                    chapterCard("hs", snapshot, hsDark, hsLight, 2),
+                    chapterCard("loh", snapshot, lohDark, lohLight, 3),
+                    chapterCard("mom", snapshot, momDark, momLight, 4),
+                    chapterCard("m", snapshot, mDark, mLight, 5),
+                    chapterCard("mgs", snapshot, mgsDark, mgsLight, 6),
+                    chapterCard("ma", snapshot, maDark, maLight, 7),
+                    chapterCard("www", snapshot, wwwDark, wwwLight, 8),
+                    chapterCard("o", snapshot, oDark, oLight, 9),
+                  ],
+                );
+              }),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 4),
+          child: Container(
+            width: 42,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                GestureDetector(child: Image.asset("images/cmc.png"), onTap: () => _scrollToIndex(0)),
+                GestureDetector(child: Image.asset("images/da.png"), onTap: () => _scrollToIndex(1)),
+                GestureDetector(child: Image.asset("images/hs.png"), onTap: () => _scrollToIndex(2)),
+                GestureDetector(child: Image.asset("images/loh.png"), onTap: () => _scrollToIndex(3)),
+                GestureDetector(child: Image.asset("images/mom.png"), onTap: () => _scrollToIndex(4)),
+                GestureDetector(child: Image.asset("images/m.png"), onTap: () => _scrollToIndex(5)),
+                GestureDetector(child: Image.asset("images/mgs.png"), onTap: () => _scrollToIndex(6)),
+                GestureDetector(child: Image.asset("images/ma.png"), onTap: () => _scrollToIndex(7)),
+                GestureDetector(child: Image.asset("images/www.png"), onTap: () => _scrollToIndex(8)),
+                GestureDetector(child: Image.asset("images/o.png"), onTap: () => _scrollToIndex(9)),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget chapterCard(String chapterId, AsyncSnapshot<DocumentSnapshot> snapshot, Color dark, Color light, int index) {
@@ -281,11 +345,29 @@ class RegistryWidgetState extends State<RegistryWidget> {
       setState(() {
         Map registryMap = jsonDecode(registryString);
         _registry = Registry.fromJson(registryMap) ?? null;
+        _updateWidgets();
       });
     }
   }
 
   Future _scrollToIndex(int index) async {
     await controller.scrollToIndex(index, preferPosition: AutoScrollPosition.begin, duration: Duration(seconds: 1));
+  }
+
+  _updateWidgets() {
+    setState(() {
+      _widgetOptions = <Widget>[
+        registryWidget(),
+        Text(
+          'Index 1: Business',
+          style: optionStyle,
+        ),
+        Text(
+          'Index 2: School',
+          style: optionStyle,
+        ),
+        SettingsPage(),
+      ];
+    });
   }
 }
