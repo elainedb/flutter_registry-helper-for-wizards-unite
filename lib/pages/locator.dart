@@ -44,21 +44,54 @@ class LocatorPageState extends State<LocatorPage> {
       color: light,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
+          alignment: AlignmentDirectional.centerEnd,
           children: <Widget>[
-            Center(child: Text(chapter.name, style: TextStyle(color: dark, fontSize: 20, fontWeight: FontWeight.bold),)),
-            Container(height: 24,),
-            Text("Open Street Maps Value/Category:", style: TextStyle(color: dark, fontSize: 18),),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 0 ,0),
-              child: Text(chapter.osm, style: TextStyle(color: dark, fontSize: 18, fontWeight: FontWeight.bold),),
+            Container(
+              height: 100,
+              child: Image.asset(
+                "images/$chapterId.png",
+                color: Color.fromRGBO(255, 255, 255, 0.5),
+                colorBlendMode: BlendMode.modulate,
+              ),
             ),
-            Container(height: 24,),
-            Text("Examples:", style: TextStyle(color: dark, fontSize: 18),),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 0 ,0),
-              child: Text(chapter.examples, style: TextStyle(color: dark, fontSize: 18, fontWeight: FontWeight.bold),),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Center(
+                    child: Text(
+                  chapter.name,
+                  style: TextStyle(color: dark, fontSize: 16, fontWeight: FontWeight.bold),
+                )),
+                Container(
+                  height: 24,
+                ),
+                Text(
+                  "Open Street Maps Value/Category:",
+                  style: TextStyle(color: dark, fontSize: 14),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                  child: Text(
+                    chapter.osm,
+                    style: TextStyle(color: dark, fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Container(
+                  height: 24,
+                ),
+                Text(
+                  "Examples:",
+                  style: TextStyle(color: dark, fontSize: 14),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                  child: Text(
+                    chapter.examples,
+                    style: TextStyle(color: dark, fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
