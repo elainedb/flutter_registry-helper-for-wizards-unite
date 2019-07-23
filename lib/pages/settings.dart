@@ -28,26 +28,18 @@ class SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Builder(builder: (BuildContext context) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Center(
-              child: RaisedButton(
-                onPressed: () => _firebaseSignOut(),
-                child: Text("Sign Out"),
-              ),
-            ),
-            Container(height: 24,),
-            Center(child: VersionWidget()),
-          ],
-        );
-      }),
-      backgroundColor: backgroundMaterialColor,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Center(
+          child: RaisedButton(
+            onPressed: () => _firebaseSignOut(),
+            child: Text("Sign Out"),
+          ),
+        ),
+        Container(height: 24,),
+        Center(child: VersionWidget()),
+      ],
     );
   }
 
