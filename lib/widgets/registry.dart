@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:registry_helper_for_wu/pages/locator.dart';
@@ -39,15 +40,17 @@ final oLight = const Color(0xFFA77CE8); final oLightStringHex = '#A77CE8';
 
 class RegistryWidget extends StatefulWidget {
   final Registry _firebaseRegistry;
-  RegistryWidget(this._firebaseRegistry);
+  final FirebaseAnalyticsObserver _observer;
+  RegistryWidget(this._firebaseRegistry, this._observer);
 
   @override
-  State<StatefulWidget> createState() => RegistryWidgetState(_firebaseRegistry);
+  State<StatefulWidget> createState() => RegistryWidgetState(_firebaseRegistry, _observer);
 }
 
 class RegistryWidgetState extends State<RegistryWidget> {
   final Registry _firebaseRegistry;
-  RegistryWidgetState(this._firebaseRegistry);
+  final FirebaseAnalyticsObserver _observer;
+  RegistryWidgetState(this._firebaseRegistry, this._observer);
 
   String _userId = "";
   Registry _registry;
@@ -150,6 +153,9 @@ class RegistryWidgetState extends State<RegistryWidget> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _observer.analytics.setCurrentScreen(
+        screenName: 'Tab$_selectedIndex',
+      );
     });
   }
 

@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,6 +43,9 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -51,25 +56,31 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Registry Helper for Wizards Unite',
       theme: ThemeData(primarySwatch: backgroundMaterialColor),
-      home: MyHomePage(title: 'Registry Helper for Wizards Unite'),
+      home: MyHomePage(title: 'Registry Helper for Wizards Unite', observer: observer),
+      navigatorObservers: <NavigatorObserver>[observer],
 //      debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title, this.observer}) : super(key: key);
 
   final String title;
+  final NavigatorObserver observer;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState(observer);
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  _MyHomePageState(this.observer);
+
+  final FirebaseAnalyticsObserver observer;
   String _userId = "";
   bool _isRegistryLoading = false;
   bool _isUserLoading = false;
+
   Registry _registry;
 
   @override
@@ -106,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
           case "null":
             return SignInWidget();
         }
-        return RegistryWidget(_registry);
+        return RegistryWidget(_registry, observer);
       }),
       backgroundColor: backgroundMaterialColor,
     );
