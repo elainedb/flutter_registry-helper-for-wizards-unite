@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:registry_helper_for_wu/pages/settings.dart';
+import 'package:registry_helper_for_wu/pages/stats.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
@@ -45,6 +46,8 @@ class RegistryWidget extends StatefulWidget {
 
 class RegistryWidgetState extends State<RegistryWidget> {
   final Registry _firebaseRegistry;
+  RegistryWidgetState(this._firebaseRegistry);
+
   String _userId = "";
   Registry _registry;
   AutoScrollController controller;
@@ -66,8 +69,6 @@ class RegistryWidgetState extends State<RegistryWidget> {
       style: optionStyle,
     ),
   ];
-
-  RegistryWidgetState(this._firebaseRegistry);
 
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
@@ -158,22 +159,25 @@ class RegistryWidgetState extends State<RegistryWidget> {
           child: StreamBuilder<DocumentSnapshot>(
               stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
               builder: (context, snapshot) {
-                return ListView(
-                  scrollDirection: Axis.vertical,
-                  controller: controller,
-                  children: <Widget>[
-                    chapterCard("cmc", snapshot, cmcDark, cmcLight, 0),
-                    chapterCard("da", snapshot, daDark, daLight, 1),
-                    chapterCard("hs", snapshot, hsDark, hsLight, 2),
-                    chapterCard("loh", snapshot, lohDark, lohLight, 3),
-                    chapterCard("mom", snapshot, momDark, momLight, 4),
-                    chapterCard("m", snapshot, mDark, mLight, 5),
-                    chapterCard("mgs", snapshot, mgsDark, mgsLight, 6),
-                    chapterCard("ma", snapshot, maDark, maLight, 7),
-                    chapterCard("www", snapshot, wwwDark, wwwLight, 8),
-                    chapterCard("o", snapshot, oDark, oLight, 9),
-                  ],
-                );
+                if (_registry != null && snapshot.hasData) {
+                  return ListView(
+                    scrollDirection: Axis.vertical,
+                    controller: controller,
+                    children: <Widget>[
+                      chapterCard("cmc", snapshot, cmcDark, cmcLight, 0),
+                      chapterCard("da", snapshot, daDark, daLight, 1),
+                      chapterCard("hs", snapshot, hsDark, hsLight, 2),
+                      chapterCard("loh", snapshot, lohDark, lohLight, 3),
+                      chapterCard("mom", snapshot, momDark, momLight, 4),
+                      chapterCard("m", snapshot, mDark, mLight, 5),
+                      chapterCard("mgs", snapshot, mgsDark, mgsLight, 6),
+                      chapterCard("ma", snapshot, maDark, maLight, 7),
+                      chapterCard("www", snapshot, wwwDark, wwwLight, 8),
+                      chapterCard("o", snapshot, oDark, oLight, 9),
+                    ],
+                  );
+                }
+                return Center(child: Text("Loading"));
               }),
         ),
         Padding(
@@ -202,32 +206,26 @@ class RegistryWidgetState extends State<RegistryWidget> {
   }
 
   Widget chapterCard(String chapterId, AsyncSnapshot<DocumentSnapshot> snapshot, Color dark, Color light, int index) {
-    if (_registry != null && snapshot.hasData) {
-      Chapter chapter = getChapterWithId(_registry, chapterId);
+    Chapter chapter = getChapterWithId(_registry, chapterId);
 
-      List<Widget> widgets = List();
-      widgets.add(Text(
-        "${chapter.name}",
-        style: TextStyle(color: Colors.white),
-      ));
-      widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, light, snapshot.data)));
+    List<Widget> widgets = List();
+    widgets.add(Text(
+      "${chapter.name}",
+      style: TextStyle(color: Colors.white),
+    ));
+    widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, light, snapshot.data)));
 
-      return AutoScrollTag(
-        controller: controller,
-        key: ValueKey(index),
-        index: index,
-        child: Card(
-          color: dark,
-          child: Column(
-            children: widgets,
-          ),
+    return AutoScrollTag(
+      controller: controller,
+      key: ValueKey(index),
+      index: index,
+      child: Card(
+        color: dark,
+        child: Column(
+          children: widgets,
         ),
-      );
-    } else {
-      return Center(
-        child: Text("..."),
-      );
-    }
+      ),
+    );
   }
 
   Widget pageCard(String pageId, Chapter chapter, Color light, DocumentSnapshot data) {
@@ -359,10 +357,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
     setState(() {
       _widgetOptions = <Widget>[
         registryWidget(),
-        Text(
-          'Index 1: Business',
-          style: optionStyle,
-        ),
+        StatsPage(_registry),
         Text(
           'Index 2: School',
           style: optionStyle,

@@ -191,3 +191,17 @@ String getFragmentRequirement(Foundable foundable, String dropdownValue) {
   }
   return "/${foundable.fragmentRequirementStandard}";
 }
+
+int getRequirementWithLevel(Foundable foundable, int level) {
+  switch (level) {
+    case 1:
+      return foundable.fragmentRequirementStandard;
+    case 2:
+      return foundable.fragmentRequirementBronze;
+    case 3:
+      return foundable.fragmentRequirementSilver;
+    case 4:
+      return foundable.fragmentRequirementGold;
+  }
+  return foundable.fragmentRequirementStandard;
+}

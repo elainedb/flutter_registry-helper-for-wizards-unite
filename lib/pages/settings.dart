@@ -9,7 +9,6 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 class SettingsPage extends StatefulWidget {
-  final String title = 'Settings';
   @override
   State<StatefulWidget> createState() => SettingsPageState();
 }
