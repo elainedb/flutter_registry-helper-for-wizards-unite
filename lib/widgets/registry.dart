@@ -81,6 +81,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
       if (user != null) {
         setState(() {
           _userId = user.uid;
+          _updateWidgets();
         });
       }
     });
