@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:registry_helper_for_wu/widgets/version.dart';
 
-import '../main.dart';
-
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 
@@ -20,7 +18,7 @@ class SettingsPageState extends State<SettingsPage> {
 
     _auth.onAuthStateChanged.listen((user) {
       if (user == null) {
-        Navigator.pop(context);
+        setState(() {});
       }
     });
   }

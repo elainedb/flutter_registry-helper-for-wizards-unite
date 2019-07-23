@@ -53,7 +53,7 @@ class SignInWidgetState extends State<SignInWidget> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            padding: const EdgeInsets.fromLTRB(0, 4.0, 0, 100.0),
             alignment: Alignment.center,
             child: RaisedButton(
               onPressed: () async {
@@ -62,9 +62,7 @@ class SignInWidgetState extends State<SignInWidget> {
               child: const Text('Anonymous sign in'),
             ),
           ),
-          Expanded(
-              child: Center(child: VersionWidget(),
-          )),
+          Center(child: VersionWidget()),
         ],
       );
     });
