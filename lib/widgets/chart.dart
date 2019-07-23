@@ -19,10 +19,15 @@ class StackedBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new charts.BarChart(
-      seriesList,
-      animate: animate,
-      barGroupingType: charts.BarGroupingType.stacked,
+    return Container(
+      height: 240,
+      child: charts.BarChart(
+        seriesList,
+        animate: animate,
+        barGroupingType: charts.BarGroupingType.stacked,
+        primaryMeasureAxis: charts.NumericAxisSpec(renderSpec: charts.NoneRenderSpec()),
+        domainAxis: charts.OrdinalAxisSpec(showAxisLine: true, renderSpec: charts.NoneRenderSpec()),
+      ),
     );
   }
 
