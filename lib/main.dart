@@ -151,6 +151,8 @@ class _MyHomePageState extends State<MyHomePage> {
         for (var chapter in snapshot.documents) {
           String chapterId = chapter.documentID;
           String chapterName = chapter.data["name_en"];
+          String chapterOSM = chapter.data["osm_en"];
+          String chapterExamples = chapter.data["examples_en"];
           List<Page> pageList = List();
           await chapter.reference.collection("pages").orderBy("order").getDocuments().then((pages) async {
             if (pages != null) {
@@ -172,7 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
             }
           });
           print("chapterList.add(Chapter(chapterId, chapterName, pageList));");
-          chapterList.add(Chapter(chapterId, chapterName, pageList));
+          chapterList.add(Chapter(chapterId, chapterName, chapterOSM, chapterExamples, pageList));
         }
         print("registry = Registry(chapterList);");
         setState(() {

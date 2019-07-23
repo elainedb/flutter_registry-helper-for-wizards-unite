@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:registry_helper_for_wu/pages/locator.dart';
 import 'package:registry_helper_for_wu/pages/settings.dart';
 import 'package:registry_helper_for_wu/pages/charts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -126,8 +127,8 @@ class RegistryWidgetState extends State<RegistryWidget> {
               title: Text('Charts'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.info),
-              title: Text('Info'),
+              icon: Icon(Icons.location_on),
+              title: Text('Locator'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
@@ -358,10 +359,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
       _widgetOptions = <Widget>[
         registryWidget(),
         ChartsPage(_registry),
-        Text(
-          'Index 2: School',
-          style: optionStyle,
-        ),
+        LocatorPage(_registry),
         SettingsPage(),
       ];
     });

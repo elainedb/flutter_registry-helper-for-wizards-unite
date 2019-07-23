@@ -24,9 +24,11 @@ class Registry {
 class Chapter {
   final String id;
   final String name;
+  final String osm;
+  final String examples;
   final List<Page> pages;
 
-  Chapter(this.id, this.name, this.pages);
+  Chapter(this.id, this.name, this.osm, this.examples, this.pages);
 
   factory Chapter.fromJson(Map<String, dynamic> json) {
     var list = json['pages'] as List;
@@ -35,6 +37,8 @@ class Chapter {
     return Chapter(
       json['id'],
       json['name'],
+      json['osm'],
+      json['examples'],
       pagesList,
     );
   }
@@ -42,6 +46,8 @@ class Chapter {
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
+        'osm': osm,
+        'examples': examples,
         'pages': pages,
       };
 }
