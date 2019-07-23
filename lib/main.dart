@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:registry_helper_for_wu/data/data.dart';
-import 'package:registry_helper_for_wu/pages/settings.dart';
 import 'package:registry_helper_for_wu/widgets/registry.dart';
 import 'package:registry_helper_for_wu/widgets/signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,6 +31,12 @@ final Color backgroundColorBottomBar = Color(0xFFf4c862);
 final MaterialColor backgroundMaterialColor = MaterialColor(backgroundColorInt, backgroundColorMap);
 
 void main() {
+  Crashlytics.instance.enableInDevMode = true;
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    Crashlytics.instance.onError(details);
+  };
+
   runApp(MyApp());
 }
 

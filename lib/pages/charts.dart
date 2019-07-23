@@ -19,7 +19,7 @@ class ChartsPageState extends State<ChartsPage> {
   final Registry _registry;
   ChartsPageState(this._registry);
 
-  String _userId = "";
+  String _userId;
 
   @override
   void initState() {

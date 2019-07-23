@@ -4,7 +4,7 @@ description: Registry Helper for Wizards Unite
 # buildName+buildNumber
 # Android: buildName = versionName / buildNumber = versionCode
 # iOS: buildName = CFBundleShortVersionString / buildNumber = CFBundleVersion
-version: 1.0.0+1
+version: 1.1.0+3
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
@@ -22,6 +22,7 @@ dependencies:
   scroll_to_index: any
   package_info: ^0.4.0+3
   charts_flutter: ^0.6.0
+  firebase_crashlytics: ^0.0.4+11
 
 dev_dependencies:
   flutter_test:
