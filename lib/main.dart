@@ -181,7 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (foundables != null) {
                     for (var foundable in foundables.documents) {
                       foundableList.add(Foundable(foundable.documentID, foundable.data['name_en'], foundable.data['frag_req1'], foundable.data['frag_req2'],
-                          foundable.data['frag_req3'], foundable.data['frag_req4']));
+                          foundable.data['frag_req3'], foundable.data['frag_req4'], foundable.data['how'], foundable.data['threat']));
                     }
                   }
                 });

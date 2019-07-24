@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 const prestigeValues = ['Standard', 'Bronze', 'Silver', 'Gold'];
 
@@ -84,8 +85,10 @@ class Foundable {
   final int fragmentRequirementBronze;
   final int fragmentRequirementSilver;
   final int fragmentRequirementGold;
+  final String howToCatch;
+  final String threatLevel;
 
-  Foundable(this.id, this.name, this.fragmentRequirementStandard, this.fragmentRequirementBronze, this.fragmentRequirementSilver, this.fragmentRequirementGold);
+  Foundable(this.id, this.name, this.fragmentRequirementStandard, this.fragmentRequirementBronze, this.fragmentRequirementSilver, this.fragmentRequirementGold, this.howToCatch, this.threatLevel);
 
   Foundable.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -93,7 +96,9 @@ class Foundable {
         fragmentRequirementStandard = json['fragmentRequirementStandard'],
         fragmentRequirementBronze = json['fragmentRequirementBronze'],
         fragmentRequirementSilver = json['fragmentRequirementSilver'],
-        fragmentRequirementGold = json['fragmentRequirementGold'];
+        fragmentRequirementGold = json['fragmentRequirementGold'],
+        howToCatch = json['howToCatch'],
+        threatLevel = json['threatLevel'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -102,6 +107,8 @@ class Foundable {
         'fragmentRequirementBronze': fragmentRequirementBronze,
         'fragmentRequirementSilver': fragmentRequirementSilver,
         'fragmentRequirementGold': fragmentRequirementGold,
+        'howToCatch': howToCatch,
+        'threatLevel': threatLevel,
       };
 }
 
@@ -210,4 +217,41 @@ int getRequirementWithLevel(Foundable foundable, int level) {
       return foundable.fragmentRequirementGold;
   }
   return foundable.fragmentRequirementStandard;
+}
+
+Color getColorWithFoundable(Foundable foundable) {
+  switch (foundable.threatLevel) {
+    case "l":
+      return Colors.grey;
+    case "m":
+      return Colors.grey;
+    case "h":
+      return Colors.yellow;
+    case "s":
+      return Colors.orange;
+    case "e":
+      return Colors.red;
+  }
+  return Colors.white;
+}
+
+Icon getIconWithFoundable(Foundable foundable) {
+  IconData id = Icons.not_interested;
+  switch (foundable.howToCatch) {
+    case "p":
+      id  = Icons.vpn_key;
+      break;
+    case "pw":
+//      id = Icons.filter_2;
+      id = Icons.vpn_key;
+      break;
+    case "w":
+      id = Icons.pets;
+      break;
+    case "wc":
+      id = Icons.flash_on;
+      break;
+  }
+
+  return Icon(id, color: getColorWithFoundable(foundable), size: 14,);
 }

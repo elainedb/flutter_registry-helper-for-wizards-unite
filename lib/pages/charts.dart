@@ -29,7 +29,6 @@ class ChartsPageState extends State<ChartsPage> {
       if (user != null) {
         setState(() {
           _userId = user.uid;
-//          _updateWidgets();
         });
       }
     });
@@ -44,16 +43,16 @@ class ChartsPageState extends State<ChartsPage> {
             if (snapshot.hasData) {
               return ListView(
                 children: <Widget>[
-                  getChartForChapter(snapshot.data, "cmc", cmcDarkStringHex, cmcLightStringHex),
-                  getChartForChapter(snapshot.data, "da", daDarkStringHex, daLightStringHex),
-                  getChartForChapter(snapshot.data, "hs", hsDarkStringHex, hsLightStringHex),
-                  getChartForChapter(snapshot.data, "loh", lohDarkStringHex, lohLightStringHex),
-                  getChartForChapter(snapshot.data, "mom", momDarkStringHex, momLightStringHex),
-                  getChartForChapter(snapshot.data, "m", mDarkStringHex, mLightStringHex),
-                  getChartForChapter(snapshot.data, "mgs", mgsDarkStringHex, mgsLightStringHex),
-                  getChartForChapter(snapshot.data, "ma", maDarkStringHex, maLightStringHex),
-                  getChartForChapter(snapshot.data, "www", wwwDarkStringHex, wwwLightStringHex),
-                  getChartForChapter(snapshot.data, "o", oDarkStringHex, oLightStringHex),
+                  getChartForChapter(snapshot.data, "cmc", cmcDarkStringHex, cmcLightStringHex), getHowToCatchForChapter("cmc"),
+                  getChartForChapter(snapshot.data, "da", daDarkStringHex, daLightStringHex), getHowToCatchForChapter("da"),
+                  getChartForChapter(snapshot.data, "hs", hsDarkStringHex, hsLightStringHex), getHowToCatchForChapter("hs"),
+                  getChartForChapter(snapshot.data, "loh", lohDarkStringHex, lohLightStringHex), getHowToCatchForChapter("loh"),
+                  getChartForChapter(snapshot.data, "mom", momDarkStringHex, momLightStringHex), getHowToCatchForChapter("mom"),
+                  getChartForChapter(snapshot.data, "m", mDarkStringHex, mLightStringHex), getHowToCatchForChapter("m"),
+                  getChartForChapter(snapshot.data, "mgs", mgsDarkStringHex, mgsLightStringHex), getHowToCatchForChapter("mgs"),
+                  getChartForChapter(snapshot.data, "ma", maDarkStringHex, maLightStringHex), getHowToCatchForChapter("ma"),
+                  getChartForChapter(snapshot.data, "www", wwwDarkStringHex, wwwLightStringHex), getHowToCatchForChapter("www"),
+                  getChartForChapter(snapshot.data, "o", oDarkStringHex, oLightStringHex), getHowToCatchForChapter("o"),
                 ],
               );
             } else
@@ -107,6 +106,26 @@ class ChartsPageState extends State<ChartsPage> {
       ],
     );
   }
+
+  Widget getHowToCatchForChapter(String chapterId) {
+    List<Widget> list = List();
+    var chapter = getChapterWithId(_registry, chapterId);
+
+    chapter.pages.forEach((page) {
+      page.foundables.forEach((foundable) {
+        list.add(getIconWithFoundable(foundable));
+      });
+    });
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(14, 0, 14, 42),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: list,
+      ),
+    );
+  }
+
 }
 
 class FoundablesData {
