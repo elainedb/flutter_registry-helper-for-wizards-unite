@@ -7,7 +7,6 @@ class StackedBarChart extends StatelessWidget {
 
   StackedBarChart(this.seriesList, {this.animate});
 
-
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -7,6 +7,8 @@ import 'package:registry_helper_for_wu/utils/utils.dart';
 import 'package:registry_helper_for_wu/widgets/chart.dart';
 import 'package:registry_helper_for_wu/widgets/registry.dart';
 
+import '../main.dart';
+
 class ChartsPage extends StatefulWidget {
   final Registry _registry;
   ChartsPage(this._registry);
@@ -43,16 +45,16 @@ class ChartsPageState extends State<ChartsPage> {
             if (snapshot.hasData) {
               return ListView(
                 children: <Widget>[
-                  getChartForChapter(snapshot.data, "cmc", cmcDarkStringHex, cmcLightStringHex), getHowToCatchForChapter("cmc"),
-                  getChartForChapter(snapshot.data, "da", daDarkStringHex, daLightStringHex), getHowToCatchForChapter("da"),
-                  getChartForChapter(snapshot.data, "hs", hsDarkStringHex, hsLightStringHex), getHowToCatchForChapter("hs"),
-                  getChartForChapter(snapshot.data, "loh", lohDarkStringHex, lohLightStringHex), getHowToCatchForChapter("loh"),
-                  getChartForChapter(snapshot.data, "mom", momDarkStringHex, momLightStringHex), getHowToCatchForChapter("mom"),
-                  getChartForChapter(snapshot.data, "m", mDarkStringHex, mLightStringHex), getHowToCatchForChapter("m"),
-                  getChartForChapter(snapshot.data, "mgs", mgsDarkStringHex, mgsLightStringHex), getHowToCatchForChapter("mgs"),
-                  getChartForChapter(snapshot.data, "ma", maDarkStringHex, maLightStringHex), getHowToCatchForChapter("ma"),
-                  getChartForChapter(snapshot.data, "www", wwwDarkStringHex, wwwLightStringHex), getHowToCatchForChapter("www"),
-                  getChartForChapter(snapshot.data, "o", oDarkStringHex, oLightStringHex), getHowToCatchForChapter("o"),
+                  getChartForChapter(snapshot.data, "cmc", cmcDarkStringHex, cmcLightStringHex),
+                  getChartForChapter(snapshot.data, "da", daDarkStringHex, daLightStringHex),
+                  getChartForChapter(snapshot.data, "hs", hsDarkStringHex, hsLightStringHex),
+                  getChartForChapter(snapshot.data, "loh", lohDarkStringHex, lohLightStringHex),
+                  getChartForChapter(snapshot.data, "mom", momDarkStringHex, momLightStringHex),
+                  getChartForChapter(snapshot.data, "m", mDarkStringHex, mLightStringHex),
+                  getChartForChapter(snapshot.data, "mgs", mgsDarkStringHex, mgsLightStringHex),
+                  getChartForChapter(snapshot.data, "ma", maDarkStringHex, maLightStringHex),
+                  getChartForChapter(snapshot.data, "www", wwwDarkStringHex, wwwLightStringHex),
+                  getChartForChapter(snapshot.data, "o", oDarkStringHex, oLightStringHex),
                 ],
               );
             } else
@@ -64,7 +66,7 @@ class ChartsPageState extends State<ChartsPage> {
       return Center(child: Text("Loading"));
   }
 
-  Column getChartForChapter(DocumentSnapshot snapshot, String chapterId, String dark, String light) {
+  Widget getChartForChapter(DocumentSnapshot snapshot, String chapterId, String dark, String light) {
     var chapter = getChapterWithId(_registry, chapterId);
     var totalList = List<FoundablesData>();
     var returnedList = List<FoundablesData>();
@@ -87,29 +89,35 @@ class ChartsPageState extends State<ChartsPage> {
           domainFn: (FoundablesData data, _) => data.id,
           measureFn: (FoundablesData data, _) => data.count,
           data: totalList,
-          colorFn: (_, __) => charts.Color.fromHex(code: light),
-          displayName: ""),
+          colorFn: (_, __) => charts.Color.fromHex(code: light),),
       charts.Series<FoundablesData, String>(
           id: 'Returned',
           domainFn: (FoundablesData data, _) => data.id,
           measureFn: (FoundablesData data, _) => data.count,
           data: returnedList,
-          colorFn: (_, __) => charts.Color.fromHex(code: dark),
-          displayName: "")
+          colorFn: (_, __) => charts.Color.fromHex(code: dark),)
     ];
 
-
-      return Column(
-      children: <Widget>[
-        Text(chapter.name, style: TextStyle(color: Color(hexToInt(light))),),
-        StackedBarChart(chartData),
-      ],
-    );
+    return Column(
+        children: <Widget>[
+          Text(
+            chapter.name,
+            style: TextStyle(color: Color(hexToInt(light))),
+          ),
+          Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: <Widget>[
+              getPageSeparators(chapter),
+              StackedBarChart(chartData),
+              getHowToCatchForChapter(chapter),
+            ],),
+          Container(height: 24,),
+        ],
+      );
   }
 
-  Widget getHowToCatchForChapter(String chapterId) {
+  Widget getHowToCatchForChapter(Chapter chapter) {
     List<Widget> list = List();
-    var chapter = getChapterWithId(_registry, chapterId);
 
     chapter.pages.forEach((page) {
       page.foundables.forEach((foundable) {
@@ -118,7 +126,7 @@ class ChartsPageState extends State<ChartsPage> {
     });
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(14, 0, 14, 42),
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 14),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: list,
@@ -126,6 +134,41 @@ class ChartsPageState extends State<ChartsPage> {
     );
   }
 
+  Widget getPageSeparators(Chapter chapter) {
+    List<Widget> list = List();
+
+    chapter.pages.forEach((page) {
+      page.foundables.forEach((foundable) {
+        if (foundable.id.contains("_1")) {
+          list.add(
+              Container(
+                width: 4,
+                height: 200,
+                color: Colors.white,
+              )
+          );
+        } else {
+          list.add(
+              Container(
+                width: 10,
+                height: 200,
+                color: backgroundColor,
+              )
+          );
+        }
+      });
+    });
+
+    list.removeAt(0);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: list,
+      ),
+    );
+  }
 }
 
 class FoundablesData {
