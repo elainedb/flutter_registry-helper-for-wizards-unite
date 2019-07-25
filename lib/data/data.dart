@@ -222,7 +222,7 @@ int getRequirementWithLevel(Foundable foundable, int level) {
 Color getColorWithFoundable(Foundable foundable) {
   switch (foundable.threatLevel) {
     case "l":
-      return Colors.grey;
+      return Colors.white;
     case "m":
       return Colors.grey;
     case "h":

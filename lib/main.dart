@@ -26,7 +26,6 @@ Map<int, Color> backgroundColorMap = {
 };
 
 final backgroundColorInt = 0xFF371F21;
-//final bottomBarColorInt = 0xFF371F21;
 final Color backgroundColor = Color(backgroundColorInt);
 final Color backgroundColorUnselected = Color(0x88371F21);
 final Color backgroundColorBottomBar = Color(0xFFf4c862);

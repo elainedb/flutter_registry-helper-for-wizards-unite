@@ -45,6 +45,37 @@ class ChartsPageState extends State<ChartsPage> {
             if (snapshot.hasData) {
               return ListView(
                 children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Threat Level", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                            Container(height: 8,),
+                            getThreatLevelRow(Colors.white, "Low"),
+                            getThreatLevelRow(Colors.grey, "Medium"),
+                            getThreatLevelRow(Colors.yellow, "High"),
+                            getThreatLevelRow(Colors.orange, "Severe"),
+                            getThreatLevelRow(Colors.red, "Emergency"),
+                          ],
+                        ),
+                        Container(width: 24,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text("How to catch", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                            Container(height: 8,),
+                            getHowToRow(Icons.pets, "Wild"),
+                            getHowToRow(Icons.vpn_key, "Portkey / Wild"),
+                            getHowToRow(Icons.flash_on, "Wizarding Challenges"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                   getChartForChapter(snapshot.data, "cmc", cmcDarkStringHex, cmcLightStringHex),
                   getChartForChapter(snapshot.data, "da", daDarkStringHex, daLightStringHex),
                   getChartForChapter(snapshot.data, "hs", hsDarkStringHex, hsLightStringHex),
@@ -139,34 +170,75 @@ class ChartsPageState extends State<ChartsPage> {
 
     chapter.pages.forEach((page) {
       page.foundables.forEach((foundable) {
+        var color = backgroundColor;
         if (foundable.id.contains("_1")) {
-          list.add(
-              Container(
-                width: 4,
-                height: 200,
-                color: Colors.white,
-              )
-          );
-        } else {
-          list.add(
-              Container(
-                width: 10,
-                height: 200,
-                color: backgroundColor,
-              )
-          );
+          color = Colors.white;
         }
+
+        Widget w = LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final dashWidth = 2.0;
+            final dashHeight = 8.0;
+            final dashCount = 20;
+            return Flex(
+              children: List.generate(dashCount, (_) {
+                return Column(
+                  children: <Widget>[
+                    SizedBox(
+                      width: dashWidth,
+                      height: dashHeight,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(color: color),
+                      ),
+                    ),
+                    Container(height: 2,)
+                  ],
+                );
+              }),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              direction: Axis.vertical,
+            );
+          },
+        );
+
+        list.add(w);
+
       });
     });
 
     list.removeAt(0);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: list,
-      ),
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: list,
+          ),
+        ),
+        Container(height: 20,),
+      ],
+    );
+  }
+
+  Widget getThreatLevelRow(Color color, String text) {
+    return Row(
+      children: <Widget>[
+        Icon(Icons.brightness_1, color: color,),
+        Container(width: 4,),
+        Text(text, style: TextStyle(color: Colors.white),),
+      ],
+    );
+  }
+
+  Widget getHowToRow(IconData iconData, String text) {
+    return Row(
+      children: <Widget>[
+        Icon(iconData, color: Colors.white,),
+        Container(width: 4,),
+        Text(text, style: TextStyle(color: Colors.white),),
+      ],
     );
   }
 }
