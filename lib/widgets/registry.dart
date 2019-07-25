@@ -75,8 +75,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
   ];
 
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   @override
   void initState() {
@@ -220,7 +219,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
       "${chapter.name}",
       style: TextStyle(color: Colors.white),
     ));
-    widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, light, snapshot.data)));
+    widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, light, snapshot.data, dark)));
 
     return AutoScrollTag(
       controller: controller,
@@ -235,7 +234,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
     );
   }
 
-  Widget pageCard(String pageId, Chapter chapter, Color light, DocumentSnapshot data) {
+  Widget pageCard(String pageId, Chapter chapter, Color light, DocumentSnapshot data, Color color) {
     Page page = getPageWithId(chapter, pageId);
     String dropdownValue = getPrestigeLevelWithPageId(pageId, data);
 
@@ -266,7 +265,7 @@ class RegistryWidgetState extends State<RegistryWidget> {
 
     List<Widget> widgets = List();
     widgets.add(header);
-    widgets.addAll(getFoundablesIds(page).map((f) => foundableRow(f, page, data, dropdownValue)));
+    widgets.addAll(getFoundablesIds(page).map((f) => foundableRow(f, page, data, dropdownValue, color)));
 
     return Card(
       color: light,
@@ -279,26 +278,35 @@ class RegistryWidgetState extends State<RegistryWidget> {
     );
   }
 
-  Widget foundableRow(String foundableId, Page page, DocumentSnapshot data, String dropdownValue) {
+  Widget foundableRow(String foundableId, Page page, DocumentSnapshot data, String dropdownValue, Color color) {
     Foundable foundable = getFoundableWithId(page, foundableId);
     String text = "";
     int currentCount = data[foundableId]['count'];
+    int currentLevel = data[foundableId]['level'];
+    var requirementForPrint = getFragmentRequirement(foundable, dropdownValue);
+    var intRequirement = getRequirementWithLevel(foundable, currentLevel);
+
     var _focusNode = FocusNode();
 
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
-        _submit(_userId, foundableId, text);
+        _submit(_userId, foundable, text, intRequirement);
       }
     });
 
-    return Row(
-      children: <Widget>[
-        Container(
-          width: 50,
-          height: 50,
-          child: Image.asset("images/foundables/$foundableId.png"),
-        ),
-        Expanded(child: Text(foundable.name)),
+    List<Widget> widgets = List();
+
+    widgets.addAll([
+      Container(
+        width: 50,
+        height: 50,
+        child: Image.asset("images/foundables/$foundableId.png"),
+      ),
+      Expanded(child: Text(foundable.name)),
+    ]);
+
+    if (currentCount < intRequirement) {
+      widgets.addAll([
         Container(
           width: 36,
           child: RaisedButton(
@@ -308,17 +316,20 @@ class RegistryWidgetState extends State<RegistryWidget> {
               "+",
               style: TextStyle(color: Colors.white),
             ),
-            onPressed: () => _submit(_userId, foundableId, (currentCount + 1).toString()),
+            onPressed: () => _submit(_userId, foundable, (currentCount + 1).toString(), intRequirement),
           ),
         ),
         Container(
           width: 8,
-        ),
+        )
+      ]);
+
+      widgets.addAll([
         Container(
           width: 36,
           child: TextField(
             controller: TextEditingController(text: currentCount.toString()),
-            onSubmitted: (newText) => {_submit(_userId, foundableId, newText)},
+            onSubmitted: (newText) => {_submit(_userId, foundable, newText, intRequirement)},
             onChanged: (newText) => text = newText,
             focusNode: _focusNode,
             keyboardType: TextInputType.number,
@@ -326,22 +337,70 @@ class RegistryWidgetState extends State<RegistryWidget> {
         ),
         Container(
           width: 30,
-          child: Text(getFragmentRequirement(foundable, dropdownValue)),
+          child: Text(requirementForPrint),
         )
-      ],
+      ]);
+    } else {
+      widgets.add(GestureDetector(
+        onTap: () => _reset(_userId, foundable, intRequirement),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "$currentCount / $intRequirement",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          color: color,
+        ),
+      ));
+    }
+
+    return Row(
+      children: widgets,
     );
   }
 
-  _submit(String userId, String foundableId, String newValue) {
+  _submit(String userId, Foundable foundable, String newValue, int requirement) {
     var newInt = int.tryParse(newValue);
-    if (newInt != null) {
+    if (newInt != null && newInt <= requirement) {
       Firestore.instance.collection('userData').document(userId).setData({
-        foundableId: {'count': newInt}
+        foundable.id: {'count': newInt}
       }, merge: true);
     } else {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Please enter a number")));
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Please enter a valid number")));
+      if (newInt > requirement) {
+        Firestore.instance.collection('userData').document(userId).setData({
+          foundable.id: {'count': requirement}
+        }, merge: true);
+      }
       // TODO set textfield text to old value
     }
+  }
+
+  _reset(String userId, Foundable foundable, int requirement) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Reset value?"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Yes"),
+                onPressed: () {
+                  _submit(userId, foundable, "0", requirement);
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text("No"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 
   _getRegistryFromSharedPrefs() async {
