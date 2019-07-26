@@ -69,8 +69,8 @@ class ChartsPageState extends State<ChartsPage> {
                             Container(
                               height: 8,
                             ),
-                            getThreatLevelRow(Colors.white, "Low"),
-                            getThreatLevelRow(Colors.grey, "Medium"),
+                            getThreatLevelRow(Colors.grey, "Low"),
+                            getThreatLevelRow(Colors.white, "Medium"),
                             getThreatLevelRow(Colors.yellow, "High"),
                             getThreatLevelRow(Colors.orange, "Severe"),
                             getThreatLevelRow(Colors.red, "Emergency"),
