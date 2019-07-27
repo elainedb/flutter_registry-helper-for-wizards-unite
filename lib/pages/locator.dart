@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:registry_helper_for_wu/data/data.dart';
-import 'package:registry_helper_for_wu/widgets/registry.dart';
+import 'package:registry_helper_for_wu/bottom_bar_nav.dart';
 
 class LocatorPage extends StatefulWidget {
   final Registry _registry;
@@ -50,7 +50,7 @@ class LocatorPageState extends State<LocatorPage> {
             Container(
               height: 100,
               child: Image.asset(
-                "images/$chapterId.png",
+                "images/icons/$chapterId.png",
                 color: Color.fromRGBO(255, 255, 255, 0.5),
                 colorBlendMode: BlendMode.modulate,
               ),

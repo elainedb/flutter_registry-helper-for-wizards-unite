@@ -5,7 +5,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:registry_helper_for_wu/data/data.dart';
 import 'package:registry_helper_for_wu/utils/utils.dart';
 import 'package:registry_helper_for_wu/widgets/chart.dart';
-import 'package:registry_helper_for_wu/widgets/registry.dart';
+import 'package:registry_helper_for_wu/bottom_bar_nav.dart';
 
 import '../main.dart';
 

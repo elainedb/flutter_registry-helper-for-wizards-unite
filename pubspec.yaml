@@ -35,8 +35,11 @@ flutter:
 
   assets:
     - images/
+    - images/icons/
     - images/foundables/
     - images/foundables/3.0x/
+    - images/traces/
+    - images/traces_transparent/
 
   # fonts:
   #   - family: Schyler

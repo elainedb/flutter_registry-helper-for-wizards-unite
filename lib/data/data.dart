@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:registry_helper_for_wu/pages/helper.dart';
 
 const prestigeValues = ['Standard', 'Bronze', 'Silver', 'Gold'];
 
@@ -254,4 +255,47 @@ Icon getIconWithFoundable(Foundable foundable) {
   }
 
   return Icon(id, color: getColorWithFoundable(foundable), size: 14,);
+}
+
+MissingTraces getMissingTracesForChapter(Chapter chapter, DocumentSnapshot snapshot) {
+  var low = 0;
+  var medium = 0;
+  var high = 0;
+  var severe = 0;
+  var emergency = 0;
+  var challenges = 0;
+
+  chapter.pages.forEach((page) {
+    page.foundables.forEach((foundable) {
+      var level = snapshot[foundable.id]["level"];
+      var total = getRequirementWithLevel(foundable, level);
+      var returned = snapshot[foundable.id]["count"];
+      var remainder = total - returned;
+
+      if (foundable.howToCatch == "wc") {
+        challenges += remainder;
+      } else if (foundable.howToCatch == "w" || foundable.howToCatch == "pw") {
+        switch (foundable.threatLevel) {
+          case "l":
+            low += remainder;
+            break;
+          case "m":
+            medium += remainder;
+            break;
+          case "h":
+            high += remainder;
+            break;
+          case "s":
+            severe += remainder;
+            break;
+          case "e":
+            emergency += remainder;
+            break;
+        }
+      }
+    });
+  });
+
+  return MissingTraces(low, medium, high, severe, emergency, challenges);
+
 }

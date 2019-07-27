@@ -8,8 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:registry_helper_for_wu/data/data.dart';
-import 'package:registry_helper_for_wu/widgets/registry.dart';
-import 'package:registry_helper_for_wu/widgets/signin.dart';
+import 'package:registry_helper_for_wu/bottom_bar_nav.dart';
+import 'package:registry_helper_for_wu/signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Map<int, Color> backgroundColorMap = {
@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
           case "null":
             return SignInWidget();
         }
-        return RegistryWidget(_registry, observer);
+        return BottomBarNavWidget(_registry, observer);
       }),
       backgroundColor: backgroundMaterialColor,
     );

@@ -5,13 +5,14 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:registry_helper_for_wu/pages/locator.dart';
+import 'package:registry_helper_for_wu/pages/helper.dart';
 import 'package:registry_helper_for_wu/pages/settings.dart';
 import 'package:registry_helper_for_wu/pages/charts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
-import '../data/data.dart';
-import '../main.dart';
+import 'data/data.dart';
+import 'main.dart';
 
 //https://www.wizardunite.com/2019/05/hpwu-foundables-and-traces.html
 //https://github.com/hpwizardsunite-dev-contrib
@@ -38,19 +39,19 @@ final wwwLight = const Color(0xFF72F9F9); final wwwLightStringHex = '#72F9F9';
 final oDark = const Color(0xFF382463); final oDarkStringHex = '#382463';
 final oLight = const Color(0xFFA77CE8); final oLightStringHex = '#A77CE8';
 
-class RegistryWidget extends StatefulWidget {
+class BottomBarNavWidget extends StatefulWidget {
   final Registry _firebaseRegistry;
   final FirebaseAnalyticsObserver _observer;
-  RegistryWidget(this._firebaseRegistry, this._observer);
+  BottomBarNavWidget(this._firebaseRegistry, this._observer);
 
   @override
-  State<StatefulWidget> createState() => RegistryWidgetState(_firebaseRegistry, _observer);
+  State<StatefulWidget> createState() => BottomBarNavWidgetState(_firebaseRegistry, _observer);
 }
 
-class RegistryWidgetState extends State<RegistryWidget> {
+class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   final Registry _firebaseRegistry;
   final FirebaseAnalyticsObserver _observer;
-  RegistryWidgetState(this._firebaseRegistry, this._observer);
+  BottomBarNavWidgetState(this._firebaseRegistry, this._observer);
 
   String _userId = "";
   Registry _registry;
@@ -121,16 +122,16 @@ class RegistryWidgetState extends State<RegistryWidget> {
           type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.folder),
-              title: Text('Registry'),
+              icon: Icon(Icons.star),
+              title: Text('Helper'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.insert_chart),
               title: Text('Charts'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.location_on),
-              title: Text('Locator'),
+              icon: Icon(Icons.folder),
+              title: Text('Your Registry'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
@@ -138,7 +139,6 @@ class RegistryWidgetState extends State<RegistryWidget> {
             ),
           ],
           selectedItemColor: backgroundColor,
-//          fixedColor: backgroundColor,
           unselectedItemColor: backgroundColorUnselected,
           backgroundColor: backgroundColorBottomBar,
           currentIndex: _selectedIndex,
@@ -193,16 +193,16 @@ class RegistryWidgetState extends State<RegistryWidget> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                GestureDetector(child: Image.asset("images/cmc.png"), onTap: () => _scrollToIndex(0)),
-                GestureDetector(child: Image.asset("images/da.png"), onTap: () => _scrollToIndex(1)),
-                GestureDetector(child: Image.asset("images/hs.png"), onTap: () => _scrollToIndex(2)),
-                GestureDetector(child: Image.asset("images/loh.png"), onTap: () => _scrollToIndex(3)),
-                GestureDetector(child: Image.asset("images/mom.png"), onTap: () => _scrollToIndex(4)),
-                GestureDetector(child: Image.asset("images/m.png"), onTap: () => _scrollToIndex(5)),
-                GestureDetector(child: Image.asset("images/mgs.png"), onTap: () => _scrollToIndex(6)),
-                GestureDetector(child: Image.asset("images/ma.png"), onTap: () => _scrollToIndex(7)),
-                GestureDetector(child: Image.asset("images/www.png"), onTap: () => _scrollToIndex(8)),
-                GestureDetector(child: Image.asset("images/o.png"), onTap: () => _scrollToIndex(9)),
+                GestureDetector(child: Image.asset("images/icons/cmc.png"), onTap: () => _scrollToIndex(0)),
+                GestureDetector(child: Image.asset("images/icons/da.png"), onTap: () => _scrollToIndex(1)),
+                GestureDetector(child: Image.asset("images/icons/hs.png"), onTap: () => _scrollToIndex(2)),
+                GestureDetector(child: Image.asset("images/icons/loh.png"), onTap: () => _scrollToIndex(3)),
+                GestureDetector(child: Image.asset("images/icons/mom.png"), onTap: () => _scrollToIndex(4)),
+                GestureDetector(child: Image.asset("images/icons/m.png"), onTap: () => _scrollToIndex(5)),
+                GestureDetector(child: Image.asset("images/icons/mgs.png"), onTap: () => _scrollToIndex(6)),
+                GestureDetector(child: Image.asset("images/icons/ma.png"), onTap: () => _scrollToIndex(7)),
+                GestureDetector(child: Image.asset("images/icons/www.png"), onTap: () => _scrollToIndex(8)),
+                GestureDetector(child: Image.asset("images/icons/o.png"), onTap: () => _scrollToIndex(9)),
               ],
             ),
           ),
@@ -422,9 +422,9 @@ class RegistryWidgetState extends State<RegistryWidget> {
   _updateWidgets() {
     setState(() {
       _widgetOptions = <Widget>[
-        registryWidget(),
+        HelperPage(_registry),
         ChartsPage(_registry),
-        LocatorPage(_registry),
+        registryWidget(),
         SettingsPage(),
       ];
     });
