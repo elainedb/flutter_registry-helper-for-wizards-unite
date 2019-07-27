@@ -2,7 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:registry_helper_for_wu/pages/helper.dart';
 
+import '../bottom_bar_nav.dart';
+
 const prestigeValues = ['Standard', 'Bronze', 'Silver', 'Gold'];
+const sortValues = ['Default', 'Low/Medium (no beam)', 'High (yellow beam)', 'Severe (orange beam)', 'Emergency (red beam)', 'Wizarding Challenges rewards'];
+var chaptersForDisplay = [
+  ChapterForDisplay("cmc", cmcDark, cmcLight),
+  ChapterForDisplay("da", daDark, daLight),
+  ChapterForDisplay("hs", hsDark, hsLight),
+  ChapterForDisplay("loh", lohDark, lohLight),
+  ChapterForDisplay("mom", momDark, momLight),
+  ChapterForDisplay("m", mDark, mLight),
+  ChapterForDisplay("mgs", mgsDark, mgsLight),
+  ChapterForDisplay("ma", maDark, maLight),
+  ChapterForDisplay("www", wwwDark, wwwLight),
+  ChapterForDisplay("o", oDark, oLight),
+];
 
 class Registry {
   final List<Chapter> chapters;
@@ -298,4 +313,12 @@ MissingTraces getMissingTracesForChapter(Chapter chapter, DocumentSnapshot snaps
 
   return MissingTraces(low, medium, high, severe, emergency, challenges);
 
+}
+
+class ChapterForDisplay{
+  final String id;
+  final Color darkColor;
+  final Color lightColor;
+
+  ChapterForDisplay(this.id, this.darkColor, this.lightColor);
 }

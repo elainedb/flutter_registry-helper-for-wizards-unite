@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:registry_helper_for_wu/data/data.dart';
-import 'package:registry_helper_for_wu/bottom_bar_nav.dart';
+import '../main.dart';
 
 class HelperPage extends StatefulWidget {
   final Registry _registry;
@@ -16,6 +16,7 @@ class HelperPageState extends State<HelperPage> {
   final Registry _registry;
   HelperPageState(this._registry);
 
+  String _dropdownValue;
   String _userId;
 
   @override
@@ -29,6 +30,8 @@ class HelperPageState extends State<HelperPage> {
         });
       }
     });
+
+    _dropdownValue = sortValues[0];
   }
 
   @override
@@ -38,19 +41,89 @@ class HelperPageState extends State<HelperPage> {
           stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+
+              List<Widget> widgets = List();
+              widgets.add(Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'A summary of missing foundables from your Registry are listed below. Keep your data updated on "My Registry" page.',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ));
+              widgets.add(Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text(
+                      'Sort by:',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Theme(
+                      data: ThemeData(
+                        canvasColor: backgroundColor,
+                      ),
+                      child: DropdownButton<String>(
+                        value: _dropdownValue,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _dropdownValue = newValue;
+                          });
+                        },
+                        items: sortValues.map<DropdownMenuItem<String>>((value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ));
+
+              Map<Widget, int> chapterRowsMap = Map();
+              chaptersForDisplay.asMap().forEach((index, chapterForDisplay) {
+                var chapter = getChapterWithId(_registry, chapterForDisplay.id);
+                var missingTraces = getMissingTracesForChapter(chapter, snapshot.data);
+                var value = index;
+                switch (_dropdownValue) {
+                  case 'Low/Medium (no beam)':
+                    value = missingTraces.low + missingTraces.medium;
+                    break;
+                  case 'High (yellow beam)':
+                    value = missingTraces.high;
+                    break;
+                  case 'Severe (orange beam)':
+                    value = missingTraces.severe;
+                    break;
+                  case 'Emergency (red beam)':
+                    value = missingTraces.emergency;
+                    break;
+                  case 'Wizarding Challenges rewards':
+                    value = missingTraces.challenges;
+                    break;
+                }
+                chapterRowsMap[_chapterRow(chapterForDisplay, missingTraces)] = value;
+              });
+
+              if (_dropdownValue != 'Default') {
+                var sortedValues = chapterRowsMap.values.toList()..sort();
+                sortedValues.reversed.forEach((i) {
+                  var key = chapterRowsMap.keys.firstWhere((k) => chapterRowsMap[k] == i && !widgets.contains(k));
+                  widgets.add(key);
+                });
+              } else {
+                chapterRowsMap.forEach((chapterRow, count) {
+                  widgets.add(chapterRow);
+                });
+              }
+
               return ListView(
-                children: <Widget>[
-                  _chapterRow("cmc", cmcDark, cmcLight, snapshot.data),
-                  _chapterRow("da", daDark, daLight, snapshot.data),
-                  _chapterRow("hs", hsDark, hsLight, snapshot.data),
-                  _chapterRow("loh", lohDark, lohLight, snapshot.data),
-                  _chapterRow("mom", momDark, momLight, snapshot.data),
-                  _chapterRow("m", mDark, mLight, snapshot.data),
-                  _chapterRow("mgs", mgsDark, mgsLight, snapshot.data),
-                  _chapterRow("ma", maDark, maLight, snapshot.data),
-                  _chapterRow("www", wwwDark, wwwLight, snapshot.data),
-                  _chapterRow("o", oDark, oLight, snapshot.data),
-                ],
+                children: widgets,
               );
             } else
               return Center(
@@ -61,19 +134,17 @@ class HelperPageState extends State<HelperPage> {
       return Center(child: Text("Loading"));
   }
 
-  Widget _chapterRow(String chapterId, Color dark, Color light, DocumentSnapshot snapshot) {
-    var chapter = getChapterWithId(_registry, chapterId);
-    var missingTraces = getMissingTracesForChapter(chapter, snapshot);
+  Widget _chapterRow(ChapterForDisplay chapterForDisplay, MissingTraces missingTraces) {
 
     return Card(
-      color: light,
+      color: chapterForDisplay.lightColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
         child: Row(
           children: <Widget>[
             Container(
               width: 75,
-              child: Image.asset("images/traces_transparent/${chapterId}.png"),
+              child: Image.asset("images/traces_transparent/${chapterForDisplay.id}.png"),
             ),
             Expanded(
               child: Row(
@@ -109,17 +180,20 @@ class HelperPageState extends State<HelperPage> {
 
   Widget _missingChallegnges(String text) {
     return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Icon(
-            Icons.flash_on,
-            size: 16,
-          ),
-          Container(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Icon(
+          Icons.flash_on,
+          size: 16,
+        ),
+        Container(
             width: 16,
-            child: Text(text, textAlign: TextAlign.center,)),
-        ],
-      );
+            child: Text(
+              text,
+              textAlign: TextAlign.center,
+            )),
+      ],
+    );
   }
 }
 
