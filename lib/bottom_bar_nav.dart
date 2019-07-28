@@ -1,10 +1,9 @@
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:registry_helper_for_wu/pages/locator.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:registry_helper_for_wu/pages/helper.dart';
 import 'package:registry_helper_for_wu/pages/my_registry.dart';
 import 'package:registry_helper_for_wu/pages/settings.dart';
@@ -51,6 +50,8 @@ class BottomBarNavWidget extends StatefulWidget {
 class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   final Registry _firebaseRegistry;
   final FirebaseAnalyticsObserver _observer;
+  String _shortcut;
+  String _sortValue;
   BottomBarNavWidgetState(this._firebaseRegistry, this._observer);
 
   String _userId = "";
@@ -85,6 +86,54 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
     } else {
       _getRegistryFromSharedPrefs();
     }
+
+    final QuickActions quickActions = QuickActions();
+    quickActions.initialize((String shortcutType) {
+      setState(() {
+        if (shortcutType != null) _shortcut = shortcutType;
+        switch (_shortcut) {
+          case 'helper_low':
+            _selectedIndex = 0;
+            _sortValue = "Low/Medium (no beam)";
+            break;
+          case 'helper_challenges':
+            _selectedIndex = 0;
+            _sortValue = "Wizarding Challenges rewards";
+            break;
+          case 'charts':
+            _selectedIndex = 1;
+            break;
+          case 'my_registry':
+            _selectedIndex = 2;
+            break;
+        }
+        _updateWidgets();
+      }
+      );
+    });
+
+    quickActions.setShortcutItems(<ShortcutItem>[
+      const ShortcutItem(
+        type: 'helper_low',
+        localizedTitle: 'Helper - Low/Medium',
+        icon: 'ic_wild',
+      ),
+      const ShortcutItem(
+        type: 'helper_challenges',
+        localizedTitle: 'Helper - Challenges',
+        icon: 'ic_challenges',
+      ),
+      const ShortcutItem(
+        type: 'charts',
+        localizedTitle: 'Charts',
+        icon: 'ic_charts',
+      ),
+      const ShortcutItem(
+        type: 'my_registry',
+        localizedTitle: 'My Registry',
+        icon: 'ic_folder',
+      ),
+    ]);
   }
 
   @override
@@ -142,7 +191,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   _updateWidgets() {
     setState(() {
       _widgetOptions = <Widget>[
-        HelperPage(_registry),
+        HelperPage(_registry, _sortValue),
         ChartsPage(_registry),
         MyRegistryPage(_registry),
         SettingsPage(),

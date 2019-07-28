@@ -6,15 +6,17 @@ import '../main.dart';
 
 class HelperPage extends StatefulWidget {
   final Registry _registry;
-  HelperPage(this._registry);
+  final String _initialSortValue;
+  HelperPage(this._registry, this._initialSortValue);
 
   @override
-  State<StatefulWidget> createState() => HelperPageState(_registry);
+  State<StatefulWidget> createState() => HelperPageState(_registry, _initialSortValue);
 }
 
 class HelperPageState extends State<HelperPage> {
   final Registry _registry;
-  HelperPageState(this._registry);
+  final String _initialSortValue;
+  HelperPageState(this._registry, this._initialSortValue);
 
   String _dropdownValue;
   String _userId;
@@ -32,6 +34,10 @@ class HelperPageState extends State<HelperPage> {
     });
 
     _dropdownValue = sortValues[0];
+    if (_initialSortValue != null) {
+      _dropdownValue = _initialSortValue;
+    }
+
   }
 
   @override
@@ -46,7 +52,7 @@ class HelperPageState extends State<HelperPage> {
               widgets.add(Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'A summary of missing foundables from your Registry are listed below. Keep your data updated on "My Registry" page.',
+                  'A summary of missing foundables from your Registry is listed below. Keep your data updated on "My Registry" page.',
                   style: TextStyle(color: Colors.white),
                 ),
               ));
@@ -187,7 +193,7 @@ class HelperPageState extends State<HelperPage> {
           size: 16,
         ),
         Container(
-            width: 16,
+            width: 20,
             child: Text(
               text,
               textAlign: TextAlign.center,

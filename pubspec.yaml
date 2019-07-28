@@ -24,6 +24,7 @@ dependencies:
   charts_flutter: ^0.6.0
   firebase_crashlytics: ^0.0.4+11
   firebase_analytics: ^4.0.2
+  quick_actions: ^0.3.2+2
 
 dev_dependencies:
   flutter_test:
