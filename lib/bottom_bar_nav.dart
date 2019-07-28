@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:registry_helper_for_wu/pages/helper.dart';
 import 'package:registry_helper_for_wu/pages/my_registry.dart';
@@ -50,27 +52,24 @@ class BottomBarNavWidget extends StatefulWidget {
 class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   final Registry _firebaseRegistry;
   final FirebaseAnalyticsObserver _observer;
-  String _shortcut;
-  String _sortValue;
   BottomBarNavWidgetState(this._firebaseRegistry, this._observer);
 
   String _userId = "";
   Registry _registry;
-  List<Widget> _widgetOptions = <Widget>[
-    Text('Loading'),
-    Text('Loading'),
-    Text('Loading'),
-    Text('Loading'),
-  ];
-
+  String _sortValue;
   int _selectedIndex = 0;
+  List<Widget> _widgetOptions = <Widget>[Text('Loading'), Text('Loading'), Text('Loading'), Text('Loading')];
+
+  String _shortcut;
+  final QuickActions quickActions = QuickActions();
+  static const platform = const MethodChannel('elainedb.dev.registry-helper-for-wu/siri_shortcuts');
 
   @override
   void initState() {
     super.initState();
 
     FirebaseAuth.instance.currentUser().then((user) {
-      if (user != null) {
+      if(user != null) {
         setState(() {
           _userId = user.uid;
           _updateWidgets();
@@ -78,7 +77,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
       }
     });
 
-    if (_firebaseRegistry != null) {
+    if(_firebaseRegistry != null) {
       setState(() {
         _registry = _firebaseRegistry;
         _updateWidgets();
@@ -87,53 +86,24 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
       _getRegistryFromSharedPrefs();
     }
 
-    final QuickActions quickActions = QuickActions();
     quickActions.initialize((String shortcutType) {
       setState(() {
-        if (shortcutType != null) _shortcut = shortcutType;
-        switch (_shortcut) {
-          case 'helper_low':
-            _selectedIndex = 0;
-            _sortValue = "Low/Medium (no beam)";
-            break;
-          case 'helper_challenges':
-            _selectedIndex = 0;
-            _sortValue = "Wizarding Challenges rewards";
-            break;
-          case 'charts':
-            _selectedIndex = 1;
-            break;
-          case 'my_registry':
-            _selectedIndex = 2;
-            break;
-        }
+        if(shortcutType != null) _shortcut = shortcutType;
+        _manageShortcut();
         _updateWidgets();
-      }
-      );
+      });
     });
 
     quickActions.setShortcutItems(<ShortcutItem>[
-      const ShortcutItem(
-        type: 'helper_low',
-        localizedTitle: 'Helper - Low/Medium',
-        icon: 'ic_wild',
-      ),
-      const ShortcutItem(
-        type: 'helper_challenges',
-        localizedTitle: 'Helper - Challenges',
-        icon: 'ic_challenges',
-      ),
-      const ShortcutItem(
-        type: 'charts',
-        localizedTitle: 'Charts',
-        icon: 'ic_charts',
-      ),
-      const ShortcutItem(
-        type: 'my_registry',
-        localizedTitle: 'My Registry',
-        icon: 'ic_folder',
-      ),
+      const ShortcutItem(type: 'helper_low', localizedTitle: 'Helper - Low/Medium', icon: 'ic_wild',),
+      const ShortcutItem(type: 'helper_challenges', localizedTitle: 'Helper - Challenges', icon: 'ic_challenges',),
+      const ShortcutItem(type: 'charts', localizedTitle: 'Charts', icon: 'ic_charts',),
+      const ShortcutItem(type: 'my_registry', localizedTitle: 'My Registry', icon: 'ic_folder',),
     ]);
+
+    if (Platform.isIOS) {
+      _getSiriShortcut();
+    }
   }
 
   @override
@@ -141,60 +111,37 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
     print('build for _userId = $_userId');
 
     return Builder(builder: (BuildContext context) {
-      if (_userId.isEmpty) {
-        return Center(
-          child: Text("Loading"),
-        );
+      if(_userId.isEmpty) {
+        return Center(child: Text("Loading"),);
       }
-      return Scaffold(
-        body: _widgetOptions.elementAt(_selectedIndex),
+      return Scaffold(body: _widgetOptions.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.star),
-              title: Text('Helper'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.insert_chart),
-              title: Text('Charts'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.folder),
-              title: Text('My Registry'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              title: Text('Settings'),
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.star), title: Text('Helper'),),
+            BottomNavigationBarItem(icon: Icon(Icons.insert_chart), title: Text('Charts'),),
+            BottomNavigationBarItem(icon: Icon(Icons.folder), title: Text('My Registry'),),
+            BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('Settings'),),
           ],
           selectedItemColor: backgroundColor,
           unselectedItemColor: backgroundColorUnselected,
           backgroundColor: backgroundColorBottomBar,
           currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-        ),
-        backgroundColor: backgroundColor,
-      );
+          onTap: _onItemTapped,),
+        backgroundColor: backgroundColor,);
     });
   }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      _observer.analytics.setCurrentScreen(
-        screenName: 'Tab$_selectedIndex',
-      );
+      _observer.analytics.setCurrentScreen(screenName: 'Tab$_selectedIndex',);
     });
   }
 
   _updateWidgets() {
     setState(() {
-      _widgetOptions = <Widget>[
-        HelperPage(_registry, _sortValue),
-        ChartsPage(_registry),
-        MyRegistryPage(_registry),
-        SettingsPage(),
+      _widgetOptions = <Widget>[HelperPage(_registry, _sortValue), ChartsPage(_registry), MyRegistryPage(_registry), SettingsPage(),
       ];
     });
   }
@@ -202,12 +149,46 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   _getRegistryFromSharedPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var registryString = prefs.getString('registry') ?? "";
-    if (registryString.isNotEmpty) {
+    if(registryString.isNotEmpty) {
       setState(() {
         Map registryMap = jsonDecode(registryString);
         _registry = Registry.fromJson(registryMap) ?? null;
         _updateWidgets();
       });
     }
+  }
+
+  _manageShortcut() {
+    switch(_shortcut) {
+      case 'helper_low':
+        _selectedIndex = 0;
+        _sortValue = "Low/Medium (no beam)";
+        break;
+      case 'helper_challenges':
+        _selectedIndex = 0;
+        _sortValue = "Wizarding Challenges rewards";
+        break;
+      case 'charts':
+        _selectedIndex = 1;
+        break;
+      case 'my_registry':
+        _selectedIndex = 2;
+        break;
+    }
+  }
+
+  Future<void> _getSiriShortcut() async {
+    String shortcut;
+    try {
+      shortcut = await platform.invokeMethod('getShortcut');
+    } on PlatformException catch(e) {
+      shortcut = "Failed to get shortcut: '${e.message}'.";
+    }
+
+    setState(() {
+      _shortcut = shortcut;
+      _manageShortcut();
+      _updateWidgets();
+    });
   }
 }
