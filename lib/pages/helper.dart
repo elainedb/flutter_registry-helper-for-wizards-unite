@@ -42,6 +42,10 @@ class HelperPageState extends State<HelperPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget._initialSortValue != null) {
+      // fix for shortcut when page already displaying
+      _dropdownValue = widget._initialSortValue;
+    }
     if (_userId != null) {
       return StreamBuilder<DocumentSnapshot>(
           stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
