@@ -156,12 +156,12 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
               title: Text('Helper'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.insert_chart),
-              title: Text('Charts'),
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.folder),
               title: Text('My Registry'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.insert_chart),
+              title: Text('Charts'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
@@ -192,8 +192,8 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
     setState(() {
       _widgetOptions = <Widget>[
         HelperPage(_registry, _sortValue),
-        ChartsPage(_registry),
         MyRegistryPage(_registry),
+        ChartsPage(_registry),
         SettingsPage(),
       ];
     });
