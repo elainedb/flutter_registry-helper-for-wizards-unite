@@ -251,7 +251,7 @@ Color getColorWithFoundable(Foundable foundable) {
   return Colors.white;
 }
 
-Icon getIconWithFoundable(Foundable foundable) {
+Icon getIconWithFoundable(Foundable foundable, double size) {
   IconData id = Icons.not_interested;
   switch (foundable.howToCatch) {
     case "p":
@@ -269,7 +269,7 @@ Icon getIconWithFoundable(Foundable foundable) {
       break;
   }
 
-  return Icon(id, color: getColorWithFoundable(foundable), size: 14,);
+  return Icon(id, color: getColorWithFoundable(foundable), size: size,);
 }
 
 MissingTraces getMissingTracesForChapter(Chapter chapter, DocumentSnapshot snapshot) {
@@ -312,13 +312,51 @@ MissingTraces getMissingTracesForChapter(Chapter chapter, DocumentSnapshot snaps
   });
 
   return MissingTraces(low, medium, high, severe, emergency, challenges);
-
 }
 
-class ChapterForDisplay{
+List<AlmostCompletePage> getPagesWithOneOreTwoMissing(Chapter chapter, DocumentSnapshot snapshot) {
+  List<AlmostCompletePage> almostCompletePages = List();
+
+  chapter.pages.forEach((page) {
+    List<IncompleteFoundable> incompleteFoundables = List();
+
+    page.foundables.forEach((foundable) {
+      var level = snapshot[foundable.id]["level"];
+      var total = getRequirementWithLevel(foundable, level);
+      var returned = snapshot[foundable.id]["count"];
+      var remainder = total - returned;
+      if (remainder > 0) {
+        incompleteFoundables.add(IncompleteFoundable(chapter.id, foundable, remainder));
+      }
+    });
+
+    if (incompleteFoundables.length < 3) {
+      almostCompletePages.add(AlmostCompletePage(page.name, incompleteFoundables));
+    }
+  });
+
+  return almostCompletePages;
+}
+
+class ChapterForDisplay {
   final String id;
   final Color darkColor;
   final Color lightColor;
 
   ChapterForDisplay(this.id, this.darkColor, this.lightColor);
+}
+
+class AlmostCompletePage {
+  final String pageName;
+  final List<IncompleteFoundable> foundables;
+  
+  AlmostCompletePage(this.pageName, this.foundables);
+}
+
+class IncompleteFoundable {
+  final String chapterId;
+  final Foundable foundable;
+  final int remainingFragments;
+  
+  IncompleteFoundable(this.chapterId, this.foundable, this.remainingFragments);
 }

@@ -223,7 +223,7 @@ class ChartsPageState extends State<ChartsPage> {
 
     chapter.pages.forEach((page) {
       page.foundables.forEach((foundable) {
-        list.add(getIconWithFoundable(foundable));
+        list.add(getIconWithFoundable(foundable, 14));
       });
     });
 
