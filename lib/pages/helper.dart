@@ -6,7 +6,7 @@ import '../main.dart';
 
 class HelperPage extends StatefulWidget {
   final Registry _registry;
-  final String _initialSortValue;
+  String _initialSortValue;
   HelperPage(this._registry, this._initialSortValue);
 
   @override
@@ -20,6 +20,7 @@ class HelperPageState extends State<HelperPage> {
 
   String _dropdownValue;
   String _userId;
+  int _initialIndex = 0;
 
   @override
   void initState() {
@@ -44,14 +45,16 @@ class HelperPageState extends State<HelperPage> {
     if (widget._initialSortValue != null) {
       // fix for shortcut when page already displaying
       _dropdownValue = widget._initialSortValue;
+      widget._initialSortValue = null;
     }
+
     if (_userId != null) {
       return StreamBuilder<DocumentSnapshot>(
           stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return DefaultTabController(
-                initialIndex: 0,
+                initialIndex: _initialIndex,
                 length: 2,
                 child: Scaffold(
                   appBar: AppBar(
@@ -60,16 +63,16 @@ class HelperPageState extends State<HelperPage> {
                         labelColor: Colors.amber,
                         indicatorColor: Colors.amber,
                         tabs: [
-                          Tab(text: "Insights"),
                           Tab(text: "Missing Foundables"),
+                          Tab(text: "Insights"),
                         ],
                       ),
                     ),
                   ),
                   body: TabBarView(
                     children: [
-                      _insights(snapshot.data),
                       _generalHelper(snapshot.data),
+                      _insights(snapshot.data),
                     ],
                   ),
                   backgroundColor: backgroundColor,
