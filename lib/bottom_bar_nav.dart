@@ -100,10 +100,10 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
             _selectedIndex = 0;
             _sortValue = "Wizarding Challenges rewards";
             break;
-          case 'charts':
+          case 'my_registry':
             _selectedIndex = 1;
             break;
-          case 'my_registry':
+          case 'charts':
             _selectedIndex = 2;
             break;
         }
