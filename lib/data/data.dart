@@ -330,7 +330,7 @@ List<AlmostCompletePage> getPagesWithOneOreTwoMissing(Chapter chapter, DocumentS
       }
     });
 
-    if (incompleteFoundables.length < 3) {
+    if (incompleteFoundables.length < 3 && incompleteFoundables.length > 0) {
       almostCompletePages.add(AlmostCompletePage(page.name, incompleteFoundables));
     }
   });

@@ -283,6 +283,7 @@ class HelperPageState extends State<HelperPage> {
     List<Widget> gridViewWidgets = List();
     zeroTracesLeftList.forEach((zero) {
       gridViewWidgets.add(Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           _getZeroWidget(zero),
         ],
