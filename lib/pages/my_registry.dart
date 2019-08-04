@@ -147,19 +147,22 @@ class MyRegistryPageState extends State<MyRegistryPage> {
         DropdownButton<String>(
           value: dropdownValue,
           onChanged: (newValue) {
+            Map<String, dynamic> newData = Map();
             page.foundables.forEach((foundable) {
               if (!_isUserAnonymous) {
-                Firestore.instance.collection('userData').document(_userId).setData({
-                  foundable.id: {'count': 0, 'level': getPrestigeLevelWithPrestigeValue(newValue)}
-                }, merge: true);
+                newData[foundable.id] = {'count': 0, 'level': getPrestigeLevelWithPrestigeValue(newValue)};
               } else {
                 _userData.fragmentDataList[foundable.id]['count'] = 0;
                 _userData.fragmentDataList[foundable.id]['level'] = getPrestigeLevelWithPrestigeValue(newValue);
-                saveUserDataToPrefs(_userData);
               }
 
             });
 
+            if (!_isUserAnonymous) {
+              Firestore.instance.collection('userData').document(_userId).setData(newData, merge: true);
+            } else {
+              saveUserDataToPrefs(_userData);
+            }
             setState(() {});
           },
           items: prestigeValues.map<DropdownMenuItem<String>>((value) {
