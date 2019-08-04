@@ -12,9 +12,22 @@ class SettingsPage extends StatefulWidget {
 }
 
 class SettingsPageState extends State<SettingsPage> {
+  String _userEmail = "";
+
   @override
   void initState() {
     super.initState();
+
+    FirebaseAuth.instance.currentUser().then((user) {
+      if (user != null) {
+        setState(() {
+          _userEmail = user.email;
+          if (user.isAnonymous) {
+            _userEmail = "Anonymous";
+          }
+        });
+      }
+    });
 
     _auth.onAuthStateChanged.listen((user) {
       if (user == null) {
@@ -28,6 +41,8 @@ class SettingsPageState extends State<SettingsPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+        Text("Logged in as $_userEmail", style: TextStyle(color: Colors.white),),
+        Container(height: 24,),
         Center(
           child: RaisedButton(
             onPressed: () => _firebaseSignOut(),
