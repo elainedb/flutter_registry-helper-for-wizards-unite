@@ -187,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           }
         } else {
-          _migrateAnonymous();
+          _migrateAnonymous(prefs, snapshot.data, userId);
         }
       });
 //      _isUserLoading = false;
@@ -230,8 +230,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  _migrateAnonymous() {
+  _migrateAnonymous(SharedPreferences prefs, Map<String, dynamic> data, String userId) async {
     // TODO temp code -> delete when all anonymous were migrated
+    await prefs.setString('userData', jsonEncode(UserData(data)));
+    Firestore.instance.collection('userData').document(userId).delete();
+    setState(() {
+      _isUserLoading = false;
+    });
   }
 
   _initAnonymousData(List<String> ids, SharedPreferences prefs) async {
