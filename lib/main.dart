@@ -143,78 +143,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _downloadRegistryData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int localVersion = prefs.getInt('registryVersion') ?? -1;
-    int firestoreVersion = 0;
 
-    await Firestore.instance.collection("settings").document("version").get().then((snapshot) {
-      firestoreVersion = snapshot.data["registry"];
+    _isRegistryLoading = true;
+    var registryString = await rootBundle.loadString('json/registry.json');
+    await prefs.setString('registry', registryString);
+    setState(() {
+      Map registryMap = jsonDecode(registryString);
+      _registry = Registry.fromJson(registryMap) ?? null;
+      _isRegistryLoading = false;
     });
 
-    if (firestoreVersion > localVersion) {
-      _getRegistry(prefs, firestoreVersion);
-      setState(() {
-        _isRegistryLoading = true;
-      });
-    } else {
-      _initUserData(_userId);
-    }
-  }
-
-  _getRegistry(SharedPreferences prefs, int firestoreVersion) {
-    Firestore.instance.collection("registryData").snapshots().forEach((snapshot) async {
-      if (snapshot != null) {
-        List<Chapter> chapterList = List();
-        for (var chapter in snapshot.documents) {
-          String chapterId = chapter.documentID;
-          String chapterName = chapter.data["name_en"];
-          String chapterOSM = chapter.data["osm_en"];
-          String chapterExamples = chapter.data["examples_en"];
-          List<Page> pageList = List();
-          await chapter.reference.collection("pages").orderBy("order").getDocuments().then((pages) async {
-            if (pages != null) {
-              for (var page in pages.documents) {
-                String pageId = page.documentID;
-                String pageName = page.data["name_en"];
-                List<Foundable> foundableList = List();
-                await page.reference.collection("foundables").getDocuments().then((foundables) {
-                  if (foundables != null) {
-                    for (var foundable in foundables.documents) {
-                      foundableList.add(Foundable(foundable.documentID, foundable.data['name_en'], foundable.data['frag_req1'], foundable.data['frag_req2'],
-                          foundable.data['frag_req3'], foundable.data['frag_req4'], foundable.data['how'], foundable.data['threat']));
-                    }
-                  }
-                });
-                print("pageList.add(Page(pageId, pageName, foundableList));");
-                pageList.add(Page(pageId, pageName, foundableList));
-              }
-            }
-          });
-          print("chapterList.add(Chapter(chapterId, chapterName, pageList));");
-          chapterList.add(Chapter(chapterId, chapterName, chapterOSM, chapterExamples, pageList));
-        }
-        print("registry = Registry(chapterList);");
-        setState(() {
-          print("setstate");
-          _isUserLoading = true;
-          _isRegistryLoading = false;
-        });
-
-        _registry = Registry(chapterList);
-        await prefs.setInt('registryVersion', firestoreVersion);
-        await prefs.setString('registry', jsonEncode(_registry));
-
-        _initUserData(_userId);
-      }
-    });
+    _initUserData(_userId);
   }
 
   _initUserData(String userId) {
+    // check if not anonymous
     Firestore.instance.collection('userData').document(userId).get().then((snapshot) async {
-      if (_registry == null) {
-        // registry was up to date
-        await _getRegistryFromSharedPrefs();
-      }
-
       var registryIds = getAllFoundablesIds(_registry);
 
       if (!snapshot.exists) {
@@ -242,17 +186,6 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       }
     });
-  }
-
-  _getRegistryFromSharedPrefs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var registryString = prefs.getString('registry') ?? "";
-    if (registryString.isNotEmpty) {
-      setState(() {
-        Map registryMap = jsonDecode(registryString);
-        _registry = Registry.fromJson(registryMap) ?? null;
-      });
-    }
   }
 
   _addUserData(List<String> ids, String userId) {

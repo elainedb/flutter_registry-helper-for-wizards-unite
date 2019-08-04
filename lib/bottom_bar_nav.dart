@@ -48,11 +48,11 @@ class BottomBarNavWidget extends StatefulWidget {
 }
 
 class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
-  final Registry _firebaseRegistry;
+  final Registry _jsonRegistry;
   final FirebaseAnalyticsObserver _observer;
   String _shortcut;
   String _sortValue;
-  BottomBarNavWidgetState(this._firebaseRegistry, this._observer);
+  BottomBarNavWidgetState(this._jsonRegistry, this._observer);
 
   String _userId = "";
   Registry _registry;
@@ -78,9 +78,9 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
       }
     });
 
-    if (_firebaseRegistry != null) {
+    if (_jsonRegistry != null) {
       setState(() {
-        _registry = _firebaseRegistry;
+        _registry = _jsonRegistry;
         _updateWidgets();
       });
     } else {
