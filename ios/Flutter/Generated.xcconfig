@@ -5,5 +5,5 @@ FLUTTER_TARGET=lib/main.dart
 FLUTTER_BUILD_DIR=build
 SYMROOT=${SOURCE_ROOT}/../build/ios
 FLUTTER_FRAMEWORK_DIR=/Applications/flutter/bin/cache/artifacts/engine/ios-release
-FLUTTER_BUILD_NAME=1.4.0
-FLUTTER_BUILD_NUMBER=4
+FLUTTER_BUILD_NAME=1.4.2
+FLUTTER_BUILD_NUMBER=6
