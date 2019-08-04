@@ -148,9 +148,16 @@ class MyRegistryPageState extends State<MyRegistryPage> {
           value: dropdownValue,
           onChanged: (newValue) {
             page.foundables.forEach((foundable) {
-              Firestore.instance.collection('userData').document(_userId).setData({
-                foundable.id: {'count': 0, 'level': getPrestigeLevelWithPrestigeValue(newValue)}
-              }, merge: true);
+              if (!_isUserAnonymous) {
+                Firestore.instance.collection('userData').document(_userId).setData({
+                  foundable.id: {'count': 0, 'level': getPrestigeLevelWithPrestigeValue(newValue)}
+                }, merge: true);
+              } else {
+                _userData.fragmentDataList[foundable.id]['count'] = 0;
+                _userData.fragmentDataList[foundable.id]['level'] = getPrestigeLevelWithPrestigeValue(newValue);
+                saveUserDataToPrefs(_userData);
+              }
+
             });
 
             setState(() {});
@@ -264,19 +271,21 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   }
 
   _submit(String userId, Foundable foundable, String newValue, int requirement) {
-    var newInt = int.tryParse(newValue);
-    if (newInt != null && newInt <= requirement) {
+    var newInt = int.tryParse(newValue) ?? 0;
+    if (newInt > requirement) {
+      // Scaffold.of(context).showSnackBar(SnackBar(content: Text("Please enter a valid number")));
+      newInt = requirement;
+    }
+
+    if (!_isUserAnonymous) {
       Firestore.instance.collection('userData').document(userId).setData({
         foundable.id: {'count': newInt}
       }, merge: true);
     } else {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Please enter a valid number")));
-      if (newInt > requirement) {
-        Firestore.instance.collection('userData').document(userId).setData({
-          foundable.id: {'count': requirement}
-        }, merge: true);
-      }
-      // TODO set textfield text to old value
+      _userData.fragmentDataList[foundable.id]['count'] = newInt;
+      saveUserDataToPrefs(_userData).then((value) {
+        setState(() {});
+      });
     }
   }
 
