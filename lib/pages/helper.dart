@@ -21,6 +21,8 @@ class HelperPageState extends State<HelperPage> {
   String _dropdownValue;
   String _userId;
   int _initialIndex = 0;
+  bool _isUserAnonymous;
+  UserData _userData;
 
   @override
   void initState() {
@@ -30,6 +32,10 @@ class HelperPageState extends State<HelperPage> {
       if (user != null) {
         setState(() {
           _userId = user.uid;
+          _isUserAnonymous = user.isAnonymous;
+          if (user.isAnonymous) {
+            getUserDataFromPrefs().then((data) => _userData = data);
+          }
         });
       }
     });
@@ -48,46 +54,54 @@ class HelperPageState extends State<HelperPage> {
       widget._initialSortValue = null;
     }
 
-    if (_userId != null) {
-      return StreamBuilder<DocumentSnapshot>(
-          stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return DefaultTabController(
-                initialIndex: _initialIndex,
-                length: 2,
-                child: Scaffold(
-                  appBar: AppBar(
-                    flexibleSpace: SafeArea(
-                      child: TabBar(
-                        labelColor: Colors.amber,
-                        indicatorColor: Colors.amber,
-                        tabs: [
-                          Tab(text: "Missing Foundables"),
-                          Tab(text: "Insights"),
-                        ],
-                      ),
-                    ),
-                  ),
-                  body: TabBarView(
-                    children: [
-                      _generalHelper(snapshot.data),
-                      _insights(snapshot.data),
-                    ],
-                  ),
-                  backgroundColor: backgroundColor,
-                ),
-              );
-            } else
-              return Center(
-                child: Text("Loading"),
-              );
-          });
-    } else
-      return Center(child: Text("Loading"));
+    if (_isUserAnonymous != null && _isUserAnonymous && _userData != null) {
+      return _tabController(_userData.fragmentDataList);
+    } else {
+      if (_userId != null) {
+        return StreamBuilder<DocumentSnapshot>(
+            stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data.data != null) {
+                return _tabController(snapshot.data.data);
+              } else
+                return Center(
+                  child: Text("Loading"),
+                );
+            });
+      }
+    }
+    return Center(child: Text("Loading"));
   }
 
-  Widget _generalHelper(DocumentSnapshot snapshot) {
+  Widget _tabController(Map<String, dynamic> data) {
+    return DefaultTabController(
+      initialIndex: _initialIndex,
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          flexibleSpace: SafeArea(
+            child: TabBar(
+              labelColor: Colors.amber,
+              indicatorColor: Colors.amber,
+              tabs: [
+                Tab(text: "Missing Foundables"),
+                Tab(text: "Insights"),
+              ],
+            ),
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            _generalHelper(data),
+            _insights(data),
+          ],
+        ),
+        backgroundColor: backgroundColor,
+      ),
+    );
+  }
+
+  Widget _generalHelper(Map<String, dynamic> data) {
     List<Widget> widgets = List();
     widgets.add(Padding(
       padding: const EdgeInsets.all(8),
@@ -134,7 +148,7 @@ class HelperPageState extends State<HelperPage> {
     Map<Widget, int> chapterRowsMap = Map();
     chaptersForDisplay.asMap().forEach((index, chapterForDisplay) {
       var chapter = getChapterWithId(_registry, chapterForDisplay.id);
-      var missingTraces = getMissingTracesForChapter(chapter, snapshot);
+      var missingTraces = getMissingTracesForChapter(chapter, data);
       var value = index;
       switch (_dropdownValue) {
         case 'Low/Medium (no beam)':
@@ -173,18 +187,21 @@ class HelperPageState extends State<HelperPage> {
     );
   }
 
-  Widget _insights(DocumentSnapshot snapshot) {
+  Widget _insights(Map<String, dynamic> data) {
     List<Widget> widgets = List();
 
-    if (_getPagesWithOneOreTwoMissingWidgets(snapshot) != null) {
-      widgets.addAll(_getPagesWithOneOreTwoMissingWidgets(snapshot));
+    if (_getPagesWithOneOreTwoMissingWidgets(data) != null) {
+      widgets.addAll(_getPagesWithOneOreTwoMissingWidgets(data));
     }
-    if (_getNoClickWidgets(snapshot) != null) {
-      widgets.addAll(_getNoClickWidgets(snapshot));
+    if (_getNoClickWidgets(data) != null) {
+      widgets.addAll(_getNoClickWidgets(data));
     }
 
-    if (_getPagesWithOneOreTwoMissingWidgets(snapshot) == null && _getNoClickWidgets(snapshot) == null) {
-      return Text("No insights for now!", style: TextStyle(color: Colors.white),);
+    if (_getPagesWithOneOreTwoMissingWidgets(data) == null && _getNoClickWidgets(data) == null) {
+      return Text(
+        "No insights for now!",
+        style: TextStyle(color: Colors.white),
+      );
     }
 
     return ListView(
@@ -193,7 +210,7 @@ class HelperPageState extends State<HelperPage> {
     );
   }
 
-  List<Widget> _getPagesWithOneOreTwoMissingWidgets(DocumentSnapshot snapshot) {
+  List<Widget> _getPagesWithOneOreTwoMissingWidgets(Map<String, dynamic> data) {
     List<Widget> widgets = List();
     widgets.add(Padding(
       padding: const EdgeInsets.all(16),
@@ -205,7 +222,7 @@ class HelperPageState extends State<HelperPage> {
     ));
     chaptersForDisplay.forEach((chapterForDisplay) {
       var chapter = getChapterWithId(_registry, chapterForDisplay.id);
-      List<AlmostCompletePage> almostCompletePages = getPagesWithOneOreTwoMissing(chapter, snapshot);
+      List<AlmostCompletePage> almostCompletePages = getPagesWithOneOreTwoMissing(chapter, data);
       almostCompletePages.forEach((almostCompletePage) {
         widgets.add(_getAlmostCompletePageWidget(almostCompletePage, chapter.id));
       });
@@ -243,7 +260,10 @@ class HelperPageState extends State<HelperPage> {
             width: 50,
             child: getIconWithFoundable(foundable.foundable, 30),
           ),
-          Text("${foundable.remainingFragments} left", style: TextStyle(color: Colors.white),),
+          Text(
+            "${foundable.remainingFragments} left",
+            style: TextStyle(color: Colors.white),
+          ),
         ],
       ));
     });
@@ -258,11 +278,11 @@ class HelperPageState extends State<HelperPage> {
     );
   }
 
-  List<Widget> _getNoClickWidgets(DocumentSnapshot snapshot) {
+  List<Widget> _getNoClickWidgets(Map<String, dynamic> data) {
     List<ZeroTracesLeft> zeroTracesLeftList = List();
     chaptersForDisplay.forEach((chapterForDisplay) {
       var chapter = getChapterWithId(_registry, chapterForDisplay.id);
-      var missingTraces = getMissingTracesForChapter(chapter, snapshot);
+      var missingTraces = getMissingTracesForChapter(chapter, data);
       if (missingTraces.low + missingTraces.medium == 0) {
         zeroTracesLeftList.add(ZeroTracesLeft(chapter.id, "low/medium"));
       }

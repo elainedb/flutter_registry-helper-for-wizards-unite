@@ -20,7 +20,7 @@ class SignInWidgetState extends State<SignInWidget> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Welcome to Registry Helper for Wizards Unite!\n\nIn order to synchronize your data accross devices, please sign in.',
+              'Welcome to Registry Helper for Wizards Unite!\n\nIn order to backup and synchronize your data accross devices, please sign in.',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16,

@@ -50,6 +50,7 @@ class BottomBarNavWidget extends StatefulWidget {
 class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   final Registry _jsonRegistry;
   final FirebaseAnalyticsObserver _observer;
+
   String _shortcut;
   String _sortValue;
   BottomBarNavWidgetState(this._jsonRegistry, this._observer);

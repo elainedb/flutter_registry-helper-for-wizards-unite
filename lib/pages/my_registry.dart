@@ -21,6 +21,8 @@ class MyRegistryPageState extends State<MyRegistryPage> {
 
   String _userId;
   AutoScrollController controller;
+  bool _isUserAnonymous;
+  UserData _userData;
 
   @override
   void initState() {
@@ -30,6 +32,10 @@ class MyRegistryPageState extends State<MyRegistryPage> {
       if (user != null) {
         setState(() {
           _userId = user.uid;
+          _isUserAnonymous = user.isAnonymous;
+          if (user.isAnonymous) {
+            getUserDataFromPrefs().then((data) => _userData = data);
+          }
         });
       }
     });
@@ -42,48 +48,45 @@ class MyRegistryPageState extends State<MyRegistryPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_userId != null) {
-      return StreamBuilder<DocumentSnapshot>(
-          stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return registryWidget();
-            } else
-              return Center(
-                child: Text("Loading"),
-              );
-          });
-    } else
-      return Center(child: Text("Loading"));
+    if (_isUserAnonymous != null && _isUserAnonymous && _userData != null) {
+      return registryWidget(_userData.fragmentDataList);
+    } else {
+      if (_userId != null) {
+        return StreamBuilder<DocumentSnapshot>(
+            stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
+            builder: (context, snapshot) {
+              if (_registry != null && snapshot.hasData && snapshot.data.data != null) {
+                return registryWidget(snapshot.data.data);
+              } else
+                return Center(
+                  child: Text("Loading"),
+                );
+            });
+      }
+    }
+    return Center(child: Text("Loading"));
   }
 
-  Widget registryWidget() {
+  Widget registryWidget(Map<String, dynamic> data) {
     return Row(
       children: <Widget>[
         Expanded(
-          child: StreamBuilder<DocumentSnapshot>(
-              stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
-              builder: (context, snapshot) {
-                if (_registry != null && snapshot.hasData) {
-                  return ListView(
-                    scrollDirection: Axis.vertical,
-                    controller: controller,
-                    children: <Widget>[
-                      chapterCard("cmc", snapshot, cmcDark, cmcLight, 0),
-                      chapterCard("da", snapshot, daDark, daLight, 1),
-                      chapterCard("hs", snapshot, hsDark, hsLight, 2),
-                      chapterCard("loh", snapshot, lohDark, lohLight, 3),
-                      chapterCard("mom", snapshot, momDark, momLight, 4),
-                      chapterCard("m", snapshot, mDark, mLight, 5),
-                      chapterCard("mgs", snapshot, mgsDark, mgsLight, 6),
-                      chapterCard("ma", snapshot, maDark, maLight, 7),
-                      chapterCard("www", snapshot, wwwDark, wwwLight, 8),
-                      chapterCard("o", snapshot, oDark, oLight, 9),
-                    ],
-                  );
-                }
-                return Center(child: Text("Loading"));
-              }),
+          child: ListView(
+            scrollDirection: Axis.vertical,
+            controller: controller,
+            children: <Widget>[
+              chapterCard("cmc", data, cmcDark, cmcLight, 0),
+              chapterCard("da", data, daDark, daLight, 1),
+              chapterCard("hs", data, hsDark, hsLight, 2),
+              chapterCard("loh", data, lohDark, lohLight, 3),
+              chapterCard("mom", data, momDark, momLight, 4),
+              chapterCard("m", data, mDark, mLight, 5),
+              chapterCard("mgs", data, mgsDark, mgsLight, 6),
+              chapterCard("ma", data, maDark, maLight, 7),
+              chapterCard("www", data, wwwDark, wwwLight, 8),
+              chapterCard("o", data, oDark, oLight, 9),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(right: 4),
@@ -110,7 +113,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     );
   }
 
-  Widget chapterCard(String chapterId, AsyncSnapshot<DocumentSnapshot> snapshot, Color dark, Color light, int index) {
+  Widget chapterCard(String chapterId, Map<String, dynamic> data, Color dark, Color light, int index) {
     Chapter chapter = getChapterWithId(_registry, chapterId);
 
     List<Widget> widgets = List();
@@ -118,7 +121,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
       "${chapter.name}",
       style: TextStyle(color: Colors.white),
     ));
-    widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, light, snapshot.data, dark)));
+    widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, light, data, dark)));
 
     return AutoScrollTag(
       controller: controller,
@@ -133,7 +136,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     );
   }
 
-  Widget pageCard(String pageId, Chapter chapter, Color light, DocumentSnapshot data, Color color) {
+  Widget pageCard(String pageId, Chapter chapter, Color light, Map<String, dynamic> data, Color color) {
     Page page = getPageWithId(chapter, pageId);
     String dropdownValue = getPrestigeLevelWithPageId(pageId, data);
 
@@ -177,7 +180,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     );
   }
 
-  Widget foundableRow(String foundableId, Page page, DocumentSnapshot data, String dropdownValue, Color color) {
+  Widget foundableRow(String foundableId, Page page, Map<String, dynamic> data, String dropdownValue, Color color) {
     Foundable foundable = getFoundableWithId(page, foundableId);
     String text = "";
     int currentCount = data[foundableId]['count'];
@@ -305,5 +308,4 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   Future _scrollToIndex(int index) async {
     await controller.scrollToIndex(index, preferPosition: AutoScrollPosition.begin, duration: Duration(seconds: 1));
   }
-
 }

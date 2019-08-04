@@ -77,14 +77,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final FirebaseAnalyticsObserver observer;
   String _userId = "";
-  bool _isRegistryLoading = false;
-  bool _isUserLoading = false;
+  bool _isUserAnonymous;
+  bool _isRegistryLoading;
+  bool _isUserLoading;
 
   Registry _registry;
 
   @override
   void initState() {
     super.initState();
+    _isRegistryLoading = true;
+    _isUserLoading = true;
 
     FirebaseAuth.instance.currentUser().then((user) {
       _manageFirebaseUser(user);
@@ -132,6 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (user != null) {
       setState(() {
         _userId = user.uid;
+        _isUserAnonymous = user.isAnonymous;
         _downloadRegistryData();
       });
     } else {
@@ -144,7 +148,6 @@ class _MyHomePageState extends State<MyHomePage> {
   _downloadRegistryData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    _isRegistryLoading = true;
     var registryString = await rootBundle.loadString('json/registry.json');
     await prefs.setString('registry', registryString);
     setState(() {
@@ -153,39 +156,42 @@ class _MyHomePageState extends State<MyHomePage> {
       _isRegistryLoading = false;
     });
 
-    _initUserData(_userId);
+    _initUserData(_userId, prefs);
   }
 
-  _initUserData(String userId) {
-    // check if not anonymous
-    Firestore.instance.collection('userData').document(userId).get().then((snapshot) async {
-      var registryIds = getAllFoundablesIds(_registry);
+  _initUserData(String userId, SharedPreferences prefs) {
+    var registryIds = getAllFoundablesIds(_registry);
 
-      if (!snapshot.exists) {
-        _addUserData(registryIds, userId);
-      } else {
-        // if user exists & new version, check for new foundables
-        var userIds = List<String>();
-        var toAddIds = List<String>();
-        snapshot.data.forEach((id, value) {
-          userIds.add(id);
-        });
-
-        registryIds.forEach((registryId) {
-          if (!userIds.contains(registryId)) {
-            toAddIds.add(registryId);
-          }
-        });
-
-        if (toAddIds.isNotEmpty) {
-          _addUserData(toAddIds, userId);
+    if (!_isUserAnonymous) {
+      Firestore.instance.collection('userData').document(userId).get().then((snapshot) async {
+        if (!snapshot.exists) {
+          _addUserData(registryIds, userId);
         } else {
-          setState(() {
-            _isUserLoading = false;
-          });
+          // don't do it because too many queries :o
+          // AND useless (for now)
+          // TODO figure out how to do it later
+          // TODO manage registry update -> fail to show user data for local registry -> add new data (show message?)
+          // _checkAndAddNewUserKeys(snapshot, registryIds, userId);
+          _isUserLoading = false;
         }
-      }
-    });
+      });
+    } else {
+      Firestore.instance.collection('userData').document(userId).get().then((snapshot) async {
+        if (!snapshot.exists) {
+          var userDataString = prefs.getString('userData');
+          if (userDataString == null) {
+            _initAnonymousData(registryIds, prefs);
+          } else {
+            setState(() {
+              _isUserLoading = false;
+            });
+          }
+        } else {
+          _migrateAnonymous();
+        }
+      });
+//      _isUserLoading = false;
+    }
   }
 
   _addUserData(List<String> ids, String userId) {
@@ -199,6 +205,43 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         _isUserLoading = false;
       });
+    });
+  }
+
+  _checkAndAddNewUserKeys(DocumentSnapshot snapshot, List<String> registryIds, String userId) {
+    var userIds = List<String>();
+    var toAddIds = List<String>();
+    snapshot.data.forEach((id, value) {
+      userIds.add(id);
+    });
+
+    registryIds.forEach((registryId) {
+      if (!userIds.contains(registryId)) {
+        toAddIds.add(registryId);
+      }
+    });
+
+    if (toAddIds.isNotEmpty) {
+      _addUserData(toAddIds, userId);
+    } else {
+      setState(() {
+        _isUserLoading = false;
+      });
+    }
+  }
+
+  _migrateAnonymous() {
+    // TODO temp code -> delete when all anonymous were migrated
+  }
+
+  _initAnonymousData(List<String> ids, SharedPreferences prefs) async {
+    Map<String, dynamic> map = Map();
+    for (var id in ids) {
+      map[id] = {'count': 0, 'level': 1};
+    }
+    await prefs.setString('userData', jsonEncode(UserData(map)));
+    setState(() {
+      _isUserLoading = false;
     });
   }
 }

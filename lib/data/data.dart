@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:registry_helper_for_wu/pages/helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../bottom_bar_nav.dart';
 
@@ -179,8 +182,8 @@ List<String> getAllFoundablesIds(Registry registry) {
   return ids;
 }
 
-String getPrestigeLevelWithPageId(String pageId, DocumentSnapshot data) {
-  switch (data.data["${pageId}_1"]["level"]) {
+String getPrestigeLevelWithPageId(String pageId, Map<String, dynamic> data) {
+  switch (data["${pageId}_1"]["level"]) {
     case 1:
       return prestigeValues[0];
     case 2:
@@ -272,7 +275,7 @@ Icon getIconWithFoundable(Foundable foundable, double size) {
   return Icon(id, color: getColorWithFoundable(foundable), size: size,);
 }
 
-MissingTraces getMissingTracesForChapter(Chapter chapter, DocumentSnapshot snapshot) {
+MissingTraces getMissingTracesForChapter(Chapter chapter, Map<String, dynamic> data) {
   var low = 0;
   var medium = 0;
   var high = 0;
@@ -282,9 +285,9 @@ MissingTraces getMissingTracesForChapter(Chapter chapter, DocumentSnapshot snaps
 
   chapter.pages.forEach((page) {
     page.foundables.forEach((foundable) {
-      var level = snapshot[foundable.id]["level"];
+      var level = data[foundable.id]["level"];
       var total = getRequirementWithLevel(foundable, level);
-      var returned = snapshot[foundable.id]["count"];
+      var returned = data[foundable.id]["count"];
       var remainder = total - returned;
 
       if (foundable.howToCatch == "wc") {
@@ -314,16 +317,16 @@ MissingTraces getMissingTracesForChapter(Chapter chapter, DocumentSnapshot snaps
   return MissingTraces(low, medium, high, severe, emergency, challenges);
 }
 
-List<AlmostCompletePage> getPagesWithOneOreTwoMissing(Chapter chapter, DocumentSnapshot snapshot) {
+List<AlmostCompletePage> getPagesWithOneOreTwoMissing(Chapter chapter, Map<String, dynamic> data) {
   List<AlmostCompletePage> almostCompletePages = List();
 
   chapter.pages.forEach((page) {
     List<IncompleteFoundable> incompleteFoundables = List();
 
     page.foundables.forEach((foundable) {
-      var level = snapshot[foundable.id]["level"];
+      var level = data[foundable.id]["level"];
       var total = getRequirementWithLevel(foundable, level);
-      var returned = snapshot[foundable.id]["count"];
+      var returned = data[foundable.id]["count"];
       var remainder = total - returned;
       if (remainder > 0) {
         incompleteFoundables.add(IncompleteFoundable(chapter.id, foundable, remainder));
@@ -359,4 +362,36 @@ class IncompleteFoundable {
   final int remainingFragments;
   
   IncompleteFoundable(this.chapterId, this.foundable, this.remainingFragments);
+}
+
+// ---------- USER DATA
+
+class UserData {
+  final Map<String, dynamic> fragmentDataList;
+
+  UserData(this.fragmentDataList);
+
+  factory UserData.fromJson(Map<String, dynamic> json) {
+    Map<String, dynamic> map = Map();
+    var jsonData = json['fragmentDataList'] as Map<String, dynamic>;
+    jsonData.forEach((id, data) {
+      map[id] = data;
+    });
+
+    return UserData(
+      map,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'fragmentDataList': fragmentDataList,
+  };
+}
+
+// TODO move this elsewhere?
+Future<UserData> getUserDataFromPrefs() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var userDataString = prefs.getString('userData');
+  Map map = jsonDecode(userDataString);
+  return UserData.fromJson(map);
 }
