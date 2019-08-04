@@ -78,16 +78,14 @@ class _MyHomePageState extends State<MyHomePage> {
   final FirebaseAnalyticsObserver observer;
   String _userId = "";
   bool _isUserAnonymous;
-  bool _isRegistryLoading;
-  bool _isUserLoading;
+  bool _isRegistryLoading = false;
+  bool _isUserDataLoading = false;
 
   Registry _registry;
 
   @override
   void initState() {
     super.initState();
-    _isRegistryLoading = true;
-    _isUserLoading = true;
 
     FirebaseAuth.instance.currentUser().then((user) {
       _manageFirebaseUser(user);
@@ -103,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       body: Builder(builder: (BuildContext context) {
-        if (_isRegistryLoading || _isUserLoading) {
+        if (_isRegistryLoading || _isUserDataLoading) {
           return Center(
             child: CircularProgressIndicator(
               backgroundColor: Colors.white,
@@ -147,6 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _downloadRegistryData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() { _isRegistryLoading = true; });
 
     var registryString = await rootBundle.loadString('json/registry.json');
     await prefs.setString('registry', registryString);
@@ -160,6 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _initUserData(String userId, SharedPreferences prefs) {
+    setState(() { _isUserDataLoading = true; });
     var registryIds = getAllFoundablesIds(_registry);
 
     if (!_isUserAnonymous) {
@@ -172,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // TODO figure out how to do it later
           // TODO manage registry update -> fail to show user data for local registry -> add new data (show message?)
           // _checkAndAddNewUserKeys(snapshot, registryIds, userId);
-          _isUserLoading = false;
+          setState(() { _isUserDataLoading = false; });
         }
       });
     } else {
@@ -180,14 +180,12 @@ class _MyHomePageState extends State<MyHomePage> {
         if (!snapshot.exists) {
           var userDataString = prefs.getString('userData');
           if (userDataString == null) {
-            _initAnonymousData(registryIds, prefs);
+            _initAnonymousData(registryIds);
           } else {
-            setState(() {
-              _isUserLoading = false;
-            });
+            setState(() { _isUserDataLoading = false; });
           }
         } else {
-          _migrateAnonymous(prefs, snapshot.data, userId);
+          _migrateAnonymous(snapshot.data, userId);
         }
       });
 //      _isUserLoading = false;
@@ -202,9 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     Firestore.instance.collection('userData').document(userId).setData(map, merge: true).then((_) {
-      setState(() {
-        _isUserLoading = false;
-      });
+      setState(() { _isUserDataLoading = false; });
     });
   }
 
@@ -225,28 +221,27 @@ class _MyHomePageState extends State<MyHomePage> {
       _addUserData(toAddIds, userId);
     } else {
       setState(() {
-        _isUserLoading = false;
+        _isUserDataLoading = false;
       });
     }
   }
 
-  _migrateAnonymous(SharedPreferences prefs, Map<String, dynamic> data, String userId) async {
+  _migrateAnonymous(Map<String, dynamic> data, String userId) async {
     // TODO temp code -> delete when all anonymous were migrated
-    await prefs.setString('userData', jsonEncode(UserData(data)));
-    Firestore.instance.collection('userData').document(userId).delete();
-    setState(() {
-      _isUserLoading = false;
+    saveUserDataToPrefs(UserData(data)).then((value) {
+      Firestore.instance.collection('userData').document(userId).delete();
+      setState(() { _isUserDataLoading = false; });
     });
   }
 
-  _initAnonymousData(List<String> ids, SharedPreferences prefs) async {
+  _initAnonymousData(List<String> ids) async {
     Map<String, dynamic> map = Map();
     for (var id in ids) {
       map[id] = {'count': 0, 'level': 1};
     }
-    await prefs.setString('userData', jsonEncode(UserData(map)));
-    setState(() {
-      _isUserLoading = false;
+
+    saveUserDataToPrefs(UserData(map)).then((value) {
+      setState(() { _isUserDataLoading = false; });
     });
   }
 }

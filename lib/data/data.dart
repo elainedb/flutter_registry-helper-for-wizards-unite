@@ -395,3 +395,8 @@ Future<UserData> getUserDataFromPrefs() async {
   Map map = jsonDecode(userDataString);
   return UserData.fromJson(map);
 }
+
+Future<void> saveUserDataToPrefs(UserData userData) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('userData', jsonEncode(userData));
+}
