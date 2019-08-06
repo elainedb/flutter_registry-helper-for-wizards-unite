@@ -736,7 +736,7 @@
               "fragmentRequirementStandard":15,
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
-              "fragmentRequirementGold":null,
+              "fragmentRequirementGold":25,
               "howToCatch":"wc",
               "threatLevel":"e"
             }
@@ -1644,7 +1644,7 @@
               "fragmentRequirementStandard":1,
               "fragmentRequirementBronze":10,
               "fragmentRequirementSilver":30,
-              "fragmentRequirementGold":null,
+              "fragmentRequirementGold":50,
               "howToCatch":"w",
               "threatLevel":"l"
             }
