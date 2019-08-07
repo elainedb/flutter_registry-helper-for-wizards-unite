@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:registry_helper_for_wu/data/data.dart';
@@ -9,15 +10,17 @@ import '../main.dart';
 
 class MyRegistryPage extends StatefulWidget {
   final Registry _registry;
-  MyRegistryPage(this._registry);
+  final FirebaseAnalytics _analytics;
+  MyRegistryPage(this._registry, this._analytics);
 
   @override
-  State<StatefulWidget> createState() => MyRegistryPageState(_registry);
+  State<StatefulWidget> createState() => MyRegistryPageState(_registry, _analytics);
 }
 
 class MyRegistryPageState extends State<MyRegistryPage> {
   final Registry _registry;
-  MyRegistryPageState(this._registry);
+  final FirebaseAnalytics _analytics;
+  MyRegistryPageState(this._registry, this._analytics);
 
   String _userId;
   AutoScrollController controller;
@@ -202,6 +205,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
 
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
+        _sendNewValueEvent();
         _submit(_userId, foundable, text, intRequirement);
       }
     });
@@ -228,7 +232,10 @@ class MyRegistryPageState extends State<MyRegistryPage> {
               "+",
               style: TextStyle(color: Colors.white),
             ),
-            onPressed: () => _submit(_userId, foundable, (currentCount + 1).toString(), intRequirement),
+            onPressed: () {
+              _sendPlusEvent();
+              _submit(_userId, foundable, (currentCount + 1).toString(), intRequirement);
+            },
           ),
         ),
         Container(
@@ -241,7 +248,10 @@ class MyRegistryPageState extends State<MyRegistryPage> {
           width: 36,
           child: TextField(
             controller: TextEditingController(text: currentCount.toString()),
-            onSubmitted: (newText) => {_submit(_userId, foundable, newText, intRequirement)},
+            onSubmitted: (newText) {
+              _sendNewValueEvent();
+              _submit(_userId, foundable, newText, intRequirement);
+            },
             onChanged: (newText) => text = newText,
             focusNode: _focusNode,
             keyboardType: TextInputType.number,
@@ -254,7 +264,10 @@ class MyRegistryPageState extends State<MyRegistryPage> {
       ]);
     } else {
       widgets.add(GestureDetector(
-        onTap: () => _reset(_userId, foundable, intRequirement),
+        onTap: () {
+          _sendResetEvent();
+          _reset(_userId, foundable, intRequirement);
+        },
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -302,6 +315,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
               FlatButton(
                 child: Text("Yes"),
                 onPressed: () {
+                  _sendResetYes();
                   _submit(userId, foundable, "0", requirement);
                   Navigator.of(context).pop();
                 },
@@ -309,6 +323,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
               FlatButton(
                 child: Text("No"),
                 onPressed: () {
+                  _sendResetNo();
                   Navigator.of(context).pop();
                 },
               ),
@@ -318,6 +333,52 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   }
 
   Future _scrollToIndex(int index) async {
+    _sendScrollToEvent(index);
     await controller.scrollToIndex(index, preferPosition: AutoScrollPosition.begin, duration: Duration(seconds: 1));
+  }
+
+  _sendPlusEvent() async {
+    await _analytics.logEvent(
+      name: 'click_plus_one_fragment',
+    );
+  }
+
+  _sendNewValueEvent() async {
+    await _analytics.logEvent(
+      name: 'submitted_new_fragment_value',
+    );
+  }
+
+  _sendResetEvent() async {
+    await _analytics.logEvent(
+      name: 'click_reset',
+    );
+  }
+
+  _sendResetYes() async {
+    await _analytics.logEvent(
+      name: 'reset',
+      parameters: <String, dynamic>{
+        'value': "yes"
+      },
+    );
+  }
+
+  _sendResetNo() async {
+    await _analytics.logEvent(
+      name: 'reset',
+      parameters: <String, dynamic>{
+        'value': "no"
+      },
+    );
+  }
+
+  _sendScrollToEvent(int value) async {
+    await _analytics.logEvent(
+      name: 'scroll_to',
+      parameters: <String, dynamic>{
+        'value': value
+      },
+    );
   }
 }
