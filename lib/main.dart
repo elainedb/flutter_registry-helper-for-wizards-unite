@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Registry Helper for Wizards Unite',
       theme: ThemeData(primarySwatch: backgroundMaterialColor),
-      home: MyHomePage(title: 'Registry Helper for Wizards Unite', observer: observer),
+      home: MyHomePage(title: 'Registry Helper for Wizards Unite', observer: observer, analytics: analytics),
       navigatorObservers: <NavigatorObserver>[observer],
 //      debugShowCheckedModeBanner: false,
     );
@@ -63,19 +63,21 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title, this.observer}) : super(key: key);
+  MyHomePage({Key key, this.title, this.observer, this.analytics}) : super(key: key);
 
   final String title;
-  final NavigatorObserver observer;
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState(observer);
+  _MyHomePageState createState() => _MyHomePageState(observer, analytics);
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  _MyHomePageState(this.observer);
+  _MyHomePageState(this.observer, this.analytics);
 
   final FirebaseAnalyticsObserver observer;
+  final FirebaseAnalytics analytics;
   String _userId = "";
   bool _isUserAnonymous;
   bool _isRegistryLoading = false;
@@ -115,9 +117,12 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text("Loading..."),
             );
           case "null":
+            observer.analytics.setCurrentScreen(
+              screenName:  "SignInPage",
+            );
             return SignInWidget();
         }
-        return BottomBarNavWidget(_registry, observer);
+        return BottomBarNavWidget(_registry, observer, analytics);
       }),
       backgroundColor: backgroundMaterialColor,
     );

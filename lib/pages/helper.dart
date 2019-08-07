@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:registry_helper_for_wu/data/data.dart';
@@ -7,22 +9,27 @@ import '../main.dart';
 class HelperPage extends StatefulWidget {
   final Registry _registry;
   String _initialSortValue;
-  HelperPage(this._registry, this._initialSortValue);
+  final FirebaseAnalyticsObserver _observer;
+  final FirebaseAnalytics _analytics;
+  HelperPage(this._registry, this._initialSortValue, this._observer, this._analytics);
 
   @override
-  State<StatefulWidget> createState() => HelperPageState(_registry, _initialSortValue);
+  State<StatefulWidget> createState() => HelperPageState(_registry, _initialSortValue, _observer, _analytics);
 }
 
-class HelperPageState extends State<HelperPage> {
+class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMixin {
   final Registry _registry;
   final String _initialSortValue;
-  HelperPageState(this._registry, this._initialSortValue);
+  final FirebaseAnalyticsObserver _observer;
+  final FirebaseAnalytics _analytics;
+  HelperPageState(this._registry, this._initialSortValue, this._observer, this._analytics);
 
   String _dropdownValue;
   String _userId;
   int _initialIndex = 0;
   bool _isUserAnonymous;
   UserData _userData;
+  TabController _controller;
 
   @override
   void initState() {
@@ -44,6 +51,9 @@ class HelperPageState extends State<HelperPage> {
     if (_initialSortValue != null) {
       _dropdownValue = _initialSortValue;
     }
+
+    _controller = TabController(vsync: this, length: 2);
+    _controller.addListener(_handleTabSelection);
   }
 
   @override
@@ -81,6 +91,7 @@ class HelperPageState extends State<HelperPage> {
         appBar: AppBar(
           flexibleSpace: SafeArea(
             child: TabBar(
+              controller: _controller,
               labelColor: Colors.amber,
               indicatorColor: Colors.amber,
               tabs: [
@@ -91,6 +102,7 @@ class HelperPageState extends State<HelperPage> {
           ),
         ),
         body: TabBarView(
+          controller: _controller,
           children: [
             _generalHelper(data),
             _insights(data),
@@ -128,6 +140,7 @@ class HelperPageState extends State<HelperPage> {
               onChanged: (newValue) {
                 setState(() {
                   _dropdownValue = newValue;
+                  _sendAnalyticsEvents();
                 });
               },
               items: sortValues.map<DropdownMenuItem<String>>((value) {
@@ -184,6 +197,15 @@ class HelperPageState extends State<HelperPage> {
 
     return ListView(
       children: widgets,
+    );
+  }
+
+  _sendAnalyticsEvents() async {
+    await _analytics.logEvent(
+      name: 'missing_foundables_dropdown_value',
+      parameters: <String, dynamic>{
+        'value': _dropdownValue
+      },
     );
   }
 
@@ -443,6 +465,25 @@ class HelperPageState extends State<HelperPage> {
               textAlign: TextAlign.center,
             )),
       ],
+    );
+  }
+
+  _handleTabSelection() {
+    setState(() {
+      String pageName = "";
+      switch(_controller.index) {
+        case 0:
+          pageName = "HelperPage_MissingFoundables";
+          break;
+        case 1:
+          pageName = "HelperPage_Insights";
+          break;
+      }
+
+      _observer.analytics.setCurrentScreen(
+        screenName: pageName,
+      );
+    }
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -41,20 +42,21 @@ final oLight = const Color(0xFFA77CE8); final oLightStringHex = '#A77CE8';
 class BottomBarNavWidget extends StatefulWidget {
   final Registry _firebaseRegistry;
   final FirebaseAnalyticsObserver _observer;
-  BottomBarNavWidget(this._firebaseRegistry, this._observer);
+  final FirebaseAnalytics _analytics;
+  BottomBarNavWidget(this._firebaseRegistry, this._observer, this._analytics);
 
   @override
-  State<StatefulWidget> createState() => BottomBarNavWidgetState(_firebaseRegistry, _observer);
+  State<StatefulWidget> createState() => BottomBarNavWidgetState(_firebaseRegistry, _observer, _analytics);
 }
 
 class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   final Registry _jsonRegistry;
   final FirebaseAnalyticsObserver _observer;
+  final FirebaseAnalytics _analytics;
+  BottomBarNavWidgetState(this._jsonRegistry, this._observer, this._analytics);
 
   String _shortcut;
   String _sortValue;
-  BottomBarNavWidgetState(this._jsonRegistry, this._observer);
-
   String _userId = "";
   Registry _registry;
   List<Widget> _widgetOptions = <Widget>[
@@ -183,8 +185,23 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      String pageName = "";
+      switch(index) {
+        case 0:
+          pageName = "HelperPage_MissingFoundables";
+          break;
+        case 1:
+          pageName = "MyRegistryPage";
+          break;
+        case 2:
+          pageName = "ChartsPage";
+          break;
+        case 3:
+          pageName = "SettingsPage";
+          break;
+      }
       _observer.analytics.setCurrentScreen(
-        screenName: 'Tab$_selectedIndex',
+        screenName: pageName,
       );
     });
   }
@@ -192,7 +209,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   _updateWidgets() {
     setState(() {
       _widgetOptions = <Widget>[
-        HelperPage(_registry, _sortValue),
+        HelperPage(_registry, _sortValue, _observer, _analytics),
         MyRegistryPage(_registry),
         ChartsPage(_registry),
         SettingsPage(),
