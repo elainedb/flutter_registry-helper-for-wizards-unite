@@ -1299,6 +1299,62 @@
               "threatLevel":"e"
             }
           ]
+        },
+        {
+          "id": "hqs",
+          "name": "Hogwarts Quidditch Stands",
+          "foundables": [
+            {
+              "id": "hqs_1",
+              "name": "Quidditch Fan Hermione",
+              "fragmentRequirementStandard": 11,
+              "fragmentRequirementBronze": 10,
+              "fragmentRequirementSilver": 30,
+              "fragmentRequirementGold": 50,
+              "howToCatch": "w",
+              "threatLevel": "s"
+            },
+            {
+              "id": "hqs_2",
+              "name": "Quidditch Fan Neville",
+              "fragmentRequirementStandard": 8,
+              "fragmentRequirementBronze": 24,
+              "fragmentRequirementSilver": 36,
+              "fragmentRequirementGold": 43,
+              "howToCatch": "w",
+              "threatLevel": "h"
+            },
+            {
+              "id": "hqs_3",
+              "name": "Quidditch Fan Seamus",
+              "fragmentRequirementStandard": 4,
+              "fragmentRequirementBronze": 12,
+              "fragmentRequirementSilver": 24,
+              "fragmentRequirementGold": 36,
+              "howToCatch": "w",
+              "threatLevel": "m"
+            },
+            {
+              "id": "hqs_4",
+              "name": "Quidditch Fan Luna",
+              "fragmentRequirementStandard": 8,
+              "fragmentRequirementBronze": 24,
+              "fragmentRequirementSilver": 36,
+              "fragmentRequirementGold": 43,
+              "howToCatch": "w",
+              "threatLevel": "h"
+            },
+            {
+              "id": "hqs_5",
+              "name": "Gryffindor Quidditch Banner",
+              "fragmentRequirementStandard": 15,
+              "fragmentRequirementBronze": 14,
+              "fragmentRequirementSilver": 21,
+              "fragmentRequirementGold": 25,
+              "howToCatch": "wc",
+              "threatLevel": "l"
+            }
+          ]
         }
       ]
     },

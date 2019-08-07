@@ -32,7 +32,7 @@ final Color backgroundColorBottomBar = Color(0xFFf4c862);
 final MaterialColor backgroundMaterialColor = MaterialColor(backgroundColorInt, backgroundColorMap);
 
 void main() {
-  Crashlytics.instance.enableInDevMode = true;
+  Crashlytics.instance.enableInDevMode = false;
 
   FlutterError.onError = (FlutterErrorDetails details) {
     Crashlytics.instance.onError(details);
