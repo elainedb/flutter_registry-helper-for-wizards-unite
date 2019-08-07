@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -7,11 +8,17 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 class SettingsPage extends StatefulWidget {
+  final FirebaseAnalytics _analytics;
+  SettingsPage(this._analytics);
+
   @override
-  State<StatefulWidget> createState() => SettingsPageState();
+  State<StatefulWidget> createState() => SettingsPageState(_analytics);
 }
 
 class SettingsPageState extends State<SettingsPage> {
+  final FirebaseAnalytics _analytics;
+  SettingsPageState(this._analytics);
+
   String _userEmail = "";
 
   @override
@@ -56,7 +63,14 @@ class SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _firebaseSignOut() async {
+    _sendLogoutEvent();
     await _auth.signOut();
     await _googleSignIn.signOut();
+  }
+
+  _sendLogoutEvent() async {
+    await _analytics.logEvent(
+      name: 'click_logout',
+    );
   }
 }

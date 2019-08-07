@@ -212,7 +212,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
         HelperPage(_registry, _sortValue, _observer, _analytics),
         MyRegistryPage(_registry, _analytics),
         ChartsPage(_registry, _analytics),
-        SettingsPage(),
+        SettingsPage(_analytics),
       ];
     });
   }

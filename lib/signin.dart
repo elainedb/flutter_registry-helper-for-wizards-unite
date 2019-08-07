@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -6,11 +7,17 @@ import 'package:registry_helper_for_wu/widgets/version.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class SignInWidget extends StatefulWidget {
+  final FirebaseAnalytics _analytics;
+  SignInWidget(this._analytics);
+
   @override
-  State<StatefulWidget> createState() => SignInWidgetState();
+  State<StatefulWidget> createState() => SignInWidgetState(_analytics);
 }
 
 class SignInWidgetState extends State<SignInWidget> {
+  final FirebaseAnalytics _analytics;
+  SignInWidgetState(this._analytics);
+
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (BuildContext context) {
@@ -69,6 +76,7 @@ class SignInWidgetState extends State<SignInWidget> {
   }
 
   void _signInWithGoogle() async {
+    _sendLoginEvent("Google");
     final GoogleSignIn _googleSignIn = GoogleSignIn();
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -80,6 +88,16 @@ class SignInWidgetState extends State<SignInWidget> {
   }
 
   void _signInAnonymous() async {
+    _sendLoginEvent("Anonymous");
     await _auth.signInAnonymously();
+  }
+
+  _sendLoginEvent(String type) async {
+    await _analytics.logEvent(
+      name: 'click_login',
+      parameters: <String, dynamic>{
+        'value': type
+      },
+    );
   }
 }

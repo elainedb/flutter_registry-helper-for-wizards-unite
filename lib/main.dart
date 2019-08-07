@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
             observer.analytics.setCurrentScreen(
               screenName:  "SignInPage",
             );
-            return SignInWidget();
+            return SignInWidget(analytics);
         }
         return BottomBarNavWidget(_registry, observer, analytics);
       }),
@@ -139,6 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         _userId = user.uid;
         _isUserAnonymous = user.isAnonymous;
+        _setUserId();
         _downloadRegistryData();
       });
     } else {
@@ -282,5 +283,9 @@ class _MyHomePageState extends State<MyHomePage> {
     saveUserDataToPrefs(UserData(map)).then((value) {
       setState(() { _isUserDataLoading = false; });
     });
+  }
+
+  _setUserId() async {
+    await analytics.setUserId(_userId);
   }
 }
