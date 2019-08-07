@@ -165,13 +165,9 @@ class _MyHomePageState extends State<MyHomePage> {
     if (!_isUserAnonymous) {
       Firestore.instance.collection('userData').document(userId).get().then((snapshot) async {
         if (!snapshot.exists) {
-          _addUserData(registryIds, userId);
+          _addUserDataConnected(registryIds, userId);
         } else {
-          // don't do it because too many queries :o
-          // AND useless (for now)
-          // TODO figure out how to do it later
-          // TODO manage registry update -> fail to show user data for local registry -> add new data (show message?)
-          // _checkAndAddNewUserKeys(snapshot, registryIds, userId);
+           _checkAndAddNewUserKeysConnected(snapshot, registryIds, userId);
           setState(() { _isUserDataLoading = false; });
         }
       });
@@ -182,6 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
           if (userDataString == null) {
             _initAnonymousData(registryIds);
           } else {
+            _checkAndAddNewUserKeysAnonymous(userDataString, registryIds);
             setState(() { _isUserDataLoading = false; });
           }
         } else {
@@ -192,19 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  _addUserData(List<String> ids, String userId) {
-    Map<String, dynamic> map = Map();
-
-    for (var id in ids) {
-      map[id] = {'count': 0, 'level': 1};
-    }
-
-    Firestore.instance.collection('userData').document(userId).setData(map, merge: true).then((_) {
-      setState(() { _isUserDataLoading = false; });
-    });
-  }
-
-  _checkAndAddNewUserKeys(DocumentSnapshot snapshot, List<String> registryIds, String userId) {
+  _checkAndAddNewUserKeysConnected(DocumentSnapshot snapshot, List<String> registryIds, String userId) {
     var userIds = List<String>();
     var toAddIds = List<String>();
     snapshot.data.forEach((id, value) {
@@ -218,7 +203,45 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     if (toAddIds.isNotEmpty) {
-      _addUserData(toAddIds, userId);
+      _addUserDataConnected(toAddIds, userId);
+    } else {
+      setState(() {
+        _isUserDataLoading = false;
+      });
+    }
+  }
+
+  _addUserDataConnected(List<String> ids, String userId) {
+    Map<String, dynamic> map = Map();
+
+    for (var id in ids) {
+      map[id] = {'count': 0, 'level': 1};
+    }
+
+    Firestore.instance.collection('userData').document(userId).setData(map, merge: true).then((_) {
+      setState(() { _isUserDataLoading = false; });
+    });
+  }
+
+  _checkAndAddNewUserKeysAnonymous(String userDataString, List<String> registryIds) {
+    var userIds = List<String>();
+    var toAddIds = List<String>();
+
+    Map map = jsonDecode(userDataString);
+    UserData oldUserData = UserData.fromJson(map);
+
+    oldUserData.fragmentDataList.forEach((id, value) {
+      userIds.add(id);
+    });
+
+    registryIds.forEach((registryId) {
+      if (!userIds.contains(registryId)) {
+        toAddIds.add(registryId);
+      }
+    });
+
+    if (toAddIds.isNotEmpty) {
+      _addUserDataAnonymous(toAddIds, oldUserData);
     } else {
       setState(() {
         _isUserDataLoading = false;
@@ -237,6 +260,17 @@ class _MyHomePageState extends State<MyHomePage> {
   _initAnonymousData(List<String> ids) async {
     Map<String, dynamic> map = Map();
     for (var id in ids) {
+      map[id] = {'count': 0, 'level': 1};
+    }
+
+    saveUserDataToPrefs(UserData(map)).then((value) {
+      setState(() { _isUserDataLoading = false; });
+    });
+  }
+  
+  _addUserDataAnonymous(List<String> newIds, UserData oldUserData) {
+    Map<String, dynamic> map = oldUserData.fragmentDataList;
+    for (var id in newIds) {
       map[id] = {'count': 0, 'level': 1};
     }
 
