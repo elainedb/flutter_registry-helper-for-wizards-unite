@@ -134,6 +134,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
           Theme(
             data: ThemeData(
               canvasColor: backgroundColor,
+              fontFamily: 'Raleway',
             ),
             child: DropdownButton<String>(
               value: _dropdownValue,
@@ -271,12 +272,12 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
         children: <Widget>[
           Container(
             width: 50,
-            child: Image.asset("images/traces_transparent/${chapterId}.png"),
+            child: Image.asset("assets/images/traces_transparent/${chapterId}.png"),
           ),
           Container(
             width: 50,
             height: 50,
-            child: Image.asset("images/foundables/${foundable.foundable.id}.png"),
+            child: Image.asset("assets/images/foundables/${foundable.foundable.id}.png"),
           ),
           Container(
             width: 50,
@@ -376,7 +377,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
           children: <Widget>[
             Container(
               width: 50,
-              child: Image.asset("images/traces_transparent/${zeroTracesLeft.chapterId}.png"),
+              child: Image.asset("assets/images/traces_transparent/${zeroTracesLeft.chapterId}.png"),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(36, 0, 0, 0),
@@ -400,7 +401,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
           ),
           Container(
             width: 50,
-            child: Image.asset("images/traces_transparent/${zeroTracesLeft.chapterId}.png"),
+            child: Image.asset("assets/images/traces_transparent/${zeroTracesLeft.chapterId}.png"),
           ),
         ],
       );
@@ -416,7 +417,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
           children: <Widget>[
             Container(
               width: 75,
-              child: Image.asset("images/traces_transparent/${chapterForDisplay.id}.png"),
+              child: Image.asset("assets/images/traces_transparent/${chapterForDisplay.id}.png"),
             ),
             Expanded(
               child: Row(

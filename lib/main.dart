@@ -54,7 +54,10 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Registry Helper for Wizards Unite',
-      theme: ThemeData(primarySwatch: backgroundMaterialColor),
+      theme: ThemeData(
+          primarySwatch: backgroundMaterialColor,
+          fontFamily: 'Raleway',
+      ),
       home: MyHomePage(title: 'Registry Helper for Wizards Unite', observer: observer, analytics: analytics),
       navigatorObservers: <NavigatorObserver>[observer],
 //      debugShowCheckedModeBanner: false,
@@ -153,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() { _isRegistryLoading = true; });
 
-    var registryString = await rootBundle.loadString('json/registry.json');
+    var registryString = await rootBundle.loadString('assets/json/registry.json');
     await prefs.setString('registry', registryString);
     setState(() {
       Map registryMap = jsonDecode(registryString);

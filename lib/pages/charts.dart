@@ -95,7 +95,7 @@ class ChartsPageState extends State<ChartsPage> {
                           Container(
                             width: 50,
                             height: 50,
-                            child: Image.asset("images/foundables/${_selectedFoundableData.id}.png"),
+                            child: Image.asset("assets/images/foundables/${_selectedFoundableData.id}.png"),
                           ),
                           Text(
                             "${_selectedFoundableData.name}",
