@@ -213,11 +213,12 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
   Widget _insights(Map<String, dynamic> data) {
     List<Widget> widgets = List();
 
-    if (_getPagesWithOneOreTwoMissingWidgets(data) != null) {
-      widgets.addAll(_getPagesWithOneOreTwoMissingWidgets(data));
-    }
     if (_getNoClickWidgets(data) != null) {
       widgets.addAll(_getNoClickWidgets(data));
+    }
+
+    if (_getPagesWithOneOreTwoMissingWidgets(data) != null) {
+      widgets.addAll(_getPagesWithOneOreTwoMissingWidgets(data));
     }
 
     if (_getPagesWithOneOreTwoMissingWidgets(data) == null && _getNoClickWidgets(data) == null) {
