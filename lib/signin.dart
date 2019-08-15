@@ -106,7 +106,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                   child: Column(
                     children: <Widget>[
                       Text(
-                        'In order to backup and synchronize your data accross devices, please sign in.',
+                        'In order to automatically backup your data, please sign in.',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -128,7 +128,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
               ),
               Card(
                 margin: EdgeInsets.all(8.0),
-                color: Colors.black.withAlpha(60),
+                color: Colors.black.withAlpha(100),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(

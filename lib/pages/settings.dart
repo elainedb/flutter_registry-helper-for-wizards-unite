@@ -45,19 +45,58 @@ class SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+    MediaQueryData mediaQueryData = MediaQuery.of(context);
+    double width = mediaQueryData.size.width;
+
+    return Stack(
       children: <Widget>[
-        Text("Logged in as $_userEmail", style: TextStyle(color: Colors.white),),
-        Container(height: 24,),
-        Center(
-          child: RaisedButton(
-            onPressed: () => _firebaseSignOut(),
-            child: Text("Sign Out"),
+        Positioned(
+          child: Image.asset(
+            "assets/images/old_books.png",
+            width: width,
           ),
+          bottom: 0,
         ),
-        Container(height: 24,),
-        Center(child: VersionWidget()),
+        Positioned(
+          child: Container(
+            color: Colors.black.withAlpha(100),
+          ),
+          bottom: 0,
+          top: 0,
+          left: 0,
+          right: 0,
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Logged in as $_userEmail",
+              style: TextStyle(color: Colors.white),
+            ),
+            Container(
+              height: 24,
+            ),
+            Center(
+              child: FloatingActionButton.extended(
+                backgroundColor: Colors.orange.withAlpha(120),
+                onPressed: () async {
+                  _firebaseSignOut();
+                },
+                label: const Text("Sign Out"),
+                icon: Icon(Icons.close),
+              ),
+            ),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Center(child: VersionWidget()),
+            Container(
+              height: 16,
+            ),
+          ],
+        ),
       ],
     );
   }
