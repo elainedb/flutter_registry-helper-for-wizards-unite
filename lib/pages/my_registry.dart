@@ -92,7 +92,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
           ContentTarget(
               align: AlignContent.bottom,
               child: Text(
-                "Input your current foundable fragment count here.",
+                "Input your current fragment count here.",
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
               ))
         ],
@@ -123,7 +123,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
           ContentTarget(
             align: AlignContent.bottom,
             child: Text(
-              "Setup your current prestige level here.",
+              "Set your current prestige level here.",
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
