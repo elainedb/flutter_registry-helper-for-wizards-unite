@@ -181,7 +181,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
           value = missingTraces.challenges;
           break;
       }
-      chapterRowsMap[_chapterRow(chapterForDisplay, missingTraces)] = value;
+      chapterRowsMap[_chapterRow(chapterForDisplay, chapter, missingTraces)] = value;
     });
 
     if (_dropdownValue != 'Default') {
@@ -204,9 +204,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
   _sendAnalyticsEvents() async {
     await _analytics.logEvent(
       name: 'missing_foundables_dropdown_value',
-      parameters: <String, dynamic>{
-        'value': _dropdownValue
-      },
+      parameters: <String, dynamic>{'value': _dropdownValue},
     );
   }
 
@@ -409,30 +407,36 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
     }
   }
 
-  Widget _chapterRow(ChapterForDisplay chapterForDisplay, MissingTraces missingTraces) {
-    return Card(
-      color: chapterForDisplay.lightColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 75,
-              child: Image.asset("assets/images/traces_transparent/${chapterForDisplay.id}.png"),
-            ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  _missingWidget(Colors.black, "${missingTraces.low + missingTraces.medium}", Icons.radio_button_unchecked),
-                  _missingWidget(Colors.yellow, "${missingTraces.high}", Icons.brightness_1),
-                  _missingWidget(Colors.orange, "${missingTraces.severe}", Icons.brightness_1),
-                  _missingWidget(Colors.red, "${missingTraces.emergency}", Icons.brightness_1),
-                  _missingChallegnges("${missingTraces.challenges}"),
-                ],
+  Widget _chapterRow(ChapterForDisplay chapterForDisplay, Chapter chapter, MissingTraces missingTraces) {
+    return GestureDetector(
+      onTap: () => _pushDialog(chapterForDisplay, chapter),
+      child: Card(
+        color: chapterForDisplay.lightColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+          child: Row(
+            children: <Widget>[
+              Container(
+                width: 75,
+                child: Hero(
+                  tag: "${chapterForDisplay.id}",
+                  child: Image.asset("assets/images/traces_transparent/${chapterForDisplay.id}.png"),
+                ),
               ),
-            ),
-          ],
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    _missingWidget(Colors.black, "${missingTraces.low + missingTraces.medium}", Icons.radio_button_unchecked),
+                    _missingWidget(Colors.yellow, "${missingTraces.high}", Icons.brightness_1),
+                    _missingWidget(Colors.orange, "${missingTraces.severe}", Icons.brightness_1),
+                    _missingWidget(Colors.red, "${missingTraces.emergency}", Icons.brightness_1),
+                    _missingChallegnges("${missingTraces.challenges}"),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -473,7 +477,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
   _handleTabSelection() {
     setState(() {
       String pageName = "";
-      switch(_controller.index) {
+      switch (_controller.index) {
         case 0:
           pageName = "HelperPage_MissingFoundables";
           break;
@@ -485,8 +489,100 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
       _observer.analytics.setCurrentScreen(
         screenName: pageName,
       );
-    }
-    );
+    });
+  }
+
+  _pushDialog(ChapterForDisplay chapterForDisplay, Chapter chapter) {
+//    Navigator.push(context, MaterialPageRoute(
+//        fullscreenDialog: true,
+//        builder: (BuildContext context) {
+//          return Scaffold(
+//            appBar: AppBar(
+//              title: Text('Dialog'),
+//            ),
+//            body: Hero(
+//              tag: id,
+//              child: Image(
+//                image: AssetImage("assets/images/traces_transparent/$id.png"),
+//              ),
+//            ),
+//          );
+//        }
+//    ));
+    Navigator.of(context).push(PageRouteBuilder(
+      opaque: false,
+      barrierDismissible: true,
+      pageBuilder: (BuildContext context, _, __) {
+        return Center(
+          child: Stack(
+            alignment: Alignment.topCenter,
+            overflow: Overflow.visible,
+            children: <Widget>[
+              Card(
+                elevation: 5,
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                color: chapterForDisplay.lightColor,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(24.0, 8, 24, 16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Container(
+                        height: 24,
+                      ),
+                      Center(
+                          child: Text(
+                            chapter.name,
+                            style: TextStyle(color: chapterForDisplay.darkColor, fontSize: 16, fontWeight: FontWeight.bold),
+                          )),
+                      Container(
+                        height: 24,
+                      ),
+                      Text(
+                        "Open Street Maps Value/Category:",
+                        style: TextStyle(color: chapterForDisplay.darkColor, fontSize: 14),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                        child: Text(
+                          chapter.osm,
+                          style: TextStyle(color: chapterForDisplay.darkColor, fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        height: 24,
+                      ),
+                      Text(
+                        "Examples:",
+                        style: TextStyle(color: chapterForDisplay.darkColor, fontSize: 14),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                        child: Text(
+                          chapter.examples,
+                          style: TextStyle(color: chapterForDisplay.darkColor, fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: -120,
+                child: Hero(
+                  tag: chapterForDisplay.id,
+                  child: Image(
+                    image: AssetImage("assets/images/traces_transparent/${chapterForDisplay.id}.png"),
+                    width: 160,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    ));
   }
 }
 
