@@ -93,10 +93,6 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                       style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-//                        foreground: Paint()
-//                          ..color = Color(0xffA8CBFD)
-//                          ..strokeWidth = 1
-//                          ..style = PaintingStyle.stroke,
                           shadows: <Shadow>[
                             Shadow(
                               offset: Offset(1.0, 1.0),
