@@ -440,7 +440,7 @@
           "foundables":[
             {
               "id":"ms_1",
-              "name":"Pomona Sprouts",
+              "name":"Pomona Sprout",
               "fragmentRequirementStandard":4,
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
@@ -536,7 +536,7 @@
             },
             {
               "id":"gh_4",
-              "name":"House Hour Glasses",
+              "name":"House Hourglasses",
               "fragmentRequirementStandard":15,
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
@@ -1069,7 +1069,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"w",
+              "howToCatch":"wc",
               "threatLevel":"h"
             },
             {
@@ -1256,7 +1256,7 @@
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
               "howToCatch":"pw",
-              "threatLevel":"m"
+              "threatLevel":"h"
             },
             {
               "id":"tm_2",
@@ -1285,7 +1285,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"w",
+              "howToCatch":"wc",
               "threatLevel":"e"
             },
             {
@@ -1295,7 +1295,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"w",
+              "howToCatch":"wc",
               "threatLevel":"e"
             }
           ]
@@ -1306,7 +1306,7 @@
           "foundables": [
             {
               "id": "hqs_1",
-              "name": "Quidditch Fan Hermione",
+              "name": "Quidditch Fan Hermione Granger",
               "fragmentRequirementStandard": 11,
               "fragmentRequirementBronze": 10,
               "fragmentRequirementSilver": 30,
@@ -1316,7 +1316,7 @@
             },
             {
               "id": "hqs_2",
-              "name": "Quidditch Fan Neville",
+              "name": "Quidditch Fan Neville Longbottom",
               "fragmentRequirementStandard": 8,
               "fragmentRequirementBronze": 24,
               "fragmentRequirementSilver": 36,
@@ -1326,7 +1326,7 @@
             },
             {
               "id": "hqs_3",
-              "name": "Quidditch Fan Seamus",
+              "name": "Quidditch Fan Seamus Finnigan",
               "fragmentRequirementStandard": 4,
               "fragmentRequirementBronze": 12,
               "fragmentRequirementSilver": 24,
@@ -1336,7 +1336,7 @@
             },
             {
               "id": "hqs_4",
-              "name": "Quidditch Fan Luna",
+              "name": "Quidditch Fan Luna Lovegood",
               "fragmentRequirementStandard": 8,
               "fragmentRequirementBronze": 24,
               "fragmentRequirementSilver": 36,
@@ -1497,7 +1497,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"w",
+              "howToCatch":"wc",
               "threatLevel":"e"
             },
             {
@@ -1628,7 +1628,7 @@
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
               "howToCatch":"pw",
-              "threatLevel":"s"
+              "threatLevel":"e"
             },
             {
               "id":"od2_5",
@@ -1666,7 +1666,7 @@
             },
             {
               "id":"rr4_2",
-              "name":"Dirigible Plums",
+              "name":"Dirigible Plum",
               "fragmentRequirementStandard":1,
               "fragmentRequirementBronze":10,
               "fragmentRequirementSilver":30,
@@ -1783,7 +1783,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"w",
+              "howToCatch":"wc",
               "threatLevel":"e"
             },
             {
@@ -1824,7 +1824,7 @@
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
               "howToCatch":"w",
-              "threatLevel":"l"
+              "threatLevel":"m"
             }
           ]
         }
