@@ -36,7 +36,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
       duration: Duration(seconds: 30),
       vsync: this,
     )..repeat(reverse: true);
-}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
 
     if (image != null) {
       scale = height / image.height;
-      tweenBegin = -(image.width * scale)/2;
+      tweenBegin = -(image.width * scale) / 2;
       print("scale = $scale");
       print("height = $height");
       print("image.height = $image.height");
@@ -68,14 +68,17 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                 width: double.infinity,
                 alignment: Alignment.center,),
             ),*/
-            child: image != null ? CustomPaint(
-              size: Size(image.width.roundToDouble(), image.height.roundToDouble()),
-              painter: MyPainter(image, scale),
-            ) : Container(),
+            child: image != null
+                ? CustomPaint(
+                    size: Size(image.width.roundToDouble(), image.height.roundToDouble()),
+                    painter: MyPainter(image, scale),
+                  )
+                : Container(),
             builder: (context, child) {
               return Transform.translate(
                 offset: Offset(animation.value, 0),
-                child: child,);
+                child: child,
+              );
             },
           ),
           Column(
@@ -83,19 +86,39 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Shimmer.fromColors(
-                  baseColor: Colors.black,
-                  highlightColor: Colors.orangeAccent,
-                  period: Duration(seconds: 5),
-                  child: Text(
-                    'Welcome to Registry Helper for Wizards Unite!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold
+                child: Stack(
+                  children: <Widget>[
+                    Text(
+                      'Welcome to Registry Helper for Wizards Unite!',
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+//                        foreground: Paint()
+//                          ..color = Color(0xffA8CBFD)
+//                          ..strokeWidth = 1
+//                          ..style = PaintingStyle.stroke,
+                          shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(1.0, 1.0),
+                              blurRadius: 5.0,
+                              color: Colors.black,
+                            ),
+                          ]),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
+                    Shimmer.fromColors(
+                      baseColor: Colors.white,
+                      highlightColor: Colors.orangeAccent,
+                      period: Duration(seconds: 2),
+                      child: Text(
+                        'Welcome to Registry Helper for Wizards Unite!',
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Card(
@@ -113,7 +136,9 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      Container(height: 16,),
+                      Container(
+                        height: 16,
+                      ),
                       FloatingActionButton.extended(
                         backgroundColor: Colors.orange.withAlpha(120),
                         onPressed: () async {
@@ -141,7 +166,9 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      Container(height: 16,),
+                      Container(
+                        height: 16,
+                      ),
                       FloatingActionButton.extended(
                         backgroundColor: Colors.orange.withAlpha(120),
                         onPressed: () async {
@@ -160,7 +187,9 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Center(child: VersionWidget()),
-              Container(height: 16,),
+              Container(
+                height: 16,
+              ),
             ],
           ),
         ],
@@ -188,9 +217,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
   _sendLoginEvent(String type) async {
     await _analytics.logEvent(
       name: 'click_login',
-      parameters: <String, dynamic>{
-        'value': type
-      },
+      parameters: <String, dynamic>{'value': type},
     );
   }
 
@@ -211,14 +238,13 @@ class MyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     canvas.scale(scale);
-    canvas.drawImage(image, Offset(0,0), Paint());
+    canvas.drawImage(image, Offset(0, 0), Paint());
   }
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return false;
   }
-
 }
 
 Future<ui.Image> load(String asset) async {
