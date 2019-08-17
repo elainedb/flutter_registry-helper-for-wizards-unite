@@ -59,6 +59,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   String _sortValue = "";
   String _userId = "";
   Registry _registry;
+
   List<Widget> _widgetOptions = <Widget>[
     Text('Loading'),
     Text('Loading'),

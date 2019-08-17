@@ -26,6 +26,10 @@ dependencies:
   firebase_analytics: ^4.0.2
   quick_actions: ^0.3.2+2
   shimmer: ^1.0.0
+  tutorial_coach_mark:
+    git:
+      url: https://github.com/Vanethos/tutorial_coach_mark.git
+      ref: TCM_6
 
 dev_dependencies:
   flutter_test:

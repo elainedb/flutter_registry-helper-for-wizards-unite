@@ -7,7 +7,9 @@ import 'package:registry_helper_for_wu/data/data.dart';
 import 'package:registry_helper_for_wu/utils/utils.dart';
 import 'package:registry_helper_for_wu/widgets/chart.dart';
 import 'package:registry_helper_for_wu/bottom_bar_nav.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorial_coach_mark/animated_focus_light.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../main.dart';
 
 class ChartsPage extends StatefulWidget {
@@ -29,9 +31,17 @@ class ChartsPageState extends State<ChartsPage> {
   bool _isUserAnonymous;
   UserData _userData;
 
+  List<TargetFocus> targets = List();
+  GlobalKey globalKey1 = GlobalKey();
+  GlobalKey globalKey2 = GlobalKey();
+  GlobalKey globalKey3 = GlobalKey();
+  bool _tutorialShown;
+
   @override
   void initState() {
     super.initState();
+    initTargets();
+    _getTutorialInfoFromSharedPrefs();
 
     FirebaseAuth.instance.currentUser().then((user) {
       if (user != null) {
@@ -51,6 +61,56 @@ class ChartsPageState extends State<ChartsPage> {
       _sendClickChartEvent();
       _selectedFoundableData = foundable;
     });
+  }
+
+  initTargets() {
+    targets.add(
+      TargetFocus(
+        identify: "target1",
+        keyTarget: globalKey1,
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          ContentTarget(
+              align: AlignContent.top,
+              child: Text(
+                "You can visualize your progress here. Click on a bar in order to see the foundable behind it.",
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              ))
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "target2",
+        keyTarget: globalKey2,
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          ContentTarget(
+            align: AlignContent.bottom,
+            child: Text(
+              "Information about the threat level (color) and how to catch (icon) is shown here.",
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "target3",
+        keyTarget: globalKey3,
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          ContentTarget(
+            align: AlignContent.bottom,
+            child: Text(
+              "Here's the legend for the icons shown below the charts.",
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -125,11 +185,13 @@ class ChartsPageState extends State<ChartsPage> {
   }
 
   Widget _getChartList(Map<String, dynamic> data) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => executeAfterBuild(context));
     return ListView(
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(14.0),
           child: Row(
+            key: globalKey3,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Column(
@@ -188,6 +250,8 @@ class ChartsPageState extends State<ChartsPage> {
     var chapter = getChapterWithId(_registry, chapterId);
     var totalList = List<FoundablesData>();
     var returnedList = List<FoundablesData>();
+    var key;
+    if (chapterId == "cmc") key = globalKey1;
 
     chapter.pages.forEach((page) {
       page.foundables.forEach((foundable) {
@@ -225,6 +289,7 @@ class ChartsPageState extends State<ChartsPage> {
           style: TextStyle(color: Color(hexToInt(light))),
         ),
         Stack(
+          key: key,
           alignment: AlignmentDirectional.bottomCenter,
           children: <Widget>[
             getPageSeparators(chapter),
@@ -241,6 +306,8 @@ class ChartsPageState extends State<ChartsPage> {
 
   Widget getHowToCatchForChapter(Chapter chapter) {
     List<Widget> list = List();
+    var key;
+    if (chapter.id == "cmc") key = globalKey2;
 
     chapter.pages.forEach((page) {
       page.foundables.forEach((foundable) {
@@ -251,6 +318,7 @@ class ChartsPageState extends State<ChartsPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 14),
       child: Row(
+        key: key,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: list,
       ),
@@ -370,6 +438,51 @@ class ChartsPageState extends State<ChartsPage> {
     await _analytics.logEvent(
       name: 'click_dismiss_foundable',
     );
+  }
+
+  void showTutorial() {
+    TutorialCoachMark(
+      context,
+      targets: targets,
+      colorShadow: Colors.brown,
+      textSkip: "SKIP",
+      paddingFocus: 0,
+      opacityShadow: 0.8,
+      finish: () {
+        print("finish");
+      },
+      clickTarget: (target) {
+        print(target);
+      },
+      clickSkip: () {
+        print("skip");
+      },
+    )..show();
+  }
+
+  executeAfterBuild(_) {
+    Future.delayed(Duration(milliseconds: 300), () {
+      if (!_tutorialShown) {
+        showTutorial();
+        setState(() {
+          setTutorialShown();
+        });
+      }
+    });
+  }
+
+  Future<void> setTutorialShown() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _tutorialShown = true;
+    await prefs.setBool('tutorialCharts', true);
+  }
+
+  _getTutorialInfoFromSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var tutorialRegistryShown = prefs.getBool('tutorialCharts') ?? false;
+    setState(() {
+      _tutorialShown = tutorialRegistryShown;
+    });
   }
 }
 

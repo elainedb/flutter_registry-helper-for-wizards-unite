@@ -4,6 +4,9 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:registry_helper_for_wu/data/data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorial_coach_mark/animated_focus_light.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import '../main.dart';
 
 class HelperPage extends StatefulWidget {
@@ -24,16 +27,24 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
   final FirebaseAnalytics _analytics;
   HelperPageState(this._registry, this._initialSortValue, this._observer, this._analytics);
 
-  String _dropdownValue;
+  String _dropdownValue = sortValues[0];
   String _userId;
   int _initialIndex = 0;
   bool _isUserAnonymous;
   UserData _userData;
   TabController _controller;
 
+  List<TargetFocus> targets = List();
+  GlobalKey globalKey1 = GlobalKey();
+  GlobalKey globalKey2 = GlobalKey();
+  GlobalKey globalKey3 = GlobalKey();
+  bool _tutorialShown;
+
   @override
   void initState() {
     super.initState();
+    initTargets();
+    _getTutorialInfoFromSharedPrefs();
 
     FirebaseAuth.instance.currentUser().then((user) {
       if (user != null) {
@@ -47,8 +58,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
       }
     });
 
-    _dropdownValue = sortValues[0];
-    if (_initialSortValue != null) {
+    if (_initialSortValue.isNotEmpty) {
       _dropdownValue = _initialSortValue;
     }
 
@@ -58,10 +68,10 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
 
   @override
   Widget build(BuildContext context) {
-    if (widget._initialSortValue != null) {
+    if (widget._initialSortValue.isNotEmpty) {
       // fix for shortcut when page already displaying
       _dropdownValue = widget._initialSortValue;
-      widget._initialSortValue = null;
+      widget._initialSortValue = "";
     }
 
     if (_isUserAnonymous != null && _isUserAnonymous && _userData != null) {
@@ -83,7 +93,59 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
     return Center(child: Text("Loading"));
   }
 
+  initTargets() {
+    targets.add(
+      TargetFocus(
+        identify: "target1",
+        keyTarget: globalKey1,
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          ContentTarget(
+              align: AlignContent.bottom,
+              child: Text(
+                "Here you can find how many fragments are missing for each threat level. Information about where you can find nests for the family can be consulted by clicking here.",
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              ))
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "target2",
+        keyTarget: globalKey2,
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          ContentTarget(
+            align: AlignContent.bottom,
+            child: Text(
+              "You can sort this list by Threat Level or Wizarding Challenges.",
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "target3",
+        keyTarget: globalKey3,
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          ContentTarget(
+            align: AlignContent.bottom,
+            child: Text(
+              "You can find personalized insights here.",
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _tabController(Map<String, dynamic> data) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => executeAfterBuild(context));
+
     return DefaultTabController(
       initialIndex: _initialIndex,
       length: 2,
@@ -96,7 +158,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
               indicatorColor: Colors.amber,
               tabs: [
                 Tab(text: "Missing Foundables"),
-                Tab(text: "Insights"),
+                Tab(key: globalKey3, text: "Insights"),
               ],
             ),
           ),
@@ -137,6 +199,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
               fontFamily: 'Raleway',
             ),
             child: DropdownButton<String>(
+              key: globalKey2,
               value: _dropdownValue,
               onChanged: (newValue) {
                 setState(() {
@@ -408,9 +471,14 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
   }
 
   Widget _chapterRow(ChapterForDisplay chapterForDisplay, Chapter chapter, MissingTraces missingTraces) {
+    var key;
+    if (chapterForDisplay.id == "cmc") {
+      key = globalKey1;
+    }
     return GestureDetector(
       onTap: () => _pushDialog(chapterForDisplay, chapter),
       child: Card(
+        key: key,
         color: chapterForDisplay.lightColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
@@ -517,9 +585,9 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
                       ),
                       Center(
                           child: Text(
-                            chapter.name,
-                            style: TextStyle(color: chapterForDisplay.darkColor, fontSize: 16, fontWeight: FontWeight.bold),
-                          )),
+                        chapter.name,
+                        style: TextStyle(color: chapterForDisplay.darkColor, fontSize: 16, fontWeight: FontWeight.bold),
+                      )),
                       Container(
                         height: 24,
                       ),
@@ -567,6 +635,51 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
         );
       },
     ));
+  }
+
+  void showTutorial() {
+    TutorialCoachMark(
+      context,
+      targets: targets,
+      colorShadow: Colors.brown,
+      textSkip: "SKIP",
+      paddingFocus: 0,
+      opacityShadow: 0.8,
+      finish: () {
+        print("finish");
+      },
+      clickTarget: (target) {
+        print(target);
+      },
+      clickSkip: () {
+        print("skip");
+      },
+    )..show();
+  }
+
+  executeAfterBuild(_) {
+    Future.delayed(Duration(milliseconds: 300), () {
+      if (!_tutorialShown) {
+        showTutorial();
+        setState(() {
+          setTutorialShown();
+        });
+      }
+    });
+  }
+
+  Future<void> setTutorialShown() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _tutorialShown = true;
+    await prefs.setBool('tutorialHelper', true);
+  }
+
+  _getTutorialInfoFromSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var tutorialRegistryShown = prefs.getBool('tutorialHelper') ?? false;
+    setState(() {
+      _tutorialShown = tutorialRegistryShown;
+    });
   }
 }
 

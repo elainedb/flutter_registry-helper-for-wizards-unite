@@ -233,6 +233,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.5"
+  tutorial_coach_mark:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: TCM_6
+      resolved-ref: c9958c68e9811aa2181b1be8998524aef63e6351
+      url: "https://github.com/Vanethos/tutorial_coach_mark.git"
+    source: git
+    version: "0.2.0"
   typed_data:
     dependency: transitive
     description:

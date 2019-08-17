@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:registry_helper_for_wu/data/data.dart';
 import 'package:registry_helper_for_wu/bottom_bar_nav.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorial_coach_mark/animated_focus_light.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import '../main.dart';
 
@@ -27,9 +30,18 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   bool _isUserAnonymous;
   UserData _userData;
 
+  List<TargetFocus> targets = List();
+  GlobalKey globalKey1 = GlobalKey();
+  GlobalKey globalKey2 = GlobalKey();
+  GlobalKey globalKey3 = GlobalKey();
+  GlobalKey globalKey4 = GlobalKey();
+  bool _tutorialShown;
+
   @override
   void initState() {
     super.initState();
+    initTargets();
+    _getTutorialInfoFromSharedPrefs();
 
     FirebaseAuth.instance.currentUser().then((user) {
       if (user != null) {
@@ -70,7 +82,76 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     return Center(child: Text("Loading"));
   }
 
+  initTargets() {
+    targets.add(
+      TargetFocus(
+        identify: "target1",
+        keyTarget: globalKey1,
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          ContentTarget(
+              align: AlignContent.bottom,
+              child: Text(
+                "Input your current foundable fragment count here.",
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              ))
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "target2",
+        keyTarget: globalKey2,
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          ContentTarget(
+            align: AlignContent.bottom,
+            child: Text(
+              "After successfully retrieving a foundable, click on this button to add a fragment.",
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "target3",
+        keyTarget: globalKey3,
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          ContentTarget(
+            align: AlignContent.bottom,
+            child: Text(
+              "Setup your current prestige level here.",
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+        ],
+      ),
+    );
+    targets.add(
+      TargetFocus(
+        identify: "target4",
+        keyTarget: globalKey4,
+        shape: ShapeLightFocus.Circle,
+        contents: [
+          ContentTarget(
+            align: AlignContent.left,
+            child: Text(
+              "Quickly access other families.",
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              textAlign: TextAlign.end,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget registryWidget(Map<String, dynamic> data) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => executeAfterBuild(context));
+
     return Row(
       children: <Widget>[
         Expanded(
@@ -102,7 +183,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
                 GestureDetector(child: Image.asset("assets/images/icons/da.png"), onTap: () => _scrollToIndex(1)),
                 GestureDetector(child: Image.asset("assets/images/icons/hs.png"), onTap: () => _scrollToIndex(2)),
                 GestureDetector(child: Image.asset("assets/images/icons/loh.png"), onTap: () => _scrollToIndex(3)),
-                GestureDetector(child: Image.asset("assets/images/icons/mom.png"), onTap: () => _scrollToIndex(4)),
+                GestureDetector(key: globalKey4, child: Image.asset("assets/images/icons/mom.png"), onTap: () => _scrollToIndex(4)),
                 GestureDetector(child: Image.asset("assets/images/icons/m.png"), onTap: () => _scrollToIndex(5)),
                 GestureDetector(child: Image.asset("assets/images/icons/mgs.png"), onTap: () => _scrollToIndex(6)),
                 GestureDetector(child: Image.asset("assets/images/icons/ma.png"), onTap: () => _scrollToIndex(7)),
@@ -142,12 +223,15 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   Widget pageCard(String pageId, Chapter chapter, Color light, Map<String, dynamic> data, Color color) {
     Page page = getPageWithId(chapter, pageId);
     String dropdownValue = getPrestigeLevelWithPageId(pageId, data);
+    var key;
+    if (pageId == "hh") key = globalKey3;
 
     Widget header = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Text("${page.name}"),
         DropdownButton<String>(
+          key: key,
           value: dropdownValue,
           onChanged: (newValue) {
             Map<String, dynamic> newData = Map();
@@ -158,7 +242,6 @@ class MyRegistryPageState extends State<MyRegistryPage> {
                 _userData.fragmentDataList[foundable.id]['count'] = 0;
                 _userData.fragmentDataList[foundable.id]['level'] = getPrestigeLevelWithPrestigeValue(newValue);
               }
-
             });
 
             if (!_isUserAnonymous) {
@@ -212,6 +295,13 @@ class MyRegistryPageState extends State<MyRegistryPage> {
 
     List<Widget> widgets = List();
 
+    var key1;
+    var key2;
+    if (foundableId == "hh_1") {
+      key1 = globalKey1;
+      key2 = globalKey2;
+    }
+
     widgets.addAll([
       Container(
         width: 50,
@@ -226,6 +316,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
         Container(
           width: 36,
           child: RaisedButton(
+            key: key2,
             color: backgroundColor,
             padding: EdgeInsets.all(0),
             child: Text(
@@ -247,6 +338,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
         Container(
           width: 36,
           child: TextField(
+            key: key1,
             controller: TextEditingController(text: currentCount.toString()),
             onSubmitted: (newText) {
               _sendNewValueEvent();
@@ -358,27 +450,55 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   _sendResetYes() async {
     await _analytics.logEvent(
       name: 'reset',
-      parameters: <String, dynamic>{
-        'value': "yes"
-      },
+      parameters: <String, dynamic>{'value': "yes"},
     );
   }
 
   _sendResetNo() async {
     await _analytics.logEvent(
       name: 'reset',
-      parameters: <String, dynamic>{
-        'value': "no"
-      },
+      parameters: <String, dynamic>{'value': "no"},
     );
   }
 
   _sendScrollToEvent(int value) async {
     await _analytics.logEvent(
       name: 'scroll_to',
-      parameters: <String, dynamic>{
-        'value': value
-      },
+      parameters: <String, dynamic>{'value': value},
     );
+  }
+
+  void showTutorial() {
+    TutorialCoachMark(context, targets: targets, colorShadow: Colors.brown, textSkip: "SKIP", paddingFocus: 4, opacityShadow: 0.8, finish: () {
+      print("finish");
+    }, clickTarget: (target) {
+      print(target);
+    }, clickSkip: () {
+      print("skip");
+    })
+      ..show();
+  }
+
+  executeAfterBuild(_) {
+    Future.delayed(Duration(milliseconds: 300), () {
+      if (!_tutorialShown) {
+        showTutorial();
+        setTutorialShown();
+      }
+    });
+  }
+
+  Future<void> setTutorialShown() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _tutorialShown = true;
+    await prefs.setBool('tutorialRegistry', true);
+  }
+
+  _getTutorialInfoFromSharedPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var tutorialRegistryShown = prefs.getBool('tutorialRegistry') ?? false;
+    setState(() {
+      _tutorialShown = tutorialRegistryShown;
+    });
   }
 }
