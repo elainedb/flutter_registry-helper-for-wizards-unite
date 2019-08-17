@@ -55,8 +55,8 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   final FirebaseAnalytics _analytics;
   BottomBarNavWidgetState(this._jsonRegistry, this._observer, this._analytics);
 
-  String _shortcut;
-  String _sortValue;
+  String _shortcut = "";
+  String _sortValue = "";
   String _userId = "";
   Registry _registry;
   List<Widget> _widgetOptions = <Widget>[
@@ -96,15 +96,15 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
         if (shortcutType != null) _shortcut = shortcutType;
         switch (_shortcut) {
           case 'helper_low':
-            _selectedIndex = 0;
+            _selectedIndex = 1;
             _sortValue = "Low/Medium (no beam)";
             break;
           case 'helper_challenges':
-            _selectedIndex = 0;
+            _selectedIndex = 1;
             _sortValue = "Wizarding Challenges rewards";
             break;
           case 'my_registry':
-            _selectedIndex = 1;
+            _selectedIndex = 0;
             break;
           case 'charts':
             _selectedIndex = 2;
@@ -141,7 +141,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('build for _userId = $_userId');
+    print('build for _userId = $_userId, selectedIndex = $_selectedIndex, sortValue = $_sortValue, shortcut = $_shortcut');
 
     return Builder(builder: (BuildContext context) {
       if (_userId.isEmpty) {
@@ -155,12 +155,12 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
           type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.star),
-              title: Text('Helper'),
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.folder),
               title: Text('My Registry'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.star),
+              title: Text('Helper'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.insert_chart),
@@ -188,10 +188,10 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
       String pageName = "";
       switch(index) {
         case 0:
-          pageName = "HelperPage_MissingFoundables";
+          pageName = "MyRegistryPage";
           break;
         case 1:
-          pageName = "MyRegistryPage";
+          pageName = "HelperPage_MissingFoundables";
           break;
         case 2:
           pageName = "ChartsPage";
@@ -209,8 +209,8 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   _updateWidgets() {
     setState(() {
       _widgetOptions = <Widget>[
-        HelperPage(_registry, _sortValue, _observer, _analytics),
         MyRegistryPage(_registry, _analytics),
+        HelperPage(_registry, _sortValue, _observer, _analytics),
         ChartsPage(_registry, _analytics),
         SettingsPage(_analytics),
       ];

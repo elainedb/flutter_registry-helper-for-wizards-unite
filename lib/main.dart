@@ -123,37 +123,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Builder(builder: (BuildContext context) {
-        if (_isRegistryLoading || _isUserDataLoading) {
-          return Center(
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.white,
-            ),
-          );
-        }
+    return Scaffold(body: Builder(builder: (BuildContext context) {
+      if(_isRegistryLoading || _isUserDataLoading) {
+        return Center(child: CircularProgressIndicator(backgroundColor: Colors.white,),);
+      }
 
-        switch (_userId) {
-          case "":
-            return Center(
-              child: Text("Loading..."),
-            );
-          case "null":
-            observer.analytics.setCurrentScreen(
-              screenName: "SignInPage",
-            );
-            return SignInWidget(analytics);
-        }
-        return BottomBarNavWidget(_registry, observer, analytics);
-      }),
-      backgroundColor: backgroundMaterialColor,
-    );
-  }
-
-  void _pushPage(BuildContext context, Widget page) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
-    );
+      switch(_userId) {
+        case "":
+          return Center(child: Text("Loading..."),);
+        case "null":
+          observer.analytics.setCurrentScreen(screenName: "SignInPage",);
+          return SignInWidget(analytics);
+      }
+      return BottomBarNavWidget(_registry, observer, analytics);
+    }), backgroundColor: backgroundMaterialColor,);
   }
 
   void _manageFirebaseUser(FirebaseUser user) {
