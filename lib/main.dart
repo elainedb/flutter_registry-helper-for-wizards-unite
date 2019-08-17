@@ -38,6 +38,26 @@ void main() {
     Crashlytics.instance.onError(details);
   };
 
+  //override the red screen of death
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    Crashlytics.instance.onError(details);
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: const Center(
+          child: Text(
+            'An unexpected error occurred.',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20
+            ),
+          ),
+        ),
+      ),
+      backgroundColor: backgroundMaterialColor,
+    );
+  };
+
   runApp(MyApp());
 }
 
@@ -55,8 +75,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Registry Helper for Wizards Unite',
       theme: ThemeData(
-          primarySwatch: backgroundMaterialColor,
-          fontFamily: 'Raleway',
+        primarySwatch: backgroundMaterialColor,
+        fontFamily: 'Raleway',
       ),
       home: MyHomePage(title: 'Registry Helper for Wizards Unite', observer: observer, analytics: analytics),
       navigatorObservers: <NavigatorObserver>[observer],
@@ -103,7 +123,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Builder(builder: (BuildContext context) {
         if (_isRegistryLoading || _isUserDataLoading) {
@@ -121,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
             );
           case "null":
             observer.analytics.setCurrentScreen(
-              screenName:  "SignInPage",
+              screenName: "SignInPage",
             );
             return SignInWidget(analytics);
         }
@@ -154,7 +173,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _downloadRegistryData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() { _isRegistryLoading = true; });
+    setState(() {
+      _isRegistryLoading = true;
+    });
 
     var registryString = await rootBundle.loadString('assets/json/registry.json');
     await prefs.setString('registry', registryString);
@@ -168,7 +189,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _initUserData(String userId, SharedPreferences prefs) {
-    setState(() { _isUserDataLoading = true; });
+    setState(() {
+      _isUserDataLoading = true;
+    });
     var registryIds = getAllFoundablesIds(_registry);
 
     if (!_isUserAnonymous) {
@@ -176,8 +199,10 @@ class _MyHomePageState extends State<MyHomePage> {
         if (!snapshot.exists) {
           _addUserDataConnected(registryIds, userId);
         } else {
-           _checkAndAddNewUserKeysConnected(snapshot, registryIds, userId);
-          setState(() { _isUserDataLoading = false; });
+          _checkAndAddNewUserKeysConnected(snapshot, registryIds, userId);
+          setState(() {
+            _isUserDataLoading = false;
+          });
         }
       });
     } else {
@@ -188,7 +213,9 @@ class _MyHomePageState extends State<MyHomePage> {
             _initAnonymousData(registryIds);
           } else {
             _checkAndAddNewUserKeysAnonymous(userDataString, registryIds);
-            setState(() { _isUserDataLoading = false; });
+            setState(() {
+              _isUserDataLoading = false;
+            });
           }
         } else {
           _migrateAnonymous(snapshot.data, userId);
@@ -228,7 +255,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     Firestore.instance.collection('userData').document(userId).setData(map, merge: true).then((_) {
-      setState(() { _isUserDataLoading = false; });
+      setState(() {
+        _isUserDataLoading = false;
+      });
     });
   }
 
@@ -262,7 +291,9 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO temp code -> delete when all anonymous were migrated
     saveUserDataToPrefs(UserData(data)).then((value) {
       Firestore.instance.collection('userData').document(userId).delete();
-      setState(() { _isUserDataLoading = false; });
+      setState(() {
+        _isUserDataLoading = false;
+      });
     });
   }
 
@@ -273,10 +304,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     saveUserDataToPrefs(UserData(map)).then((value) {
-      setState(() { _isUserDataLoading = false; });
+      setState(() {
+        _isUserDataLoading = false;
+      });
     });
   }
-  
+
   _addUserDataAnonymous(List<String> newIds, UserData oldUserData) {
     Map<String, dynamic> map = oldUserData.fragmentDataList;
     for (var id in newIds) {
@@ -284,7 +317,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     saveUserDataToPrefs(UserData(map)).then((value) {
-      setState(() { _isUserDataLoading = false; });
+      setState(() {
+        _isUserDataLoading = false;
+      });
     });
   }
 
