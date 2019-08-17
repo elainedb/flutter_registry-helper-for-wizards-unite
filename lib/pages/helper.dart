@@ -493,22 +493,6 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
   }
 
   _pushDialog(ChapterForDisplay chapterForDisplay, Chapter chapter) {
-//    Navigator.push(context, MaterialPageRoute(
-//        fullscreenDialog: true,
-//        builder: (BuildContext context) {
-//          return Scaffold(
-//            appBar: AppBar(
-//              title: Text('Dialog'),
-//            ),
-//            body: Hero(
-//              tag: id,
-//              child: Image(
-//                image: AssetImage("assets/images/traces_transparent/$id.png"),
-//              ),
-//            ),
-//          );
-//        }
-//    ));
     Navigator.of(context).push(PageRouteBuilder(
       opaque: false,
       barrierDismissible: true,
