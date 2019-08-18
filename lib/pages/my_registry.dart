@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:registry_helper_for_wu/data/data.dart';
 import 'package:registry_helper_for_wu/bottom_bar_nav.dart';
+import 'package:registry_helper_for_wu/widgets/foundable_slider_row.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/animated_focus_light.dart';
@@ -220,16 +221,21 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     );
   }
 
-  Widget pageCard(String pageId, Chapter chapter, Color light, Map<String, dynamic> data, Color color) {
+  Widget pageCard(String pageId, Chapter chapter, Color lightColor, Map<String, dynamic> data, Color darkColor) {
     Page page = getPageWithId(chapter, pageId);
     String dropdownValue = getPrestigeLevelWithPageId(pageId, data);
     var key;
     if (pageId == "hh") key = globalKey3;
 
     Widget header = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
-        Text("${page.name}"),
+        Flexible(
+            child: Text(
+          "${page.name}",
+          style: TextStyle(fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        )),
         DropdownButton<String>(
           key: key,
           value: dropdownValue,
@@ -254,19 +260,29 @@ class MyRegistryPageState extends State<MyRegistryPage> {
           items: prestigeValues.map<DropdownMenuItem<String>>((value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value),
+              child: Text(
+                value,
+                style: TextStyle(fontSize: 15),
+              ),
             );
           }).toList(),
         ),
+        IconButton(
+          icon: Icon(
+            Icons.edit,
+            color: Colors.black,
+          ),
+          onPressed: () => _pushDialog(page, data, dropdownValue, darkColor, lightColor),
+        )
       ],
     );
 
     List<Widget> widgets = List();
     widgets.add(header);
-    widgets.addAll(getFoundablesIds(page).map((f) => foundableRow(f, page, data, dropdownValue, color)));
+    widgets.addAll(getFoundablesIds(page).map((f) => foundableRow(f, page, data, dropdownValue, darkColor)));
 
     return Card(
-      color: light,
+      color: lightColor,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -376,6 +392,39 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     return Row(
       children: widgets,
     );
+  }
+
+  _pushDialog(Page page, Map<String, dynamic> data, String dropdownValue, Color darkColor, Color lightColor) {
+    List<Widget> widgets = List();
+    widgets.addAll(getFoundablesIds(page).map((f) => FoundableSliderRow(f, page, data, dropdownValue, darkColor)));
+
+    Navigator.of(context).push(PageRouteBuilder(
+        opaque: false,
+        barrierDismissible: true,
+        pageBuilder: (BuildContext context, _, __) {
+          return Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Card(
+                margin: EdgeInsets.all(16),
+                color: lightColor,
+                shape: ContinuousRectangleBorder(
+                  side: BorderSide(
+                    color: darkColor,
+                    width: 8,
+                  )
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: widgets,
+                  ),
+                ),
+              ),
+            ],
+          );
+        }));
   }
 
   _submit(String userId, Foundable foundable, String newValue, int requirement) {
