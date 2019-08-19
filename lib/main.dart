@@ -187,6 +187,11 @@ class _MyHomePageState extends State<MyHomePage> {
             _isUserDataLoading = false;
           });
         }
+      }).catchError((error) {
+          setState(() {
+            _userId = "null";
+            _isUserDataLoading = false;
+          });
       });
     } else {
       Firestore.instance.collection('userData').document(userId).get().then((snapshot) async {
