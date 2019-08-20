@@ -103,14 +103,17 @@ class _MyHomePageState extends State<MyHomePage> {
   final FirebaseAnalytics analytics;
   String _userId = "";
   bool _isUserAnonymous;
-  bool _isRegistryLoading = false;
-  bool _isUserDataLoading = false;
+  bool _isRegistryLoading;
+  bool _isUserDataLoading;
 
   Registry _registry;
 
   @override
   void initState() {
     super.initState();
+
+    _isRegistryLoading = false;
+    _isUserDataLoading = false;
 
     FirebaseAuth.instance.currentUser().then((user) {
       _manageFirebaseUser(user);
