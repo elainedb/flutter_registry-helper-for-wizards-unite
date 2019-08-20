@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:registry_helper_for_wu/data/data.dart';
 import 'package:registry_helper_for_wu/bottom_bar_nav.dart';
-import 'package:registry_helper_for_wu/widgets/foundable_slider_row.dart';
+import 'package:registry_helper_for_wu/widgets/page_edit_dialog.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/animated_focus_light.dart';
@@ -93,7 +93,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
           ContentTarget(
               align: AlignContent.bottom,
               child: Text(
-                "Input your current fragment count here.",
+                "Click here to edit the fragment count for this page.",
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
               ))
         ],
@@ -224,8 +224,12 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   Widget pageCard(String pageId, Chapter chapter, Color lightColor, Map<String, dynamic> data, Color darkColor) {
     Page page = getPageWithId(chapter, pageId);
     String dropdownValue = getPrestigeLevelWithPageId(pageId, data);
-    var key;
-    if (pageId == "hh") key = globalKey3;
+    var key1;
+    var key3;
+    if (pageId == "hh") {
+      key1 = globalKey1;
+      key3 = globalKey3;
+    }
 
     Widget header = Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -237,7 +241,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
           textAlign: TextAlign.center,
         )),
         DropdownButton<String>(
-          key: key,
+          key: key3,
           value: dropdownValue,
           onChanged: (newValue) {
             Map<String, dynamic> newData = Map();
@@ -268,6 +272,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
           }).toList(),
         ),
         IconButton(
+          key: key1,
           icon: Icon(
             Icons.edit,
             color: Colors.black,
@@ -294,27 +299,14 @@ class MyRegistryPageState extends State<MyRegistryPage> {
 
   Widget foundableRow(String foundableId, Page page, Map<String, dynamic> data, String dropdownValue, Color color) {
     Foundable foundable = getFoundableWithId(page, foundableId);
-    String text = "";
     int currentCount = data[foundableId]['count'];
     int currentLevel = data[foundableId]['level'];
-    var requirementForPrint = getFragmentRequirement(foundable, dropdownValue);
     var intRequirement = getRequirementWithLevel(foundable, currentLevel);
-
-    var _focusNode = FocusNode();
-
-    _focusNode.addListener(() {
-      if (!_focusNode.hasFocus) {
-        _sendNewValueEvent();
-        _submit(_userId, foundable, text, intRequirement);
-      }
-    });
 
     List<Widget> widgets = List();
 
-    var key1;
     var key2;
     if (foundableId == "hh_1") {
-      key1 = globalKey1;
       key2 = globalKey2;
     }
 
@@ -345,48 +337,42 @@ class MyRegistryPageState extends State<MyRegistryPage> {
             },
           ),
         ),
-        Container(
-          width: 8,
-        )
       ]);
 
-      widgets.addAll([
-        Container(
-          width: 36,
-          child: TextField(
-            key: key1,
-            controller: TextEditingController(text: currentCount.toString()),
-            onSubmitted: (newText) {
-              _sendNewValueEvent();
-              _submit(_userId, foundable, newText, intRequirement);
-            },
-            onChanged: (newText) => text = newText,
-            focusNode: _focusNode,
-            keyboardType: TextInputType.number,
-          ),
-        ),
-        Container(
-          width: 30,
-          child: Text(requirementForPrint),
-        )
-      ]);
-    } else {
-      widgets.add(GestureDetector(
-        onTap: () {
-          _sendResetEvent();
-          _reset(_userId, foundable, intRequirement);
-        },
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "$currentCount / $intRequirement",
-              style: TextStyle(color: Colors.white),
+      widgets.add(
+          Container(
+            alignment: Alignment.center,
+            width: 90,
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "$currentCount / $intRequirement",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              color: Colors.transparent,
+              elevation: 0,
             ),
-          ),
-          color: color,
-        ),
-      ));
+          )
+      );
+    } else {
+      widgets.add(
+          Container(
+            alignment: Alignment.center,
+            width: 90,
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "$currentCount / $intRequirement",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              color: color,
+            ),
+          )
+      );
     }
 
     return Row(
@@ -395,44 +381,20 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   }
 
   _pushDialog(Page page, Map<String, dynamic> data, String dropdownValue, Color darkColor, Color lightColor) {
-    List<Widget> widgets = List();
-    widgets.addAll(getFoundablesIds(page).map((f) => FoundableSliderRow(f, page, data, dropdownValue, darkColor)));
-
     Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
         barrierDismissible: true,
         pageBuilder: (BuildContext context, _, __) {
-          return Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              Card(
-                margin: EdgeInsets.all(16),
-                color: lightColor,
-                shape: ContinuousRectangleBorder(
-                  side: BorderSide(
-                    color: darkColor,
-                    width: 8,
-                  )
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: widgets,
-                  ),
-                ),
-              ),
-            ],
-          );
+          return PageEditDialog(page, data, dropdownValue, darkColor, lightColor, _isUserAnonymous, _userId, _userData, callback, _analytics);
         }));
+  }
+
+  callback() {
+    setState(() { });
   }
 
   _submit(String userId, Foundable foundable, String newValue, int requirement) {
     var newInt = int.tryParse(newValue) ?? 0;
-    if (newInt > requirement) {
-      // Scaffold.of(context).showSnackBar(SnackBar(content: Text("Please enter a valid number")));
-      newInt = requirement;
-    }
 
     if (!_isUserAnonymous) {
       Firestore.instance.collection('userData').document(userId).setData({
@@ -446,33 +408,6 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     }
   }
 
-  _reset(String userId, Foundable foundable, int requirement) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Reset value?"),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Yes"),
-                onPressed: () {
-                  _sendResetYes();
-                  _submit(userId, foundable, "0", requirement);
-                  Navigator.of(context).pop();
-                },
-              ),
-              FlatButton(
-                child: Text("No"),
-                onPressed: () {
-                  _sendResetNo();
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        });
-  }
-
   Future _scrollToIndex(int index) async {
     _sendScrollToEvent(index);
     await controller.scrollToIndex(index, preferPosition: AutoScrollPosition.begin, duration: Duration(seconds: 1));
@@ -481,32 +416,6 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   _sendPlusEvent() async {
     await _analytics.logEvent(
       name: 'click_plus_one_fragment',
-    );
-  }
-
-  _sendNewValueEvent() async {
-    await _analytics.logEvent(
-      name: 'submitted_new_fragment_value',
-    );
-  }
-
-  _sendResetEvent() async {
-    await _analytics.logEvent(
-      name: 'click_reset',
-    );
-  }
-
-  _sendResetYes() async {
-    await _analytics.logEvent(
-      name: 'reset',
-      parameters: <String, dynamic>{'value': "yes"},
-    );
-  }
-
-  _sendResetNo() async {
-    await _analytics.logEvent(
-      name: 'reset',
-      parameters: <String, dynamic>{'value': "no"},
     );
   }
 

@@ -4,13 +4,14 @@ import 'package:registry_helper_for_wu/data/data.dart';
 import '../main.dart';
 
 class FoundableSliderRow extends StatefulWidget {
+  Function callback;
   final String foundableId;
   final Page page;
   Map<String, dynamic> data;
   String dropdownValue;
   final Color color;
 
-  FoundableSliderRow(this.foundableId, this.page, this.data, this.dropdownValue, this.color);
+  FoundableSliderRow(this.foundableId, this.page, this.data, this.dropdownValue, this.color, this.callback);
 
   @override
   State<StatefulWidget> createState() => FoundableSliderRowState();
@@ -55,9 +56,13 @@ class FoundableSliderRowState extends State<FoundableSliderRow> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
-                  setState(() {
-                    if (_currentCount > 0) _currentCount--;
-                  });
+                  if (_currentCount > 0) {
+                    double newValue = _currentCount - 1;
+                    widget.callback(_foundable.id, newValue);
+                    setState(() {
+                      _currentCount--;
+                    });
+                  }
                 },
               ),
             ),
@@ -71,6 +76,7 @@ class FoundableSliderRowState extends State<FoundableSliderRow> {
                 inactiveColor: Colors.grey,
                 label: _currentCount.round().toString(),
                 onChanged: (newValue) {
+                  widget.callback(_foundable.id, newValue);
                   setState(() {
                     _currentCount = newValue;
                   });
@@ -87,9 +93,13 @@ class FoundableSliderRowState extends State<FoundableSliderRow> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
-                  setState(() {
-                    if (_currentCount < _requirement) _currentCount++;
-                  });
+                  if (_currentCount < _requirement) {
+                    double newValue = _currentCount + 1;
+                    widget.callback(_foundable.id, newValue);
+                    setState(() {
+                      _currentCount = newValue;
+                    });
+                  }
                 },
               ),
             ),
