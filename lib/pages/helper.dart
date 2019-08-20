@@ -105,6 +105,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
               child: Text(
                 "Here you can find how many fragments are missing for each threat level. Information about where you can find nests for the family can be consulted by clicking here.",
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                textAlign: TextAlign.center,
               ))
         ],
       ),
@@ -120,6 +121,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
             child: Text(
               "You can sort this list by Threat Level or Wizarding Challenges.",
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              textAlign: TextAlign.right,
             ),
           ),
         ],
@@ -136,6 +138,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
             child: Text(
               "You can find personalized insights here.",
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              textAlign: TextAlign.right,
             ),
           ),
         ],

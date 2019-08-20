@@ -95,6 +95,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
               child: Text(
                 "Click here to edit the fragment count for this page.",
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                textAlign: TextAlign.right,
               ))
         ],
       ),
@@ -110,6 +111,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
             child: Text(
               "After successfully retrieving a foundable, click on this button to add a fragment.",
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              textAlign: TextAlign.right,
             ),
           ),
         ],
@@ -126,6 +128,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
             child: Text(
               "Set your current prestige level here.",
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              textAlign: TextAlign.center,
             ),
           ),
         ],
@@ -140,7 +143,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
           ContentTarget(
             align: AlignContent.left,
             child: Text(
-              "Quickly access other families.",
+              "\nQuickly access other families.",
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
               textAlign: TextAlign.end,
             ),
