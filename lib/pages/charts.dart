@@ -75,6 +75,7 @@ class ChartsPageState extends State<ChartsPage> {
               child: Text(
                 "You can visualize your progress here. Click on a bar in order to see the foundable behind it.",
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                textAlign: TextAlign.center,
               ))
         ],
       ),
@@ -90,6 +91,7 @@ class ChartsPageState extends State<ChartsPage> {
             child: Text(
               "Information about the threat level (color) and how to catch (icon) is shown here.",
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              textAlign: TextAlign.center,
             ),
           ),
         ],
@@ -106,6 +108,7 @@ class ChartsPageState extends State<ChartsPage> {
             child: Text(
               "Here's the legend for the icons shown below the charts.",
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              textAlign: TextAlign.center,
             ),
           ),
         ],
