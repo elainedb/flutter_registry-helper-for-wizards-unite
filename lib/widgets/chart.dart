@@ -4,7 +4,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:registry_helper_for_wu/pages/charts.dart';
 
 class StackedBarChart extends StatefulWidget {
-  Function callback;
+  final Function callback;
   final List<charts.Series> seriesList;
   final bool animate;
 
