@@ -9,6 +9,7 @@ import io.flutter.plugins.firebase.crashlytics.firebasecrashlytics.FirebaseCrash
 import io.flutter.plugins.googlesignin.GoogleSignInPlugin;
 import io.flutter.plugins.packageinfo.PackageInfoPlugin;
 import io.flutter.plugins.quickactions.QuickActionsPlugin;
+import io.flutter.plugins.share.SharePlugin;
 import io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin;
 
 /**
@@ -27,6 +28,7 @@ public final class GeneratedPluginRegistrant {
     GoogleSignInPlugin.registerWith(registry.registrarFor("io.flutter.plugins.googlesignin.GoogleSignInPlugin"));
     PackageInfoPlugin.registerWith(registry.registrarFor("io.flutter.plugins.packageinfo.PackageInfoPlugin"));
     QuickActionsPlugin.registerWith(registry.registrarFor("io.flutter.plugins.quickactions.QuickActionsPlugin"));
+    SharePlugin.registerWith(registry.registrarFor("io.flutter.plugins.share.SharePlugin"));
     SharedPreferencesPlugin.registerWith(registry.registrarFor("io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin"));
   }
 

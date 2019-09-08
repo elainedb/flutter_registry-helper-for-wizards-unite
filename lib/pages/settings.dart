@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:registry_helper_for_wu/widgets/version.dart';
+import 'package:share/share.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -69,6 +70,19 @@ class SettingsPageState extends State<SettingsPage> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Center(
+              child: FloatingActionButton.extended(
+                backgroundColor: Colors.orange.withAlpha(120),
+                onPressed: () async {
+                  Share.share('Check out Registry Helper for Wizards Unite! Android: https://play.google.com/store/apps/details?id=elainedb.dev.registry_helper_for_wu / iOS: https://testflight.apple.com/join/lQjFo3iR');
+                },
+                label: const Text("Share the app with your friends!"),
+                icon: Icon(Icons.share),
+              ),
+            ),
+            Container(
+              height: 96,
+            ),
             Text(
               "Logged in as $_userEmail",
               style: TextStyle(color: Colors.white),
