@@ -555,6 +555,62 @@
               "threatLevel":"s"
             }
           ]
+        },
+        {
+          "id":"ms2",
+          "name":"Moving Staircases II",
+          "foundables":[
+            {
+              "id":"ms2_1",
+              "name":"Portrait of Salazar Slytherin",
+              "fragmentRequirementStandard":8,
+              "fragmentRequirementBronze":24,
+              "fragmentRequirementSilver":36,
+              "fragmentRequirementGold":43,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            },
+            {
+              "id":"ms2_2",
+              "name":"Portrait of Helga Hufflepuff",
+              "fragmentRequirementStandard":8,
+              "fragmentRequirementBronze":24,
+              "fragmentRequirementSilver":36,
+              "fragmentRequirementGold":43,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            },
+            {
+              "id":"ms2_3",
+              "name":"Wild Boar",
+              "fragmentRequirementStandard":15,
+              "fragmentRequirementBronze":18,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"wc",
+              "threatLevel":"l"
+            },
+            {
+              "id":"ms2_4",
+              "name":"Portrait of Rowena Ravenclaw",
+              "fragmentRequirementStandard":8,
+              "fragmentRequirementBronze":24,
+              "fragmentRequirementSilver":36,
+              "fragmentRequirementGold":43,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            },
+            {
+              "id":"ms2_5",
+              "name":"Portrait of Godric Gryffindor",
+              "fragmentRequirementStandard":8,
+              "fragmentRequirementBronze":24,
+              "fragmentRequirementSilver":36,
+              "fragmentRequirementGold":43,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            }
+          ]
         }
       ]
     },
@@ -1639,6 +1695,98 @@
               "fragmentRequirementGold":80,
               "howToCatch":"wc",
               "threatLevel":"h"
+            }
+          ]
+        },
+        {
+          "id":"od3",
+          "name":"Oddities III",
+          "foundables":[
+            {
+              "id":"od3_1",
+              "name":"Chinese Fireball Egg",
+              "fragmentRequirementStandard":4,
+              "fragmentRequirementBronze":12,
+              "fragmentRequirementSilver":24,
+              "fragmentRequirementGold":36,
+              "howToCatch":"pw",
+              "threatLevel":"l"
+            },
+            {
+              "id":"od3_2",
+              "name":"Antipodean Opaleye Egg",
+              "fragmentRequirementStandard":4,
+              "fragmentRequirementBronze":12,
+              "fragmentRequirementSilver":24,
+              "fragmentRequirementGold":36,
+              "howToCatch":"pw",
+              "threatLevel":"l"
+            },
+            {
+              "id":"od3_3",
+              "name":"Chinese Fireball",
+              "fragmentRequirementStandard":10,
+              "fragmentRequirementBronze":20,
+              "fragmentRequirementSilver":40,
+              "fragmentRequirementGold":80,
+              "howToCatch":"w",
+              "threatLevel":"e"
+            },
+            {
+              "id":"od3_4",
+              "name":"Antipodean Opaleye",
+              "fragmentRequirementStandard":10,
+              "fragmentRequirementBronze":20,
+              "fragmentRequirementSilver":40,
+              "fragmentRequirementGold":80,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            }
+          ]
+        },
+        {
+          "id":"od4",
+          "name":"Oddities IV",
+          "foundables":[
+            {
+              "id":"od4_1",
+              "name":"Peruvian Vipertooth Egg",
+              "fragmentRequirementStandard":4,
+              "fragmentRequirementBronze":12,
+              "fragmentRequirementSilver":24,
+              "fragmentRequirementGold":36,
+              "howToCatch":"pw",
+              "threatLevel":"l"
+            },
+            {
+              "id":"od4_2",
+              "name":"Common Welsh Green Egg",
+              "fragmentRequirementStandard":4,
+              "fragmentRequirementBronze":12,
+              "fragmentRequirementSilver":24,
+              "fragmentRequirementGold":36,
+              "howToCatch":"pw",
+              "threatLevel":"l"
+            },
+            {
+              "id":"od4_3",
+              "name":"Peruvian Vipertooth",
+              "fragmentRequirementStandard":10,
+              "fragmentRequirementBronze":20,
+              "fragmentRequirementSilver":40,
+              "fragmentRequirementGold":80,
+              "howToCatch":"w",
+              "threatLevel":"e"
+            },
+            {
+              "id":"od4_4",
+              "name":"Common Welsh Green",
+              "fragmentRequirementStandard":10,
+              "fragmentRequirementBronze":20,
+              "fragmentRequirementSilver":40,
+              "fragmentRequirementGold":80,
+              "howToCatch":"w",
+              "threatLevel":"s"
             }
           ]
         }

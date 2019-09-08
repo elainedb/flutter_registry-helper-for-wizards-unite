@@ -490,7 +490,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
               Container(
                 width: 75,
                 child: Hero(
-                  tag: "${chapterForDisplay.id}",
+                  tag: chapterForDisplay.id,
                   child: Image.asset("assets/images/traces_transparent/${chapterForDisplay.id}.png"),
                 ),
               ),
