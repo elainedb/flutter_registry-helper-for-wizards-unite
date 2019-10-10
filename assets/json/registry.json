@@ -1789,6 +1789,42 @@
               "threatLevel":"s"
             }
           ]
+        },
+        {
+          "id":"od5",
+          "name":"Oddities V",
+          "foundables":[
+            {
+              "id":"od5_1",
+              "name":"Azkaban Escapee",
+              "fragmentRequirementStandard":13,
+              "fragmentRequirementBronze":26,
+              "fragmentRequirementSilver":52,
+              "fragmentRequirementGold":104,
+              "howToCatch":"w",
+              "threatLevel":"m"
+            },
+            {
+              "id":"od5_2",
+              "name":"Death Eater",
+              "fragmentRequirementStandard":15,
+              "fragmentRequirementBronze":30,
+              "fragmentRequirementSilver":60,
+              "fragmentRequirementGold":120,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            },
+            {
+              "id":"od5_3",
+              "name":"Three-Headed Dog",
+              "fragmentRequirementStandard":15,
+              "fragmentRequirementBronze":30,
+              "fragmentRequirementSilver":60,
+              "fragmentRequirementGold":120,
+              "howToCatch":"w",
+              "threatLevel":"e"
+            }
+          ]
         }
       ]
     },
