@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tutorial_coach_mark/animated_focus_light.dart';
-import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import '../data/data.dart';
 import '../resources/values/app_colors.dart';
@@ -14,6 +12,7 @@ import '../resources/values/app_styles.dart';
 import '../utils/utils.dart';
 import '../widgets/loading.dart';
 import '../widgets/chart.dart';
+import 'tutorial/charts_helper.dart';
 
 
 class ChartsPage extends StatefulWidget {
@@ -35,7 +34,6 @@ class ChartsPageState extends State<ChartsPage> {
   bool _isUserAnonymous;
   UserData _userData;
 
-  List<TargetFocus> targets = List();
   GlobalKey globalKey1 = GlobalKey();
   GlobalKey globalKey2 = GlobalKey();
   GlobalKey globalKey3 = GlobalKey();
@@ -44,7 +42,7 @@ class ChartsPageState extends State<ChartsPage> {
   @override
   void initState() {
     super.initState();
-    initTargets();
+    ChartsTutorial.initTargets(globalKey1, globalKey2, globalKey3);
     _getTutorialInfoFromSharedPrefs();
 
     FirebaseAuth.instance.currentUser().then((user) {
@@ -65,59 +63,6 @@ class ChartsPageState extends State<ChartsPage> {
       _sendClickChartEvent();
       _selectedFoundableData = foundable;
     });
-  }
-
-  initTargets() {
-    targets.add(
-      TargetFocus(
-        identify: "target1",
-        keyTarget: globalKey1,
-        shape: ShapeLightFocus.RRect,
-        contents: [
-          ContentTarget(
-              align: AlignContent.top,
-              child: Text(
-                "You can visualize your progress here. Click on a bar in order to see the foundable behind it.",
-                style: AppStyles.tutorialText,
-                textAlign: TextAlign.center,
-              ))
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "target2",
-        keyTarget: globalKey2,
-        shape: ShapeLightFocus.RRect,
-        contents: [
-          ContentTarget(
-            align: AlignContent.bottom,
-            child: Text(
-              "Information about the threat level (color) and how to catch (icon) is shown here.",
-              style: AppStyles.tutorialText,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "target3",
-        keyTarget: globalKey3,
-        shape: ShapeLightFocus.RRect,
-        contents: [
-          ContentTarget(
-            align: AlignContent.bottom,
-            child: Text(
-              "Here's the legend for the icons shown below the charts.",
-              style: AppStyles.tutorialText,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -442,30 +387,10 @@ class ChartsPageState extends State<ChartsPage> {
     );
   }
 
-  void showTutorial() {
-    TutorialCoachMark(
-      context,
-      targets: targets,
-      colorShadow: Colors.brown,
-      textSkip: "SKIP",
-      paddingFocus: 0,
-      opacityShadow: 0.8,
-      finish: () {
-        print("finish");
-      },
-      clickTarget: (target) {
-        print(target);
-      },
-      clickSkip: () {
-        print("skip");
-      },
-    )..show();
-  }
-
   executeAfterBuild(_) {
     Future.delayed(Duration(milliseconds: 300), () {
       if (!_tutorialShown) {
-        showTutorial();
+        ChartsTutorial.showTutorial(context);
         setState(() {
           setTutorialShown();
         });

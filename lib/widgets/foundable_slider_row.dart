@@ -6,11 +6,11 @@ import '../resources/values/app_dimens.dart';
 import '../resources/values/app_styles.dart';
 
 class FoundableSliderRow extends StatefulWidget {
-  Function callback;
+  final Function callback;
   final String foundableId;
   final Page page;
-  Map<String, dynamic> data;
-  String dropdownValue;
+  final Map<String, dynamic> data;
+  final String dropdownValue;
   final Color color;
 
   FoundableSliderRow(this.foundableId, this.page, this.data, this.dropdownValue, this.color, this.callback);

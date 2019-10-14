@@ -4,8 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tutorial_coach_mark/animated_focus_light.dart';
-import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 import '../data/data.dart';
 import '../resources/values/app_colors.dart';
@@ -13,6 +11,7 @@ import '../resources/values/app_dimens.dart';
 import '../resources/values/app_styles.dart';
 import '../widgets/page_edit_dialog.dart';
 import '../widgets/loading.dart';
+import 'tutorial/my_registry_tutorial.dart';
 
 class MyRegistryPage extends StatefulWidget {
   final Registry _registry;
@@ -33,7 +32,6 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   bool _isUserAnonymous;
   UserData _userData;
 
-  List<TargetFocus> targets = List();
   GlobalKey globalKey1 = GlobalKey();
   GlobalKey globalKey2 = GlobalKey();
   GlobalKey globalKey3 = GlobalKey();
@@ -43,7 +41,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   @override
   void initState() {
     super.initState();
-    initTargets();
+    MyRegistryTutorial.initTargets(globalKey1, globalKey2, globalKey3, globalKey4);
     _getTutorialInfoFromSharedPrefs();
 
     FirebaseAuth.instance.currentUser().then((user) {
@@ -81,76 +79,6 @@ class MyRegistryPageState extends State<MyRegistryPage> {
       }
     }
     return LoadingWidget();
-  }
-
-  initTargets() {
-    targets.add(
-      TargetFocus(
-        identify: "target1",
-        keyTarget: globalKey1,
-        shape: ShapeLightFocus.RRect,
-        contents: [
-          ContentTarget(
-              align: AlignContent.bottom,
-              child: Text(
-                "Click here to edit the fragment count for this page.",
-                style: AppStyles.tutorialText,
-                textAlign: TextAlign.right,
-              ))
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "target2",
-        keyTarget: globalKey2,
-        shape: ShapeLightFocus.RRect,
-        contents: [
-          ContentTarget(
-            align: AlignContent.bottom,
-            child: Text(
-              "After successfully retrieving a foundable, click on this button to add a fragment.",
-              style: AppStyles.tutorialText,
-              textAlign: TextAlign.right,
-            ),
-          ),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "target3",
-        keyTarget: globalKey3,
-        shape: ShapeLightFocus.RRect,
-        contents: [
-          ContentTarget(
-            align: AlignContent.bottom,
-            child: Text(
-              "Set your current prestige level here.",
-              style: AppStyles.tutorialText,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "target4",
-        keyTarget: globalKey4,
-        shape: ShapeLightFocus.Circle,
-        contents: [
-          ContentTarget(
-            align: AlignContent.left,
-            child: Text(
-              "\nQuickly access other families.",
-              style: AppStyles.tutorialText,
-              textAlign: TextAlign.end,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget registryWidget(Map<String, dynamic> data) {
@@ -429,21 +357,10 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     );
   }
 
-  void showTutorial() {
-    TutorialCoachMark(context, targets: targets, colorShadow: Colors.brown, textSkip: "SKIP", paddingFocus: 4, opacityShadow: 0.8, finish: () {
-      print("finish");
-    }, clickTarget: (target) {
-      print(target);
-    }, clickSkip: () {
-      print("skip");
-    })
-      ..show();
-  }
-
   executeAfterBuild(_) {
     Future.delayed(Duration(milliseconds: 300), () {
       if (!_tutorialShown) {
-        showTutorial();
+        MyRegistryTutorial.showTutorial(context);
         setTutorialShown();
       }
     });

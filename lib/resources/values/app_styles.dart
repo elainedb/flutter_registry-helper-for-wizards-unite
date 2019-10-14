@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 import 'app_dimens.dart';
 
-class AppStyles {
+abstract class AppStyles {
   static final appThemeData = ThemeData(
     primarySwatch: AppColors.backgroundMaterialColor,
     fontFamily: 'Raleway',

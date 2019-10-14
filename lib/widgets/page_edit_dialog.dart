@@ -9,15 +9,15 @@ import '../resources/values/app_styles.dart';
 import 'foundable_slider_row.dart';
 
 class PageEditDialog extends StatefulWidget {
-  Function registryCallback;
+  final Function registryCallback;
   final Page page;
-  Map<String, dynamic> data;
-  String dropdownValue;
+  final Map<String, dynamic> data;
+  final String dropdownValue;
   final Color darkColor;
   final Color lightColor;
-  bool isUserAnonymous;
-  String userId;
-  UserData userData;
+  final bool isUserAnonymous;
+  final String userId;
+  final UserData userData;
   final FirebaseAnalytics analytics;
 
   PageEditDialog(this.page, this.data, this.dropdownValue, this.darkColor, this.lightColor, this.isUserAnonymous, this.userId, this.userData, this.registryCallback, this.analytics);

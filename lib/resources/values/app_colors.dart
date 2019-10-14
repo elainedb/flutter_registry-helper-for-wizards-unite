@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
+abstract class AppColors {
 
   static const Color darkColor = Colors.black;
   static const Color lightColor = Colors.white;
@@ -62,4 +62,6 @@ class AppColors {
   static const Color highThreatColor = Colors.yellow;
   static const Color severeThreatColor = Colors.orange;
   static const Color emergencyThreatColor = Colors.red;
+
+  static const Color tutorialColor = Colors.brown;
 }

@@ -1,4 +1,4 @@
-class AppDimens {
+abstract class AppDimens {
 
   static const picoSize = 1.0;
   static const nanoSize = 2.0;
@@ -32,5 +32,8 @@ class AppDimens {
 
   static const registryIndexWidth = 42.0;
   static const registryCounterWidth = 90.0;
+
+  static const paddingFocus = 4.0;
+  static const opacityShadow = 0.8;
 
 }
