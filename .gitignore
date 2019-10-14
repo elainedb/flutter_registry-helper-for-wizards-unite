@@ -99,3 +99,4 @@ google-services.json
 app.aab
 GoogleService-Info.plist
 *.aab
+flutter_export_environment.sh
