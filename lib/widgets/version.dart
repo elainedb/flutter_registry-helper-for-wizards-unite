@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 
+import '../resources/values/app_styles.dart';
+
 class VersionWidget extends StatefulWidget {
   @override
   _VersionWidgetState createState() => _VersionWidgetState();
@@ -24,7 +26,7 @@ class _VersionWidgetState extends State<VersionWidget> {
     }
     return Text(
       text,
-      style: TextStyle(color: Colors.white),
+      style: AppStyles.lightContentText,
       textAlign: TextAlign.center,
     );
   }

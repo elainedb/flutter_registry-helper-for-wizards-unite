@@ -2,15 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:registry_helper_for_wu/data/data.dart';
-import 'package:registry_helper_for_wu/bottom_bar_nav.dart';
-import 'package:registry_helper_for_wu/widgets/page_edit_dialog.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/animated_focus_light.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
-import '../main.dart';
+import '../data/data.dart';
+import '../resources/values/app_colors.dart';
+import '../resources/values/app_dimens.dart';
+import '../resources/values/app_styles.dart';
+import '../widgets/page_edit_dialog.dart';
+import '../widgets/loading.dart';
 
 class MyRegistryPage extends StatefulWidget {
   final Registry _registry;
@@ -74,13 +76,11 @@ class MyRegistryPageState extends State<MyRegistryPage> {
               if (_registry != null && snapshot.hasData && snapshot.data.data != null) {
                 return registryWidget(snapshot.data.data);
               } else
-                return Center(
-                  child: Text("Loading"),
-                );
+                return LoadingWidget();
             });
       }
     }
-    return Center(child: Text("Loading"));
+    return LoadingWidget();
   }
 
   initTargets() {
@@ -94,7 +94,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
               align: AlignContent.bottom,
               child: Text(
                 "Click here to edit the fragment count for this page.",
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                style: AppStyles.tutorialText,
                 textAlign: TextAlign.right,
               ))
         ],
@@ -110,7 +110,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
             align: AlignContent.bottom,
             child: Text(
               "After successfully retrieving a foundable, click on this button to add a fragment.",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              style: AppStyles.tutorialText,
               textAlign: TextAlign.right,
             ),
           ),
@@ -127,7 +127,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
             align: AlignContent.bottom,
             child: Text(
               "Set your current prestige level here.",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              style: AppStyles.tutorialText,
               textAlign: TextAlign.center,
             ),
           ),
@@ -144,7 +144,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
             align: AlignContent.left,
             child: Text(
               "\nQuickly access other families.",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              style: AppStyles.tutorialText,
               textAlign: TextAlign.end,
             ),
           ),
@@ -163,23 +163,23 @@ class MyRegistryPageState extends State<MyRegistryPage> {
             scrollDirection: Axis.vertical,
             controller: controller,
             children: <Widget>[
-              chapterCard("cmc", data, cmcDark, cmcLight, 0),
-              chapterCard("da", data, daDark, daLight, 1),
-              chapterCard("hs", data, hsDark, hsLight, 2),
-              chapterCard("loh", data, lohDark, lohLight, 3),
-              chapterCard("mom", data, momDark, momLight, 4),
-              chapterCard("m", data, mDark, mLight, 5),
-              chapterCard("mgs", data, mgsDark, mgsLight, 6),
-              chapterCard("ma", data, maDark, maLight, 7),
-              chapterCard("www", data, wwwDark, wwwLight, 8),
-              chapterCard("o", data, oDark, oLight, 9),
+              chapterCard("cmc", data, AppColors.cmcDark, AppColors.cmcLight, 0),
+              chapterCard("da", data, AppColors.daDark, AppColors.daLight, 1),
+              chapterCard("hs", data, AppColors.hsDark, AppColors.hsLight, 2),
+              chapterCard("loh", data, AppColors.lohDark, AppColors.lohLight, 3),
+              chapterCard("mom", data, AppColors.momDark, AppColors.momLight, 4),
+              chapterCard("m", data, AppColors.mDark, AppColors.mLight, 5),
+              chapterCard("mgs", data, AppColors.mgsDark, AppColors.mgsLight, 6),
+              chapterCard("ma", data, AppColors.maDark, AppColors.maLight, 7),
+              chapterCard("www", data, AppColors.wwwDark, AppColors.wwwLight, 8),
+              chapterCard("o", data, AppColors.oDark, AppColors.oLight, 9),
             ],
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(right: 4),
+          padding: AppStyles.registryIndexInsets,
           child: Container(
-            width: 42,
+            width: AppDimens.registryIndexWidth,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -207,7 +207,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     List<Widget> widgets = List();
     widgets.add(Text(
       "${chapter.name}",
-      style: TextStyle(color: Colors.white),
+      style: AppStyles.lightContentText,
     ));
     widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, light, data, dark)));
 
@@ -240,7 +240,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
         Flexible(
             child: Text(
           "${page.name}",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: AppStyles.darkBoldContentText,
           textAlign: TextAlign.center,
         )),
         DropdownButton<String>(
@@ -269,7 +269,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
               value: value,
               child: Text(
                 value,
-                style: TextStyle(fontSize: 15),
+                style: AppStyles.darkContentText,
               ),
             );
           }).toList(),
@@ -278,7 +278,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
           key: key1,
           icon: Icon(
             Icons.edit,
-            color: Colors.black,
+            color: AppColors.darkColor,
           ),
           onPressed: () => _pushDialog(page, data, dropdownValue, darkColor, lightColor),
         )
@@ -292,7 +292,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     return Card(
       color: lightColor,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: AppStyles.miniInsets,
         child: Column(
           children: widgets,
         ),
@@ -315,24 +315,28 @@ class MyRegistryPageState extends State<MyRegistryPage> {
 
     widgets.addAll([
       Container(
-        width: 50,
-        height: 50,
+        width: AppDimens.mediumImageSize,
+        height: AppDimens.mediumImageSize,
         child: Image.asset("assets/images/foundables/$foundableId.png"),
       ),
-      Expanded(child: Text(foundable.name)),
+      Expanded(
+          child: Text(
+            foundable.name,
+            style: AppStyles.darkContentText,
+      )),
     ]);
 
     if (currentCount < intRequirement) {
       widgets.addAll([
         Container(
-          width: 36,
+          width: AppDimens.gigaSize,
           child: RaisedButton(
             key: key2,
-            color: backgroundColor,
-            padding: EdgeInsets.all(0),
+            color: AppColors.backgroundColor,
+            padding: AppStyles.zeroInsets,
             child: Text(
               "+",
-              style: TextStyle(color: Colors.white),
+              style: AppStyles.quantityText,
             ),
             onPressed: () {
               _sendPlusEvent();
@@ -342,40 +346,36 @@ class MyRegistryPageState extends State<MyRegistryPage> {
         ),
       ]);
 
-      widgets.add(
-          Container(
-            alignment: Alignment.center,
-            width: 90,
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "$currentCount / $intRequirement",
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-              color: Colors.transparent,
-              elevation: 0,
+      widgets.add(Container(
+        alignment: Alignment.center,
+        width: AppDimens.registryCounterWidth,
+        child: Card(
+          child: Padding(
+            padding: AppStyles.miniInsets,
+            child: Text(
+              "$currentCount / $intRequirement",
+              style: AppStyles.darkContentText,
             ),
-          )
-      );
+          ),
+          color: Colors.transparent,
+          elevation: 0,
+        ),
+      ));
     } else {
-      widgets.add(
-          Container(
-            alignment: Alignment.center,
-            width: 90,
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "$currentCount / $intRequirement",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              color: color,
+      widgets.add(Container(
+        alignment: Alignment.center,
+        width: AppDimens.registryCounterWidth,
+        child: Card(
+          child: Padding(
+            padding: AppStyles.miniInsets,
+            child: Text(
+              "$currentCount / $intRequirement",
+              style: AppStyles.lightContentText,
             ),
-          )
-      );
+          ),
+          color: color,
+        ),
+      ));
     }
 
     return Row(
@@ -393,7 +393,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   }
 
   callback() {
-    setState(() { });
+    setState(() {});
   }
 
   _submit(String userId, Foundable foundable, String newValue, int requirement) {

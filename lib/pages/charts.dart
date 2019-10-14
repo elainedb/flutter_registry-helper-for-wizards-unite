@@ -3,14 +3,18 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:registry_helper_for_wu/data/data.dart';
-import 'package:registry_helper_for_wu/utils/utils.dart';
-import 'package:registry_helper_for_wu/widgets/chart.dart';
-import 'package:registry_helper_for_wu/bottom_bar_nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/animated_focus_light.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import '../main.dart';
+
+import '../data/data.dart';
+import '../resources/values/app_colors.dart';
+import '../resources/values/app_dimens.dart';
+import '../resources/values/app_styles.dart';
+import '../utils/utils.dart';
+import '../widgets/loading.dart';
+import '../widgets/chart.dart';
+
 
 class ChartsPage extends StatefulWidget {
   final Registry _registry;
@@ -74,7 +78,7 @@ class ChartsPageState extends State<ChartsPage> {
               align: AlignContent.top,
               child: Text(
                 "You can visualize your progress here. Click on a bar in order to see the foundable behind it.",
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                style: AppStyles.tutorialText,
                 textAlign: TextAlign.center,
               ))
         ],
@@ -90,7 +94,7 @@ class ChartsPageState extends State<ChartsPage> {
             align: AlignContent.bottom,
             child: Text(
               "Information about the threat level (color) and how to catch (icon) is shown here.",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              style: AppStyles.tutorialText,
               textAlign: TextAlign.center,
             ),
           ),
@@ -107,7 +111,7 @@ class ChartsPageState extends State<ChartsPage> {
             align: AlignContent.bottom,
             child: Text(
               "Here's the legend for the icons shown below the charts.",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              style: AppStyles.tutorialText,
               textAlign: TextAlign.center,
             ),
           ),
@@ -129,9 +133,7 @@ class ChartsPageState extends State<ChartsPage> {
               if (snapshot.hasData && snapshot.data.data != null) {
                 return _getChartList(snapshot.data.data);
               } else
-                return Center(
-                  child: Text("Loading"),
-                );
+                return LoadingWidget();
             }));
       }
     }
@@ -144,25 +146,25 @@ class ChartsPageState extends State<ChartsPage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Container(
-                  height: 24,
+                  height: AppDimens.megaSize,
                 ),
                 Card(
-                  color: Colors.grey,
+                  color: AppColors.chartsCardColor,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: AppStyles.miniInsets,
                     child: Container(
-                      width: 100,
+                      width: AppDimens.chartsCardWidth,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Container(
-                            width: 50,
-                            height: 50,
+                            width: AppDimens.mediumImageSize,
+                            height: AppDimens.mediumImageSize,
                             child: Image.asset("assets/images/foundables/${_selectedFoundableData.id}.png"),
                           ),
                           Text(
                             "${_selectedFoundableData.name}",
-                            style: TextStyle(color: Colors.black),
+                            style: AppStyles.darkText,
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -177,7 +179,7 @@ class ChartsPageState extends State<ChartsPage> {
     }
 
     if (widgets.isEmpty) {
-      widgets.add(Center(child: Text("Loading")));
+      widgets.add(LoadingWidget());
     }
 
     return Stack(
@@ -192,7 +194,7 @@ class ChartsPageState extends State<ChartsPage> {
     return ListView(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.all(14.0),
+          padding: AppStyles.mediumInsets,
           child: Row(
             key: globalKey3,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -202,30 +204,30 @@ class ChartsPageState extends State<ChartsPage> {
                 children: <Widget>[
                   Text(
                     "Threat Level",
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: AppStyles.lightBoldContentText,
                   ),
                   Container(
-                    height: 8,
+                    height: AppDimens.miniSize,
                   ),
-                  getThreatLevelRow(Colors.grey, "Low"),
-                  getThreatLevelRow(Colors.white, "Medium"),
-                  getThreatLevelRow(Colors.yellow, "High"),
-                  getThreatLevelRow(Colors.orange, "Severe"),
-                  getThreatLevelRow(Colors.red, "Emergency"),
+                  getThreatLevelRow(AppColors.lowThreatColor, "Low"),
+                  getThreatLevelRow(AppColors.mediumThreatColor, "Medium"),
+                  getThreatLevelRow(AppColors.highThreatColor, "High"),
+                  getThreatLevelRow(AppColors.severeThreatColor, "Severe"),
+                  getThreatLevelRow(AppColors.emergencyThreatColor, "Emergency"),
                 ],
               ),
               Container(
-                width: 24,
+                width: AppDimens.megaSize,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     "How to catch",
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: AppStyles.lightBoldContentText,
                   ),
                   Container(
-                    height: 8,
+                    height: AppDimens.miniSize,
                   ),
                   getHowToRow(Icons.pets, "Wild"),
                   getHowToRow(Icons.vpn_key, "Portkey / Wild"),
@@ -235,16 +237,16 @@ class ChartsPageState extends State<ChartsPage> {
             ],
           ),
         ),
-        getChartForChapter(data, "cmc", cmcDarkStringHex, cmcLightStringHex),
-        getChartForChapter(data, "da", daDarkStringHex, daLightStringHex),
-        getChartForChapter(data, "hs", hsDarkStringHex, hsLightStringHex),
-        getChartForChapter(data, "loh", lohDarkStringHex, lohLightStringHex),
-        getChartForChapter(data, "mom", momDarkStringHex, momLightStringHex),
-        getChartForChapter(data, "m", mDarkStringHex, mLightStringHex),
-        getChartForChapter(data, "mgs", mgsDarkStringHex, mgsLightStringHex),
-        getChartForChapter(data, "ma", maDarkStringHex, maLightStringHex),
-        getChartForChapter(data, "www", wwwDarkStringHex, wwwLightStringHex),
-        getChartForChapter(data, "o", oDarkStringHex, oLightStringHex),
+        getChartForChapter(data, "cmc", AppColors.cmcDarkStringHex, AppColors.cmcLightStringHex),
+        getChartForChapter(data, "da", AppColors.daDarkStringHex, AppColors.daLightStringHex),
+        getChartForChapter(data, "hs", AppColors.hsDarkStringHex, AppColors.hsLightStringHex),
+        getChartForChapter(data, "loh", AppColors.lohDarkStringHex, AppColors.lohLightStringHex),
+        getChartForChapter(data, "mom", AppColors.momDarkStringHex, AppColors.momLightStringHex),
+        getChartForChapter(data, "m", AppColors.mDarkStringHex, AppColors.mLightStringHex),
+        getChartForChapter(data, "mgs", AppColors.mgsDarkStringHex, AppColors.mgsLightStringHex),
+        getChartForChapter(data, "ma", AppColors.maDarkStringHex, AppColors.maLightStringHex),
+        getChartForChapter(data, "www", AppColors.wwwDarkStringHex, AppColors.wwwLightStringHex),
+        getChartForChapter(data, "o", AppColors.oDarkStringHex, AppColors.oLightStringHex),
       ],
     );
   }
@@ -289,7 +291,7 @@ class ChartsPageState extends State<ChartsPage> {
       children: <Widget>[
         Text(
           chapter.name,
-          style: TextStyle(color: Color(hexToInt(light))),
+          style: AppStyles.chartsTitle(Color(hexToInt(light))),
         ),
         Stack(
           key: key,
@@ -301,7 +303,7 @@ class ChartsPageState extends State<ChartsPage> {
           ],
         ),
         Container(
-          height: 24,
+          height: AppDimens.megaSize,
         ),
       ],
     );
@@ -314,12 +316,12 @@ class ChartsPageState extends State<ChartsPage> {
 
     chapter.pages.forEach((page) {
       page.foundables.forEach((foundable) {
-        list.add(getIconWithFoundable(foundable, 14));
+        list.add(getIconWithFoundable(foundable, AppDimens.smallSize));
       });
     });
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 14),
+      padding: AppStyles.chartsHowToCatchInsets,
       child: Row(
         key: key,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -333,29 +335,26 @@ class ChartsPageState extends State<ChartsPage> {
 
     chapter.pages.forEach((page) {
       page.foundables.forEach((foundable) {
-        var color = backgroundColor;
+        var color = AppColors.backgroundColor;
         if (foundable.id.contains("_1")) {
-          color = Colors.white;
+          color = AppColors.chartsSeparatorColor;
         }
 
         Widget w = LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
-            final dashWidth = 2.0;
-            final dashHeight = 8.0;
-            final dashCount = 20;
             return Flex(
-              children: List.generate(dashCount, (_) {
+              children: List.generate(AppDimens.dashCount, (_) {
                 return Column(
                   children: <Widget>[
                     SizedBox(
-                      width: dashWidth,
-                      height: dashHeight,
+                      width: AppDimens.dashWidth,
+                      height: AppDimens.dashHeight,
                       child: DecoratedBox(
                         decoration: BoxDecoration(color: color),
                       ),
                     ),
                     Container(
-                      height: 2,
+                      height: AppDimens.nanoSize,
                     )
                   ],
                 );
@@ -375,14 +374,14 @@ class ChartsPageState extends State<ChartsPage> {
     return Column(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+          padding: AppStyles.chartsSeparatorsInsets,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: list,
           ),
         ),
         Container(
-          height: 20,
+          height: AppDimens.largeSize,
         ),
       ],
     );
@@ -396,11 +395,11 @@ class ChartsPageState extends State<ChartsPage> {
           color: color,
         ),
         Container(
-          width: 4,
+          width: AppDimens.microSize,
         ),
         Text(
           text,
-          style: TextStyle(color: Colors.white),
+          style: AppStyles.lightContentText,
         ),
       ],
     );
@@ -414,11 +413,11 @@ class ChartsPageState extends State<ChartsPage> {
           color: Colors.white,
         ),
         Container(
-          width: 4,
+          width: AppDimens.microSize,
         ),
         Text(
           text,
-          style: TextStyle(color: Colors.white),
+          style: AppStyles.lightContentText,
         ),
       ],
     );

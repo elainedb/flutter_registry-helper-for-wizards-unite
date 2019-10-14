@@ -2,8 +2,12 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:registry_helper_for_wu/widgets/version.dart';
 import 'package:share/share.dart';
+
+import '../resources/values/app_colors.dart';
+import '../resources/values/app_dimens.dart';
+import '../resources/values/app_styles.dart';
+import '../widgets/version.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -60,7 +64,7 @@ class SettingsPageState extends State<SettingsPage> {
         ),
         Positioned(
           child: Container(
-            color: Colors.black.withAlpha(100),
+            color: AppColors.transparentBlackCardColor,
           ),
           bottom: 0,
           top: 0,
@@ -72,7 +76,7 @@ class SettingsPageState extends State<SettingsPage> {
           children: <Widget>[
             Center(
               child: FloatingActionButton.extended(
-                backgroundColor: Colors.orange.withAlpha(120),
+                backgroundColor: AppColors.fabBackgroundColor,
                 onPressed: () async {
                   Share.share('Check out Registry Helper for Wizards Unite! Android: https://play.google.com/store/apps/details?id=elainedb.dev.registry_helper_for_wu / iOS: https://testflight.apple.com/join/lQjFo3iR');
                 },
@@ -81,18 +85,18 @@ class SettingsPageState extends State<SettingsPage> {
               ),
             ),
             Container(
-              height: 96,
+              height: AppDimens.teraSize,
             ),
             Text(
               "Logged in as $_userEmail",
-              style: TextStyle(color: Colors.white),
+              style: AppStyles.lightContentText,
             ),
             Container(
-              height: 24,
+              height: AppDimens.megaSize,
             ),
             Center(
               child: FloatingActionButton.extended(
-                backgroundColor: Colors.orange.withAlpha(120),
+                backgroundColor: AppColors.fabBackgroundColor,
                 onPressed: () async {
                   _firebaseSignOut();
                 },
@@ -107,7 +111,7 @@ class SettingsPageState extends State<SettingsPage> {
           children: <Widget>[
             Center(child: VersionWidget()),
             Container(
-              height: 16,
+              height: AppDimens.mediumSize,
             ),
           ],
         ),

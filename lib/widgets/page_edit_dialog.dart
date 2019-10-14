@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:registry_helper_for_wu/data/data.dart';
 
-import '../main.dart';
+import '../data/data.dart';
+import '../resources/values/app_colors.dart';
+import '../resources/values/app_dimens.dart';
+import '../resources/values/app_styles.dart';
 import 'foundable_slider_row.dart';
 
 class PageEditDialog extends StatefulWidget {
@@ -45,7 +47,7 @@ class PageEditDialogState extends State<PageEditDialog> {
 
     widgets.add(
         FloatingActionButton.extended(
-          backgroundColor: backgroundColor,
+          backgroundColor: AppColors.backgroundColor,
           onPressed: () {
             _submitPage();
           },
@@ -62,16 +64,16 @@ class PageEditDialogState extends State<PageEditDialog> {
       alignment: Alignment.center,
       children: <Widget>[
         Card(
-          margin: EdgeInsets.all(16),
+          margin: AppStyles.mediumInsets,
           color: widget.lightColor,
           shape: ContinuousRectangleBorder(
               side: BorderSide(
                 color: widget.darkColor,
-                width: 8,
+                width: AppDimens.miniSize,
               )
           ),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: AppStyles.mediumInsets,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: widgets,

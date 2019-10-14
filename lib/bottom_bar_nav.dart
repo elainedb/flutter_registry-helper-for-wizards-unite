@@ -5,39 +5,19 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:quick_actions/quick_actions.dart';
-import 'package:registry_helper_for_wu/pages/helper.dart';
-import 'package:registry_helper_for_wu/pages/my_registry.dart';
-import 'package:registry_helper_for_wu/pages/settings.dart';
-import 'package:registry_helper_for_wu/pages/charts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/data.dart';
-import 'main.dart';
+import 'pages/helper.dart';
+import 'pages/my_registry.dart';
+import 'pages/settings.dart';
+import 'pages/charts.dart';
+import 'resources/values/app_colors.dart';
+import 'widgets/loading.dart';
 
 //https://www.wizardunite.com/2019/05/hpwu-foundables-and-traces.html
 //https://github.com/hpwizardsunite-dev-contrib
 //https://wizardsunitehub.info/foundables/
-
-final cmcDark = const Color(0xFF3B748C); final cmcDarkStringHex = '#3B748C';
-final cmcLight = const Color(0xFFB7DAEF); final cmcLightStringHex = '#B7DAEF';
-final daDark = const Color(0xFF3A5C2A); final daDarkStringHex = '#3A5C2A';
-final daLight = const Color(0xFFCCEF85); final daLightStringHex = '#CCEF85';
-final hsDark = const Color(0xFF73442C); final hsDarkStringHex = '#73442C';
-final hsLight = const Color(0xFFE6936C); final hsLightStringHex = '#E6936C';
-final lohDark = const Color(0xFF646155); final lohDarkStringHex = '#646155';
-final lohLight = const Color(0xFFE8E3C8); final lohLightStringHex = '#E8E3C8';
-final momDark = const Color(0xFF513C2B); final momDarkStringHex = '#513C2B';
-final momLight = const Color(0xFFE6AE61); final momLightStringHex = '#E6AE61';
-final mDark = const Color(0xFF273675); final mDarkStringHex = '#273675';
-final mLight = const Color(0xFF99B1F9); final mLightStringHex = '#99B1F9';
-final mgsDark = const Color(0xFF875F04); final mgsDarkStringHex = '#875F04';
-final mgsLight = const Color(0xFFE6C976); final mgsLightStringHex = '#E6C976';
-final maDark = const Color(0xFF612231); final maDarkStringHex = '#612231';
-final maLight = const Color(0xFFEF989A); final maLightStringHex = '#EF989A';
-final wwwDark = const Color(0xFF13717E); final wwwDarkStringHex = '#13717E';
-final wwwLight = const Color(0xFF72F9F9); final wwwLightStringHex = '#72F9F9';
-final oDark = const Color(0xFF382463); final oDarkStringHex = '#382463';
-final oLight = const Color(0xFFA77CE8); final oLightStringHex = '#A77CE8';
 
 class BottomBarNavWidget extends StatefulWidget {
   final Registry _firebaseRegistry;
@@ -146,9 +126,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
 
     return Builder(builder: (BuildContext context) {
       if (_userId.isEmpty) {
-        return Center(
-          child: Text("Loading"),
-        );
+        return LoadingWidget();
       }
       return Scaffold(
         body: _widgetOptions.elementAt(_selectedIndex),
@@ -172,13 +150,13 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
               title: Text('Settings'),
             ),
           ],
-          selectedItemColor: backgroundColor,
-          unselectedItemColor: backgroundColorUnselected,
-          backgroundColor: backgroundColorBottomBar,
+          selectedItemColor: AppColors.backgroundColor,
+          unselectedItemColor: AppColors.backgroundColorUnselected,
+          backgroundColor: AppColors.backgroundColorBottomBar,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
         ),
-        backgroundColor: backgroundColor,
+        backgroundColor: AppColors.backgroundColor,
       );
     });
   }

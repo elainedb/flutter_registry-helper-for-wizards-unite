@@ -7,29 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:registry_helper_for_wu/data/data.dart';
-import 'package:registry_helper_for_wu/bottom_bar_nav.dart';
-import 'package:registry_helper_for_wu/signin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Map<int, Color> backgroundColorMap = {
-  50: Color.fromRGBO(55, 31, 33, .1),
-  100: Color.fromRGBO(55, 31, 33, .2),
-  200: Color.fromRGBO(55, 31, 33, .3),
-  300: Color.fromRGBO(55, 31, 33, .4),
-  400: Color.fromRGBO(55, 31, 33, .5),
-  500: Color.fromRGBO(55, 31, 33, .6),
-  600: Color.fromRGBO(55, 31, 33, .7),
-  700: Color.fromRGBO(55, 31, 33, .8),
-  800: Color.fromRGBO(55, 31, 33, .9),
-  900: Color.fromRGBO(55, 31, 33, 1),
-};
-
-final backgroundColorInt = 0xFF371F21;
-final Color backgroundColor = Color(backgroundColorInt);
-final Color backgroundColorUnselected = Color(0x88371F21);
-final Color backgroundColorBottomBar = Color(0xFFf4c862);
-final MaterialColor backgroundMaterialColor = MaterialColor(backgroundColorInt, backgroundColorMap);
+import 'bottom_bar_nav.dart';
+import 'data/data.dart';
+import 'resources/values/app_colors.dart';
+import 'resources/values/app_styles.dart';
+import 'signin.dart';
+import 'widgets/loading.dart';
 
 void main() {
   Crashlytics.instance.enableInDevMode = false;
@@ -43,18 +28,15 @@ void main() {
     Crashlytics.instance.onError(details);
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: AppStyles.miniInsets,
         child: const Center(
           child: Text(
             'An unexpected error occurred.',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20
-            ),
+            style: AppStyles.largeText,
           ),
         ),
       ),
-      backgroundColor: backgroundMaterialColor,
+      backgroundColor: AppColors.backgroundMaterialColor,
     );
   };
 
@@ -74,10 +56,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Registry Helper for Wizards Unite',
-      theme: ThemeData(
-        primarySwatch: backgroundMaterialColor,
-        fontFamily: 'Raleway',
-      ),
+      theme: AppStyles.appThemeData,
       home: MyHomePage(title: 'Registry Helper for Wizards Unite', observer: observer, analytics: analytics),
       navigatorObservers: <NavigatorObserver>[observer],
 //      debugShowCheckedModeBanner: false,
@@ -128,18 +107,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(body: Builder(builder: (BuildContext context) {
       if(_isRegistryLoading || _isUserDataLoading) {
-        return Center(child: CircularProgressIndicator(backgroundColor: Colors.white,),);
+        return Center(child: CircularProgressIndicator(backgroundColor: AppColors.progressIndicatorColor,),);
       }
 
       switch(_userId) {
         case "":
-          return Center(child: Text("Loading..."),);
+          return LoadingWidget();
         case "null":
           observer.analytics.setCurrentScreen(screenName: "SignInPage",);
           return SignInWidget(analytics);
       }
       return BottomBarNavWidget(_registry, observer, analytics);
-    }), backgroundColor: backgroundMaterialColor,);
+    }), backgroundColor: AppColors.backgroundMaterialColor,);
   }
 
   void _manageFirebaseUser(FirebaseUser user) {

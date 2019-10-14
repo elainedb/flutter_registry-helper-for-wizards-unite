@@ -8,6 +8,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:registry_helper_for_wu/widgets/version.dart';
 import 'package:shimmer/shimmer.dart';
 
+import 'resources/values/app_colors.dart';
+import 'resources/values/app_dimens.dart';
+import 'resources/values/app_styles.dart';
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class SignInWidget extends StatefulWidget {
@@ -85,21 +89,12 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: AppStyles.mediumInsets,
                 child: Stack(
                   children: <Widget>[
                     Text(
                       'Welcome to Registry Helper for Wizards Unite!',
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          shadows: <Shadow>[
-                            Shadow(
-                              offset: Offset(1.0, 1.0),
-                              blurRadius: 5.0,
-                              color: Colors.black,
-                            ),
-                          ]),
+                      style: AppStyles.titleText,
                       textAlign: TextAlign.center,
                     ),
                     Shimmer.fromColors(
@@ -108,9 +103,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                       period: Duration(seconds: 2),
                       child: Text(
                         'Welcome to Registry Helper for Wizards Unite!',
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
+                        style: AppStyles.extraLargeBoldText,
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -118,25 +111,22 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                 ),
               ),
               Card(
-                margin: EdgeInsets.all(8.0),
-                color: Colors.black.withAlpha(100),
+                margin: AppStyles.miniInsets,
+                color: AppColors.transparentBlackCardColor,
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: AppStyles.mediumInsets,
                   child: Column(
                     children: <Widget>[
                       Text(
                         'In order to automatically backup your data, please sign in.',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
+                        style: AppStyles.mediumText,
                         textAlign: TextAlign.center,
                       ),
                       Container(
-                        height: 16,
+                        height: AppDimens.mediumSize,
                       ),
                       FloatingActionButton.extended(
-                        backgroundColor: Colors.orange.withAlpha(120),
+                        backgroundColor: AppColors.fabBackgroundColor,
                         onPressed: () async {
                           _signInWithGoogle();
                         },
@@ -148,25 +138,22 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                 ),
               ),
               Card(
-                margin: EdgeInsets.all(8.0),
-                color: Colors.black.withAlpha(100),
+                margin: AppStyles.miniInsets,
+                color: AppColors.transparentBlackCardColor,
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: AppStyles.mediumInsets,
                   child: Column(
                     children: <Widget>[
                       Text(
                         'If you wish to try out first, you can sign in anonymously.',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
+                        style: AppStyles.mediumText,
                         textAlign: TextAlign.center,
                       ),
                       Container(
-                        height: 16,
+                        height: AppDimens.mediumSize,
                       ),
                       FloatingActionButton.extended(
-                        backgroundColor: Colors.orange.withAlpha(120),
+                        backgroundColor: AppColors.fabBackgroundColor,
                         onPressed: () async {
                           _signInAnonymous();
                         },
@@ -184,7 +171,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
             children: <Widget>[
               Center(child: VersionWidget()),
               Container(
-                height: 16,
+                height: AppDimens.mediumSize,
               ),
             ],
           ),

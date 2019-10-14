@@ -3,11 +3,15 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:registry_helper_for_wu/data/data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/animated_focus_light.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import '../main.dart';
+
+import '../data/data.dart';
+import '../resources/values/app_colors.dart';
+import '../resources/values/app_dimens.dart';
+import '../resources/values/app_styles.dart';
+import '../widgets/loading.dart';
 
 class HelperPage extends StatefulWidget {
   final Registry _registry;
@@ -84,13 +88,11 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
               if (snapshot.hasData && snapshot.data.data != null) {
                 return _tabController(snapshot.data.data);
               } else
-                return Center(
-                  child: Text("Loading"),
-                );
+                return LoadingWidget();
             });
       }
     }
-    return Center(child: Text("Loading"));
+    return LoadingWidget();
   }
 
   initTargets() {
@@ -104,7 +106,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
               align: AlignContent.bottom,
               child: Text(
                 "Here you can find how many fragments are missing for each threat level. Information about where you can find nests for the family can be consulted by clicking here.",
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                style: AppStyles.tutorialText,
                 textAlign: TextAlign.center,
               ))
         ],
@@ -120,7 +122,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
             align: AlignContent.bottom,
             child: Text(
               "You can sort this list by Threat Level or Wizarding Challenges.",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              style: AppStyles.tutorialText,
               textAlign: TextAlign.right,
             ),
           ),
@@ -137,7 +139,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
             align: AlignContent.bottom,
             child: Text(
               "You can find personalized insights here.",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+              style: AppStyles.tutorialText,
               textAlign: TextAlign.right,
             ),
           ),
@@ -173,7 +175,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
             _insights(data),
           ],
         ),
-        backgroundColor: backgroundColor,
+        backgroundColor: AppColors.backgroundColor,
       ),
     );
   }
@@ -181,26 +183,23 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
   Widget _generalHelper(Map<String, dynamic> data) {
     List<Widget> widgets = List();
     widgets.add(Padding(
-      padding: const EdgeInsets.all(8),
+      padding: AppStyles.miniInsets,
       child: Text(
         "Below is the missing count for all foundables in a family. You can use it to help you decide which trace to click if you have a cluster!",
-        style: TextStyle(color: Colors.white),
+        style: AppStyles.lightContentText,
       ),
     ));
     widgets.add(Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: AppStyles.miniInsets,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Text(
             'Sort by:',
-            style: TextStyle(color: Colors.white),
+            style: AppStyles.lightContentText,
           ),
           Theme(
-            data: ThemeData(
-              canvasColor: backgroundColor,
-              fontFamily: 'Raleway',
-            ),
+            data: AppStyles.helperDropdownThemeData,
             child: DropdownButton<String>(
               key: globalKey2,
               value: _dropdownValue,
@@ -215,7 +214,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
                   value: value,
                   child: Text(
                     value,
-                    style: TextStyle(color: Colors.white),
+                    style: AppStyles.lightContentText,
                   ),
                 );
               }).toList(),
@@ -288,7 +287,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
     if (_getPagesWithOneOreTwoMissingWidgets(data) == null && _getNoClickWidgets(data) == null) {
       return Text(
         "No insights for now!",
-        style: TextStyle(color: Colors.white),
+        style: AppStyles.lightContentText,
       );
     }
 
@@ -301,10 +300,10 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
   List<Widget> _getPagesWithOneOreTwoMissingWidgets(Map<String, dynamic> data) {
     List<Widget> widgets = List();
     widgets.add(Padding(
-      padding: const EdgeInsets.all(16),
+      padding: AppStyles.mediumInsets,
       child: Text(
         "Focused playing: this is a list of pages that have only one or two remaining foundables in order to be complete!",
-        style: TextStyle(color: Colors.white),
+        style: AppStyles.lightContentText,
         textAlign: TextAlign.center,
       ),
     ));
@@ -325,10 +324,10 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
   Widget _getAlmostCompletePageWidget(AlmostCompletePage almostCompletePage, String chapterId) {
     List<Widget> widgets = List();
     widgets.add(Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: AppStyles.helperAlmostCompleteInsets,
       child: Text(
         almostCompletePage.pageName,
-        style: TextStyle(color: Colors.white),
+        style: AppStyles.lightContentText,
       ),
     ));
     almostCompletePage.foundables.forEach((foundable) {
@@ -336,21 +335,21 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
-            width: 50,
+            width: AppDimens.mediumImageSize,
             child: Image.asset("assets/images/traces_transparent/${chapterId}.png"),
           ),
           Container(
-            width: 50,
-            height: 50,
+            width: AppDimens.mediumImageSize,
+            height: AppDimens.mediumImageSize,
             child: Image.asset("assets/images/foundables/${foundable.foundable.id}.png"),
           ),
           Container(
-            width: 50,
-            child: getIconWithFoundable(foundable.foundable, 30),
+            width: AppDimens.mediumImageSize,
+            child: getIconWithFoundable(foundable.foundable, AppDimens.smallImageSize),
           ),
           Text(
             "${foundable.remainingFragments} left",
-            style: TextStyle(color: Colors.white),
+            style: AppStyles.lightContentText,
           ),
         ],
       ));
@@ -358,7 +357,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
     return Card(
       color: Colors.transparent,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: AppStyles.miniInsets,
         child: Column(
           children: widgets,
         ),
@@ -401,10 +400,10 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
     List<Widget> widgets = List();
     if (gridViewWidgets.length > 0) {
       widgets.add(Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: AppStyles.miniInsets,
         child: Text(
           "Below is your no-click zone! You currently have no missing foundables on your Registry for the following families/categories:",
-          style: TextStyle(color: Colors.white),
+          style: AppStyles.lightContentText,
           textAlign: TextAlign.center,
         ),
       ));
@@ -424,32 +423,32 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
     Color color = Colors.transparent;
     switch (zeroTracesLeft.type) {
       case "high":
-        color = Colors.yellow;
+        color = AppColors.highThreatColor;
         break;
       case "severe":
-        color = Colors.orange;
+        color = AppColors.severeThreatColor;
         break;
       case "emergency":
-        color = Colors.red;
+        color = AppColors.emergencyThreatColor;
         break;
     }
 
     if (zeroTracesLeft.type == "challenges") {
       return Container(
-        width: 80,
+        width: AppDimens.largeImageSize,
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
             Container(
-              width: 50,
+              width: AppDimens.mediumImageSize,
               child: Image.asset("assets/images/traces_transparent/${zeroTracesLeft.chapterId}.png"),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(36, 0, 0, 0),
+              padding: AppStyles.helperChallengesInsets,
               child: Icon(
                 Icons.flash_on,
                 color: Colors.white,
-                size: 30,
+                size: AppDimens.smallImageSize,
               ),
             )
           ],
@@ -462,10 +461,10 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
           Icon(
             Icons.brightness_1,
             color: color,
-            size: 80,
+            size: AppDimens.largeImageSize,
           ),
           Container(
-            width: 50,
+            width: AppDimens.mediumImageSize,
             child: Image.asset("assets/images/traces_transparent/${zeroTracesLeft.chapterId}.png"),
           ),
         ],
@@ -484,11 +483,11 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
         key: key,
         color: chapterForDisplay.lightColor,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+          padding: AppStyles.helperChapterInsets,
           child: Row(
             children: <Widget>[
               Container(
-                width: 75,
+                width: AppDimens.largeImageSize,
                 child: Hero(
                   tag: chapterForDisplay.id,
                   child: Image.asset("assets/images/traces_transparent/${chapterForDisplay.id}.png"),
@@ -498,11 +497,11 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    _missingWidget(Colors.black, "${missingTraces.low + missingTraces.medium}", Icons.radio_button_unchecked),
-                    _missingWidget(Colors.yellow, "${missingTraces.high}", Icons.brightness_1),
-                    _missingWidget(Colors.orange, "${missingTraces.severe}", Icons.brightness_1),
-                    _missingWidget(Colors.red, "${missingTraces.emergency}", Icons.brightness_1),
-                    _missingChallegnges("${missingTraces.challenges}"),
+                    _missingWidget(AppColors.lowAltThreatColor, "${missingTraces.low + missingTraces.medium}", Icons.radio_button_unchecked),
+                    _missingWidget(AppColors.highThreatColor, "${missingTraces.high}", Icons.brightness_1),
+                    _missingWidget(AppColors.severeThreatColor, "${missingTraces.severe}", Icons.brightness_1),
+                    _missingWidget(AppColors.emergencyThreatColor, "${missingTraces.emergency}", Icons.brightness_1),
+                    _missingChallenges("${missingTraces.challenges}"),
                   ],
                 ),
               ),
@@ -520,25 +519,29 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
         Icon(
           iconData,
           color: color,
-          size: 40,
+          size: AppDimens.missingWidgetSize,
         ),
-        Text(text),
+        Text(
+          text,
+          style: AppStyles.darkContentText,
+        ),
       ],
     );
   }
 
-  Widget _missingChallegnges(String text) {
+  Widget _missingChallenges(String text) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Icon(
           Icons.flash_on,
-          size: 16,
+          size: AppDimens.mediumSize,
         ),
         Container(
-            width: 20,
+            width: AppDimens.largeSize,
             child: Text(
               text,
+              style: AppStyles.darkContentText,
               textAlign: TextAlign.center,
             )),
       ],
@@ -575,48 +578,48 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
             children: <Widget>[
               Card(
                 elevation: 5,
-                margin: EdgeInsets.symmetric(horizontal: 16),
+                margin: AppStyles.helperDialogCardInsets,
                 color: chapterForDisplay.lightColor,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(24.0, 8, 24, 16),
+                  padding: AppStyles.helperDialogPaddingInsets,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Container(
-                        height: 24,
+                        height: AppDimens.megaSize,
                       ),
                       Center(
                           child: Text(
-                        chapter.name,
-                        style: TextStyle(color: chapterForDisplay.darkColor, fontSize: 16, fontWeight: FontWeight.bold),
+                            chapter.name,
+                            style: AppStyles.helperDialogTitleText(chapterForDisplay.darkColor),
                       )),
                       Container(
-                        height: 24,
+                        height: AppDimens.megaSize,
                       ),
                       Text(
                         "Open Street Maps Value/Category:",
-                        style: TextStyle(color: chapterForDisplay.darkColor, fontSize: 14),
+                        style: AppStyles.helperDialogBodyText(chapterForDisplay.darkColor),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                        padding: AppStyles.helperDialogBodyInsets,
                         child: Text(
                           chapter.osm,
-                          style: TextStyle(color: chapterForDisplay.darkColor, fontSize: 14, fontWeight: FontWeight.bold),
+                          style: AppStyles.helperDialogBoldBodyText(chapterForDisplay.darkColor),
                         ),
                       ),
                       Container(
-                        height: 24,
+                        height: AppDimens.megaSize,
                       ),
                       Text(
                         "Examples:",
-                        style: TextStyle(color: chapterForDisplay.darkColor, fontSize: 14),
+                        style: AppStyles.helperDialogBodyText(chapterForDisplay.darkColor),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                        padding: AppStyles.helperDialogBodyInsets,
                         child: Text(
                           chapter.examples,
-                          style: TextStyle(color: chapterForDisplay.darkColor, fontSize: 14, fontWeight: FontWeight.bold),
+                          style: AppStyles.helperDialogBoldBodyText(chapterForDisplay.darkColor),
                         ),
                       ),
                     ],
@@ -624,12 +627,12 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
                 ),
               ),
               Positioned(
-                top: -120,
+                top: AppDimens.negativeDialogMargin,
                 child: Hero(
                   tag: chapterForDisplay.id,
                   child: Image(
                     image: AssetImage("assets/images/traces_transparent/${chapterForDisplay.id}.png"),
-                    width: 160,
+                    width: AppDimens.megaImageSize,
                   ),
                 ),
               ),
