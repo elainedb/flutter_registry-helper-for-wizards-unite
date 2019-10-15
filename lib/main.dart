@@ -191,7 +191,6 @@ class _MyHomePageState extends State<MyHomePage> {
           _migrateAnonymous(snapshot.data, userId);
         }
       });
-//      _isUserLoading = false;
     }
   }
 
