@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bottom_bar_nav.dart';
@@ -14,7 +15,10 @@ import 'data/data.dart';
 import 'resources/values/app_colors.dart';
 import 'resources/values/app_styles.dart';
 import 'signin.dart';
+import 'store/authentication.dart';
 import 'widgets/loading.dart';
+
+final Authentication authentication = Authentication();
 
 void main() {
   Crashlytics.instance.enableInDevMode = false;
@@ -55,9 +59,9 @@ class MyApp extends StatelessWidget {
     ]);
 
     return MaterialApp(
-      title: 'Registry Helper for Wizards Unite',
+      title: '',
       theme: AppStyles.appThemeData,
-      home: MyHomePage(title: 'Registry Helper for Wizards Unite', observer: observer, analytics: analytics),
+      home: MyHomePage(title: '', observer: observer, analytics: analytics),
       navigatorObservers: <NavigatorObserver>[observer],
 //      debugShowCheckedModeBanner: false,
     );
@@ -105,19 +109,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Builder(builder: (BuildContext context) {
+    authentication.initAuthState();
+
+    return Scaffold(
+      body: Builder(
+          builder: (BuildContext context) {
       if(_isRegistryLoading || _isUserDataLoading) {
-        return Center(child: CircularProgressIndicator(backgroundColor: AppColors.progressIndicatorColor,),);
+        return LoadingWidget();
       }
 
-      switch(_userId) {
-        case "":
-          return LoadingWidget();
-        case "null":
-          observer.analytics.setCurrentScreen(screenName: "SignInPage",);
-          return SignInWidget(analytics);
-      }
-      return BottomBarNavWidget(_registry, observer, analytics);
+      return Observer(builder: (_) {
+        return authentication.actualAuthState ? BottomBarNavWidget(_registry, observer, analytics) : SignInWidget(analytics);
+      });
     }), backgroundColor: AppColors.backgroundMaterialColor,);
   }
 
@@ -127,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
         _userId = user.uid;
         _isUserAnonymous = user.isAnonymous;
         _setUserId();
-        _downloadRegistryData();
+        _initRegistryDataFromJson();
       });
     } else {
       setState(() {
@@ -136,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  _downloadRegistryData() async {
+  _initRegistryDataFromJson() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _isRegistryLoading = true;

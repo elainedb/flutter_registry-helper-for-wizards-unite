@@ -70,6 +70,27 @@ mixin _$Authentication on _Authentication, Store {
     return _$getEmailAsyncAction.run(() => super.getEmail());
   }
 
+  final _$signInWithGoogleAsyncAction = AsyncAction('signInWithGoogle');
+
+  @override
+  Future<bool> signInWithGoogle() {
+    return _$signInWithGoogleAsyncAction.run(() => super.signInWithGoogle());
+  }
+
+  final _$signInAnonymousAsyncAction = AsyncAction('signInAnonymous');
+
+  @override
+  Future<bool> signInAnonymous() {
+    return _$signInAnonymousAsyncAction.run(() => super.signInAnonymous());
+  }
+
+  final _$initAuthStateAsyncAction = AsyncAction('initAuthState');
+
+  @override
+  Future<bool> initAuthState() {
+    return _$initAuthStateAsyncAction.run(() => super.initAuthState());
+  }
+
   final _$_AuthenticationActionController =
       ActionController(name: '_Authentication');
 

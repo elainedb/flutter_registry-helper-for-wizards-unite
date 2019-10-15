@@ -47,4 +47,45 @@ abstract class _Authentication with Store {
     return await Future.value(true);
   }
 
+  @action
+  Future<bool> signInWithGoogle() async {
+    final GoogleSignInAccount googleUser = await getGoogleUser();
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    FirebaseUser user = await _auth.signInWithCredential(credential);
+    authState = ObservableFuture.value(user.uid != null);
+
+    return await Future.value(true);
+  }
+
+  @action
+  Future<bool> signInAnonymous() async {
+    await _auth.signInAnonymously();
+    authState = ObservableFuture.value(true);
+    return await Future.value(true);
+  }
+
+  @action
+  Future<bool> initAuthState() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    authState = ObservableFuture.value(user != null);
+    return await Future.value(true);
+  }
+
+  Future getGoogleUser() async {
+    GoogleSignInAccount googleUser = _googleSignIn.currentUser;
+    if (googleUser == null) {
+      googleUser = await _googleSignIn.signInSilently();
+    }
+    if (googleUser == null) {
+      googleUser = await _googleSignIn.signIn();
+    }
+
+    return googleUser;
+  }
+
 }

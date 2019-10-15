@@ -26,7 +26,6 @@ abstract class AppColors {
 
   static const Color lightTextColor = lightColor;
   static const Color darkTextColor = darkColor;
-  static const Color progressIndicatorColor = lightColor;
   static const Color shadowColor = darkColor;
   static const Color chartsSeparatorColor = lightColor;
 

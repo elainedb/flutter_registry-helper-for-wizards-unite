@@ -11,17 +11,9 @@ import '../widgets/version.dart';
 
 final Authentication authentication = Authentication();
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends StatelessWidget {
   final FirebaseAnalytics _analytics;
   SettingsPage(this._analytics);
-
-  @override
-  State<StatefulWidget> createState() => SettingsPageState(_analytics);
-}
-
-class SettingsPageState extends State<SettingsPage> {
-  final FirebaseAnalytics _analytics;
-  SettingsPageState(this._analytics);
 
   @override
   Widget build(BuildContext context) {
@@ -75,17 +67,15 @@ class SettingsPageState extends State<SettingsPage> {
               height: AppDimens.megaSize,
             ),
             Center(
-              child: Observer(builder: (_) {
-                return FloatingActionButton.extended(
-                  backgroundColor: AppColors.fabBackgroundColor,
-                  onPressed: () async {
-                    _sendLogoutEvent();
-                    authentication.signOut();
-                  },
-                  label: const Text("Sign Out"),
-                  icon: Icon(Icons.close),
-                );
-              }),
+              child: FloatingActionButton.extended(
+                backgroundColor: AppColors.fabBackgroundColor,
+                onPressed: () async {
+                  _sendLogoutEvent();
+                  authentication.signOut();
+                },
+                label: const Text("Sign Out"),
+                icon: Icon(Icons.close),
+              ),
             ),
           ],
         ),
