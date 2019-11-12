@@ -17,6 +17,9 @@ abstract class _Authentication with Store {
   @observable
   ObservableFuture<String> email = ObservableFuture<String>.value("");
 
+  @observable
+  ObservableFuture<FirebaseUser> user = ObservableFuture<FirebaseUser>.value(null);
+
   @action
   void setAuthState(dynamic newState) {
     authState = newState;
@@ -27,6 +30,15 @@ abstract class _Authentication with Store {
 
   @computed
   String get actualEmail => email.value;
+
+  @computed
+  FirebaseUser get actualUser => user.value;
+
+  @computed
+  bool get isAnonymous => user.value != null ? user.value.isAnonymous : false;
+
+  @computed
+  String get userId => user.value != null ? user.value.uid : "";
 
   @action
   Future<bool> signOut() async {
@@ -71,8 +83,9 @@ abstract class _Authentication with Store {
 
   @action
   Future<bool> initAuthState() async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    authState = ObservableFuture.value(user != null);
+    FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
+    authState = ObservableFuture.value(firebaseUser != null);
+    user = ObservableFuture.value(firebaseUser);
     return await Future.value(true);
   }
 

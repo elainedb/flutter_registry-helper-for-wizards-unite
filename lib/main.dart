@@ -84,8 +84,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final FirebaseAnalyticsObserver observer;
   final FirebaseAnalytics analytics;
-  String _userId = "";
-  bool _isUserAnonymous;
   bool _isRegistryLoading;
   bool _isUserDataLoading;
 
@@ -98,13 +96,9 @@ class _MyHomePageState extends State<MyHomePage> {
     _isRegistryLoading = false;
     _isUserDataLoading = false;
 
-    FirebaseAuth.instance.currentUser().then((user) {
-      _manageFirebaseUser(user);
-    });
+    _setUserId();
+    _initRegistryDataFromJson();
 
-    FirebaseAuth.instance.onAuthStateChanged.listen((user) {
-      _manageFirebaseUser(user);
-    });
   }
 
   @override
@@ -124,21 +118,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }), backgroundColor: AppColors.backgroundMaterialColor,);
   }
 
-  void _manageFirebaseUser(FirebaseUser user) {
-    if (user != null) {
-      setState(() {
-        _userId = user.uid;
-        _isUserAnonymous = user.isAnonymous;
-        _setUserId();
-        _initRegistryDataFromJson();
-      });
-    } else {
-      setState(() {
-        _userId = "null";
-      });
-    }
-  }
-
   _initRegistryDataFromJson() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -153,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _isRegistryLoading = false;
     });
 
-    _initUserData(_userId, prefs);
+    _initUserData(authentication.userId, prefs);
   }
 
   _initUserData(String userId, SharedPreferences prefs) {
@@ -162,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     var registryIds = getAllFoundablesIds(_registry);
 
-    if (!_isUserAnonymous) {
+    if (!authentication.isAnonymous) {
       Firestore.instance.collection('userData').document(userId).get().then((snapshot) async {
         if (!snapshot.exists) {
           _addUserDataConnected(registryIds, userId);
@@ -172,11 +151,6 @@ class _MyHomePageState extends State<MyHomePage> {
             _isUserDataLoading = false;
           });
         }
-      }).catchError((error) {
-          setState(() {
-            _userId = "null";
-            _isUserDataLoading = false;
-          });
       });
     } else {
       Firestore.instance.collection('userData').document(userId).get().then((snapshot) async {
@@ -296,6 +270,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _setUserId() async {
-    await analytics.setUserId(_userId);
+    await analytics.setUserId(authentication.userId);
   }
 }
