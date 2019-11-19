@@ -797,6 +797,62 @@
               "threatLevel":"e"
             }
           ]
+        },
+        {
+          "id":"rr5",
+          "name":"Room of Requirement V",
+          "foundables":[
+            {
+              "id":"rr5_1",
+              "name":"Fred Weasley",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":7,
+              "fragmentRequirementSilver":7,
+              "fragmentRequirementGold":7,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            },
+            {
+              "id":"rr5_2",
+              "name":"Angelina Johnson",
+              "fragmentRequirementStandard":12,
+              "fragmentRequirementBronze":12,
+              "fragmentRequirementSilver":12,
+              "fragmentRequirementGold":12,
+              "howToCatch":"w",
+              "threatLevel":"m"
+            },
+            {
+              "id":"rr5_3",
+              "name":"Parvati Patil",
+              "fragmentRequirementStandard":9,
+              "fragmentRequirementBronze":9,
+              "fragmentRequirementSilver":9,
+              "fragmentRequirementGold":9,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            },
+            {
+              "id":"rr5_4",
+              "name":"George Weasley",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":7,
+              "fragmentRequirementSilver":7,
+              "fragmentRequirementGold":7,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            },
+            {
+              "id":"rr5_5",
+              "name":"Dumbledore's Army Sign-up Sheet",
+              "fragmentRequirementStandard":5,
+              "fragmentRequirementBronze":5,
+              "fragmentRequirementSilver":5,
+              "fragmentRequirementGold":5,
+              "howToCatch":"wc",
+              "threatLevel":"l"
+            }
+          ]
         }
       ]
     },
@@ -1846,7 +1902,7 @@
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
               "howToCatch":"pw",
-              "threatLevel":"h"
+              "threatLevel":"m"
             },
             {
               "id":"rr4_2",
