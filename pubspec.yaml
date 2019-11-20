@@ -7,26 +7,26 @@ description: Registry Helper for Wizards Unite
 version: 1.5.4+16
 
 environment:
-  sdk: ">=2.2.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  charts_flutter: ^0.6.0
-  cloud_firestore: ^0.12.7
-  firebase_analytics: ^4.0.2
-  firebase_auth: ^0.11.1+8
-  firebase_core: ^0.4.0
-  firebase_crashlytics: ^0.0.4+11
-  firebase_performance: ^0.3.0+5
-  google_sign_in: ^4.0.4
-  package_info: ^0.4.0+3
-  quick_actions: ^0.3.2+2
-  scroll_to_index: any
-  share: ^0.6.2+1
-  shared_preferences: ^0.5.3+4
-  shimmer: ^1.0.0
+  charts_flutter: ^0.8.1
+  cloud_firestore: ^0.12.10+2
+  firebase_analytics: ^5.0.6
+  firebase_auth: ^0.15.0+1
+  firebase_core: ^0.4.1+5
+  firebase_crashlytics: ^0.1.1+2
+  firebase_performance: ^0.3.1+4
+  google_sign_in: ^4.0.14
+  package_info: ^0.4.0+10
+  quick_actions: ^0.3.3+1
+  scroll_to_index: ^1.0.4+1
+  share: ^0.6.3+1
+  shared_preferences: ^0.5.4+5
+  shimmer: ^1.0.1
   tutorial_coach_mark:
     git:
       url: https://github.com/Vanethos/tutorial_coach_mark.git

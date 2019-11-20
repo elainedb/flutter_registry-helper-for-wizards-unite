@@ -20,12 +20,12 @@ void main() {
   Crashlytics.instance.enableInDevMode = false;
 
   FlutterError.onError = (FlutterErrorDetails details) {
-    Crashlytics.instance.onError(details);
+    Crashlytics.instance.recordFlutterError(details);
   };
 
   //override the red screen of death
   ErrorWidget.builder = (FlutterErrorDetails details) {
-    Crashlytics.instance.onError(details);
+    Crashlytics.instance.recordFlutterError(details);
     return Scaffold(
       body: Padding(
         padding: AppStyles.miniInsets,

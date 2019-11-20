@@ -110,33 +110,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                   ],
                 ),
               ),
-              Card(
-                margin: AppStyles.miniInsets,
-                color: AppColors.transparentBlackCardColor,
-                child: Padding(
-                  padding: AppStyles.mediumInsets,
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        'In order to automatically backup your data, please sign in.',
-                        style: AppStyles.mediumText,
-                        textAlign: TextAlign.center,
-                      ),
-                      Container(
-                        height: AppDimens.mediumSize,
-                      ),
-                      FloatingActionButton.extended(
-                        backgroundColor: AppColors.fabBackgroundColor,
-                        onPressed: () async {
-                          _signInWithGoogle();
-                        },
-                        label: const Text('Sign in with Google'),
-                        icon: Icon(Icons.account_circle),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              _signInWidget(),
               Card(
                 margin: AppStyles.miniInsets,
                 color: AppColors.transparentBlackCardColor,
@@ -178,6 +152,56 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
         ],
       );
     });
+  }
+
+  Widget _signInWidget() {
+    List<Widget> widgets = List();
+    widgets.addAll([
+        Text(
+          'In order to automatically backup your data, please sign in.',
+          style: AppStyles.mediumText,
+          textAlign: TextAlign.center,
+        ),
+        Container(
+          height: AppDimens.mediumSize,
+        ),
+        FloatingActionButton.extended(
+          backgroundColor: AppColors.fabBackgroundColor,
+          onPressed: () async {
+            _signInWithGoogle();
+          },
+          label: const Text('Sign in with Google'),
+          icon: Icon(Icons.account_circle),
+        )]
+    );
+
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
+      widgets.addAll([
+        Container(
+          height: AppDimens.mediumSize,
+        ),
+        FloatingActionButton.extended(
+          backgroundColor: AppColors.fabBackgroundColor,
+          onPressed: () async {
+            _signInWithGoogle();
+          },
+          label: const Text('Sign in with Apple'),
+          icon: Icon(Icons.account_circle),
+        )
+      ]);
+    }
+
+
+    return Card(
+      margin: AppStyles.miniInsets,
+      color: AppColors.transparentBlackCardColor,
+      child: Padding(
+        padding: AppStyles.mediumInsets,
+        child: Column(
+          children: widgets,
+        ),
+      ),
+    );
   }
 
   void _signInWithGoogle() async {
