@@ -1,5 +1,8 @@
 import 'dart:ui' as ui;
+import 'dart:convert';
 
+import 'package:apple_sign_in/apple_sign_in.dart';
+import 'package:device_info/device_info.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,6 +33,8 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
   ui.Image image;
   double scale = 1;
 
+  var isIOS13 = false;
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +45,13 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
       duration: Duration(seconds: 30),
       vsync: this,
     )..repeat(reverse: true);
+  }
+
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _setIsIOS13();
   }
 
   @override
@@ -175,7 +187,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
         )]
     );
 
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isIOS13) {
       widgets.addAll([
         Container(
           height: AppDimens.mediumSize,
@@ -183,7 +195,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
         FloatingActionButton.extended(
           backgroundColor: AppColors.fabBackgroundColor,
           onPressed: () async {
-            _signInWithGoogle();
+            _signInWithApple();
           },
           label: const Text('Sign in with Apple'),
           icon: Icon(Icons.account_circle),
@@ -214,6 +226,58 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
       idToken: googleAuth.idToken,
     );
     await _auth.signInWithCredential(credential);
+  }
+
+  void _setIsIOS13() {
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
+      DeviceInfoPlugin().iosInfo.then((info) {
+        var version = info.systemVersion;
+
+        if (int.parse(version.split(".")[0]) >= 13) {
+          setState(() {
+            isIOS13 = true;
+          });
+        }
+      });
+    }
+
+  }
+
+  void _signInWithApple() async {
+    const Utf8Codec utf8 = Utf8Codec();
+
+    final AuthorizationResult result = await AppleSignIn.performRequests([
+      AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
+    ]);
+
+    switch (result.status) {
+      case AuthorizationStatus.authorized:
+        final AuthCredential credential = AppleAuthProvider.getCredential(
+            idToken: utf8.decode(result.credential.identityToken),
+            accessToken: utf8.decode(result.credential.authorizationCode));
+        await _auth.signInWithCredential(credential);
+
+      // Store user ID
+//        await FlutterSecureStorage()
+//            .write(key: "userId", value: result.credential.user);
+//
+//        // Navigate to secret page (shhh!)
+//        Navigator.of(context).pushReplacement(MaterialPageRoute(
+//            builder: (_) =>
+//                SecretMembersOnlyPage(credential: result.credential)));
+        break;
+
+      case AuthorizationStatus.error:
+        print("Sign in failed: ${result.error.localizedDescription}");
+//        setState(() {
+//          errorMessage = "Sign in failed 😿";
+//        });
+        break;
+
+      case AuthorizationStatus.cancelled:
+        print('User cancelled');
+        break;
+    }
   }
 
   void _signInAnonymous() async {

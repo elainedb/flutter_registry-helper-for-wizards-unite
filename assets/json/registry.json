@@ -853,6 +853,62 @@
               "threatLevel":"l"
             }
           ]
+        },
+        {
+          "id":"yb",
+          "name":"Yule Ball Great Hall",
+          "foundables":[
+            {
+              "id":"yb_1",
+              "name":"Fred and Angelina",
+              "fragmentRequirementStandard":9,
+              "fragmentRequirementBronze":9,
+              "fragmentRequirementSilver":9,
+              "fragmentRequirementGold":9,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            },
+            {
+              "id":"yb_2",
+              "name":"Hagrid and Madame Maxime",
+              "fragmentRequirementStandard":9,
+              "fragmentRequirementBronze":9,
+              "fragmentRequirementSilver":9,
+              "fragmentRequirementGold":9,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            },
+            {
+              "id":"yb_3",
+              "name":"Hermione and Viktor",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":7,
+              "fragmentRequirementSilver":7,
+              "fragmentRequirementGold":7,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            },
+            {
+              "id":"yb_4",
+              "name":"Harry and Parvati",
+              "fragmentRequirementStandard":11,
+              "fragmentRequirementBronze":11,
+              "fragmentRequirementSilver":11,
+              "fragmentRequirementGold":11,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            },
+            {
+              "id":"yb_5",
+              "name":"Yule Ball Program",
+              "fragmentRequirementStandard":5,
+              "fragmentRequirementBronze":5,
+              "fragmentRequirementSilver":5,
+              "fragmentRequirementGold":5,
+              "howToCatch":"wc",
+              "threatLevel":"l"
+            }
+          ]
         }
       ]
     },
