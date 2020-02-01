@@ -1,5 +1,8 @@
 import 'dart:ui' as ui;
+import 'dart:convert';
 
+import 'package:apple_sign_in/apple_sign_in.dart';
+import 'package:device_info/device_info.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -29,6 +32,8 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
 
   AnimationController _controller;
 
+  var isIOS13 = false;
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +48,13 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
       duration: Duration(seconds: 30),
       vsync: this,
     )..repeat(reverse: true);
+  }
+
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _setIsIOS13();
   }
 
   @override
@@ -103,34 +115,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                   ],
                 ),
               ),
-              Card(
-                margin: AppStyles.miniInsets,
-                color: AppColors.transparentBlackCardColor,
-                child: Padding(
-                  padding: AppStyles.mediumInsets,
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        'In order to automatically backup your data, please sign in.',
-                        style: AppStyles.mediumText,
-                        textAlign: TextAlign.center,
-                      ),
-                      Container(
-                        height: AppDimens.mediumSize,
-                      ),
-                      FloatingActionButton.extended(
-                        backgroundColor: AppColors.fabBackgroundColor,
-                        onPressed: () async {
-                          _sendLoginEvent("Google");
-                          authentication.signInWithGoogle();
-                        },
-                        label: const Text('Sign in with Google'),
-                        icon: Icon(Icons.account_circle),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              _signInWidget(),
               Card(
                 margin: AppStyles.miniInsets,
                 color: AppColors.transparentBlackCardColor,
@@ -175,10 +160,123 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
     });
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  Widget _signInWidget() {
+    List<Widget> widgets = List();
+    widgets.addAll([
+        Text(
+          'In order to automatically backup your data, please sign in.',
+          style: AppStyles.mediumText,
+          textAlign: TextAlign.center,
+        ),
+        Container(
+          height: AppDimens.mediumSize,
+        ),
+        FloatingActionButton.extended(
+          backgroundColor: AppColors.fabBackgroundColor,
+          onPressed: () async {
+            _signInWithGoogle();
+          },
+          label: const Text('Sign in with Google'),
+          icon: Icon(Icons.account_circle),
+        )]
+    );
+
+    if (isIOS13) {
+      widgets.addAll([
+        Container(
+          height: AppDimens.mediumSize,
+        ),
+        FloatingActionButton.extended(
+          backgroundColor: AppColors.fabBackgroundColor,
+          onPressed: () async {
+            _signInWithApple();
+          },
+          label: const Text('Sign in with Apple'),
+          icon: Icon(Icons.account_circle),
+        )
+      ]);
+    }
+
+
+    return Card(
+      margin: AppStyles.miniInsets,
+      color: AppColors.transparentBlackCardColor,
+      child: Padding(
+        padding: AppStyles.mediumInsets,
+        child: Column(
+          children: widgets,
+        ),
+      ),
+    );
+  }
+
+  void _signInWithGoogle() async {
+    _sendLoginEvent("Google");
+    final GoogleSignIn _googleSignIn = GoogleSignIn();
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    await _auth.signInWithCredential(credential);
+  }
+
+  void _setIsIOS13() {
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
+      DeviceInfoPlugin().iosInfo.then((info) {
+        var version = info.systemVersion;
+
+        if (int.parse(version.split(".")[0]) >= 13) {
+          setState(() {
+            isIOS13 = true;
+          });
+        }
+      });
+    }
+
+  }
+
+  void _signInWithApple() async {
+    const Utf8Codec utf8 = Utf8Codec();
+
+    final AuthorizationResult result = await AppleSignIn.performRequests([
+      AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
+    ]);
+
+    switch (result.status) {
+      case AuthorizationStatus.authorized:
+        final AuthCredential credential = AppleAuthProvider.getCredential(
+            idToken: utf8.decode(result.credential.identityToken),
+            accessToken: utf8.decode(result.credential.authorizationCode));
+        await _auth.signInWithCredential(credential);
+
+      // Store user ID
+//        await FlutterSecureStorage()
+//            .write(key: "userId", value: result.credential.user);
+//
+//        // Navigate to secret page (shhh!)
+//        Navigator.of(context).pushReplacement(MaterialPageRoute(
+//            builder: (_) =>
+//                SecretMembersOnlyPage(credential: result.credential)));
+        break;
+
+      case AuthorizationStatus.error:
+        print("Sign in failed: ${result.error.localizedDescription}");
+//        setState(() {
+//          errorMessage = "Sign in failed 😿";
+//        });
+        break;
+
+      case AuthorizationStatus.cancelled:
+        print('User cancelled');
+        break;
+    }
+  }
+
+  void _signInAnonymous() async {
+    _sendLoginEvent("Anonymous");
+    await _auth.signInAnonymously();
   }
 
   _sendLoginEvent(String type) async {
@@ -186,6 +284,12 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
       name: 'click_login',
       parameters: <String, dynamic>{'value': type},
     );
+  }
+  
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
 

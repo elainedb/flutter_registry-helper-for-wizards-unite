@@ -1,6 +1,6 @@
-pod 'FirebaseUI/Auth', '~> 8.0'
-pod 'FirebaseUI/Email', '~> 8.0'
-pod 'FirebaseUI/Google', '~> 8.0'
+pod 'FirebaseUI/Auth'
+pod 'FirebaseUI/Email'
+pod 'FirebaseUI/Google'
 pod 'Firebase/Firestore'
 pod 'Firebase/Core'
 
