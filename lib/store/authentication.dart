@@ -35,26 +35,24 @@ abstract class _Authentication with Store {
   String get userId => user != null ? user.uid : "";
 
   @action
-  Future<bool> signOut() async {
+  signOut() async {
     await _auth.signOut();
     await _googleSignIn.signOut();
     authState = false;
-    return await Future.value(true);
   }
 
   @action
-  Future<bool> getEmail() async {
+  getEmail() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     if (user.isAnonymous) {
       email = "Anonymous";
     } else {
       email = user.email;
     }
-    return await Future.value(true);
   }
 
   @action
-  Future<bool> signInWithGoogle() async {
+  signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await getGoogleUser();
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
     final AuthCredential credential = GoogleAuthProvider.getCredential(
@@ -65,13 +63,10 @@ abstract class _Authentication with Store {
     AuthResult authResult = await _auth.signInWithCredential(credential);
     user = authResult.user;
     authState = user != null;
-
-    return await Future.value(true);
-
   }
 
   @action
-  Future<bool> signInWithApple() async {
+  signInWithApple() async {
     const Utf8Codec utf8 = Utf8Codec();
 
     final AuthorizationResult result = await AppleSignIn.performRequests([
@@ -96,23 +91,19 @@ abstract class _Authentication with Store {
         print('User cancelled');
         break;
     }
-
-    return await Future.value(true);
   }
 
   @action
-  Future<bool> signInAnonymous() async {
+  signInAnonymous() async {
     await _auth.signInAnonymously();
     authState = true;
-    return await Future.value(true);
   }
 
   @action
-  Future<bool> initAuthState() async {
+  initAuthState() async {
     FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
     authState = firebaseUser != null;
     user = firebaseUser;
-    return await Future.value(true);
   }
 
   Future getGoogleUser() async {

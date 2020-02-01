@@ -74,42 +74,42 @@ mixin _$Authentication on _Authentication, Store {
   final _$signOutAsyncAction = AsyncAction('signOut');
 
   @override
-  Future<bool> signOut() {
+  Future signOut() {
     return _$signOutAsyncAction.run(() => super.signOut());
   }
 
   final _$getEmailAsyncAction = AsyncAction('getEmail');
 
   @override
-  Future<bool> getEmail() {
+  Future getEmail() {
     return _$getEmailAsyncAction.run(() => super.getEmail());
   }
 
   final _$signInWithGoogleAsyncAction = AsyncAction('signInWithGoogle');
 
   @override
-  Future<bool> signInWithGoogle() {
+  Future signInWithGoogle() {
     return _$signInWithGoogleAsyncAction.run(() => super.signInWithGoogle());
   }
 
   final _$signInWithAppleAsyncAction = AsyncAction('signInWithApple');
 
   @override
-  Future<bool> signInWithApple() {
+  Future signInWithApple() {
     return _$signInWithAppleAsyncAction.run(() => super.signInWithApple());
   }
 
   final _$signInAnonymousAsyncAction = AsyncAction('signInAnonymous');
 
   @override
-  Future<bool> signInAnonymous() {
+  Future signInAnonymous() {
     return _$signInAnonymousAsyncAction.run(() => super.signInAnonymous());
   }
 
   final _$initAuthStateAsyncAction = AsyncAction('initAuthState');
 
   @override
-  Future<bool> initAuthState() {
+  Future initAuthState() {
     return _$initAuthStateAsyncAction.run(() => super.initAuthState());
   }
 
