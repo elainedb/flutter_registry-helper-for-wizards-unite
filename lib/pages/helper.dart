@@ -3,6 +3,9 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:registry_helper_for_wu/store/authentication.dart';
+import 'package:registry_helper_for_wu/store/registry_store.dart';
 import 'package:registry_helper_for_wu/utils/fanalytics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,23 +17,19 @@ import '../widgets/loading.dart';
 import 'tutorial/helper_tutorial.dart';
 
 class HelperPage extends StatefulWidget {
-  final Registry _registry;
   final String _initialSortValue;
-  HelperPage(this._registry, this._initialSortValue);
+  HelperPage(this._initialSortValue);
 
   @override
-  State<StatefulWidget> createState() => HelperPageState(_registry, _initialSortValue);
+  State<StatefulWidget> createState() => HelperPageState(_initialSortValue);
 }
 
 class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMixin {
-  final Registry _registry;
   String _initialSortValue;
-  HelperPageState(this._registry, this._initialSortValue);
+  HelperPageState(this._initialSortValue);
 
   String _dropdownValue = sortValues[0];
-  String _userId;
   int _initialIndex = 0;
-  bool _isUserAnonymous;
   UserData _userData;
   TabController _controller;
 
@@ -39,23 +38,18 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
   GlobalKey globalKey3 = GlobalKey();
   bool _tutorialShown;
 
+  final authentication = GetIt.instance<Authentication>();
+  final registryStore = GetIt.instance<RegistryStore>();
+
   @override
   void initState() {
     super.initState();
     HelperTutorial.initTargets(globalKey1, globalKey2, globalKey3);
     _getTutorialInfoFromSharedPrefs();
 
-    FirebaseAuth.instance.currentUser().then((user) {
-      if (user != null) {
-        setState(() {
-          _userId = user.uid;
-          _isUserAnonymous = user.isAnonymous;
-          if (user.isAnonymous) {
-            getUserDataFromPrefs().then((data) => _userData = data);
-          }
-        });
-      }
-    });
+    if (authentication.isAnonymous) {
+      getUserDataFromPrefs().then((data) => _userData = data);
+    }
 
     if (_initialSortValue.isNotEmpty) {
       _dropdownValue = _initialSortValue;
@@ -73,12 +67,12 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
       _initialSortValue = "";
     }
 
-    if (_isUserAnonymous != null && _isUserAnonymous && _userData != null) {
+    if (authentication.isAnonymous && _userData != null) {
       return _tabController(_userData.fragmentDataList);
     } else {
-      if (_userId != null) {
+      if (authentication.userId != null) {
         return StreamBuilder<DocumentSnapshot>(
-            stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
+            stream: Firestore.instance.collection('userData').document(authentication.userId).snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData && snapshot.data.data != null) {
                 return _tabController(snapshot.data.data);
@@ -168,7 +162,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
 
     Map<Widget, int> chapterRowsMap = Map();
     chaptersForDisplay.asMap().forEach((index, chapterForDisplay) {
-      var chapter = getChapterWithId(_registry, chapterForDisplay.id);
+      var chapter = getChapterWithId(registryStore.registry, chapterForDisplay.id);
       var missingTraces = getMissingTracesForChapter(chapter, data);
       var value = index;
       switch (_dropdownValue) {
@@ -250,7 +244,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
       ),
     ));
     chaptersForDisplay.forEach((chapterForDisplay) {
-      var chapter = getChapterWithId(_registry, chapterForDisplay.id);
+      var chapter = getChapterWithId(registryStore.registry, chapterForDisplay.id);
       List<AlmostCompletePage> almostCompletePages = getPagesWithOneOreTwoMissing(chapter, data);
       almostCompletePages.forEach((almostCompletePage) {
         widgets.add(_getAlmostCompletePageWidget(almostCompletePage, chapter.id));
@@ -310,7 +304,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
   List<Widget> _getNoClickWidgets(Map<String, dynamic> data) {
     List<ZeroTracesLeft> zeroTracesLeftList = List();
     chaptersForDisplay.forEach((chapterForDisplay) {
-      var chapter = getChapterWithId(_registry, chapterForDisplay.id);
+      var chapter = getChapterWithId(registryStore.registry, chapterForDisplay.id);
       var missingTraces = getMissingTracesForChapter(chapter, data);
       if (missingTraces.low + missingTraces.medium == 0) {
         zeroTracesLeftList.add(ZeroTracesLeft(chapter.id, "low/medium"));

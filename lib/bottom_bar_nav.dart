@@ -1,18 +1,11 @@
-import 'dart:convert';
-
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:quick_actions/quick_actions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:registry_helper_for_wu/store/registry_store.dart';
 
-import 'data/data.dart';
-import 'pages/helper.dart';
-import 'pages/my_registry.dart';
-import 'pages/settings.dart';
-import 'pages/charts.dart';
 import 'resources/values/app_colors.dart';
+import 'store/authentication.dart';
 import 'utils/fanalytics.dart';
 import 'widgets/loading.dart';
 
@@ -21,52 +14,31 @@ import 'widgets/loading.dart';
 //https://wizardsunitehub.info/foundables/
 
 class BottomBarNavWidget extends StatefulWidget {
-  final Registry _firebaseRegistry;
-  BottomBarNavWidget(this._firebaseRegistry);
+  BottomBarNavWidget();
 
   @override
-  State<StatefulWidget> createState() => BottomBarNavWidgetState(_firebaseRegistry);
+  State<StatefulWidget> createState() => BottomBarNavWidgetState();
 }
 
 class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
-  final Registry _jsonRegistry;
-  BottomBarNavWidgetState(this._jsonRegistry);
+  BottomBarNavWidgetState();
 
   String _shortcut = "";
   String _sortValue = "";
-  String _userId = "";
-  Registry _registry;
-
-  List<Widget> _widgetOptions = <Widget>[
-    Text('Loading'),
-    Text('Loading'),
-    Text('Loading'),
-    Text('Loading'),
-  ];
 
   int _selectedIndex = 0;
+
+  final registryStore = GetIt.instance<RegistryStore>();
+  final authentication = GetIt.instance<Authentication>();
 
   @override
   void initState() {
     super.initState();
 
-    FirebaseAuth.instance.currentUser().then((user) {
-      if (user != null) {
-        setState(() {
-          _userId = user.uid;
-          _updateWidgets();
-        });
-      }
-    });
-
-    if (_jsonRegistry != null) {
-      setState(() {
-        _registry = _jsonRegistry;
-        _updateWidgets();
-      });
-    } else {
-      _getRegistryFromSharedPrefs();
+    if (registryStore.registry == null) {
+      registryStore.getRegistryFromSharedPrefs();
     }
+    registryStore.updateWidgets(_sortValue);
 
     final QuickActions quickActions = QuickActions();
     quickActions.initialize((String shortcutType) {
@@ -88,7 +60,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
             _selectedIndex = 2;
             break;
         }
-        _updateWidgets();
+        registryStore.updateWidgets(_sortValue);
       }
       );
     });
@@ -119,14 +91,14 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('build for _userId = $_userId, selectedIndex = $_selectedIndex, sortValue = $_sortValue, shortcut = $_shortcut');
+    print('build for _userId = ${authentication.userId}, selectedIndex = $_selectedIndex, sortValue = $_sortValue, shortcut = $_shortcut');
 
-    return Builder(builder: (BuildContext context) {
-      if (_userId.isEmpty) {
+    return Observer(builder: (BuildContext context) {
+      if (authentication.userId.isEmpty) {
         return LoadingWidget();
       }
       return Scaffold(
-        body: _widgetOptions.elementAt(_selectedIndex),
+        body: registryStore.widgetOptions.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
@@ -180,28 +152,5 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
         screenName: pageName,
       );
     });
-  }
-
-  _updateWidgets() {
-    setState(() {
-      _widgetOptions = <Widget>[
-        MyRegistryPage(_registry),
-        HelperPage(_registry, _sortValue),
-        ChartsPage(_registry),
-        SettingsPage(),
-      ];
-    });
-  }
-
-  _getRegistryFromSharedPrefs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var registryString = prefs.getString('registry') ?? "";
-    if (registryString.isNotEmpty) {
-      setState(() {
-        Map registryMap = jsonDecode(registryString);
-        _registry = Registry.fromJson(registryMap) ?? null;
-        _updateWidgets();
-      });
-    }
   }
 }

@@ -4,6 +4,7 @@ import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobx/mobx.dart';
+import 'package:registry_helper_for_wu/utils/fanalytics.dart';
 
 part 'authentication.g.dart';
 
@@ -104,6 +105,11 @@ abstract class _Authentication with Store {
     FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
     authState = firebaseUser != null;
     user = firebaseUser;
+  }
+
+  @action
+  sendUserId() async {
+    await FAnalytics.analytics.setUserId(userId);
   }
 
   Future getGoogleUser() async {

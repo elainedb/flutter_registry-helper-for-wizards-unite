@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:get_it/get_it.dart';
+import 'package:registry_helper_for_wu/store/authentication.dart';
+import 'package:registry_helper_for_wu/store/registry_store.dart';
 import 'package:registry_helper_for_wu/utils/fanalytics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,20 +18,16 @@ import 'tutorial/charts_helper.dart';
 
 
 class ChartsPage extends StatefulWidget {
-  final Registry _registry;
-  ChartsPage(this._registry);
+  ChartsPage();
 
   @override
-  State<StatefulWidget> createState() => ChartsPageState(_registry);
+  State<StatefulWidget> createState() => ChartsPageState();
 }
 
 class ChartsPageState extends State<ChartsPage> {
-  final Registry _registry;
-  ChartsPageState(this._registry);
+  ChartsPageState();
 
-  String _userId;
   FoundablesData _selectedFoundableData;
-  bool _isUserAnonymous;
   UserData _userData;
 
   GlobalKey globalKey1 = GlobalKey();
@@ -38,23 +35,18 @@ class ChartsPageState extends State<ChartsPage> {
   GlobalKey globalKey3 = GlobalKey();
   bool _tutorialShown;
 
+  final authentication = GetIt.instance<Authentication>();
+  final registryStore = GetIt.instance<RegistryStore>();
+
   @override
   void initState() {
     super.initState();
     ChartsTutorial.initTargets(globalKey1, globalKey2, globalKey3);
     _getTutorialInfoFromSharedPrefs();
 
-    FirebaseAuth.instance.currentUser().then((user) {
-      if (user != null) {
-        setState(() {
-          _userId = user.uid;
-          _isUserAnonymous = user.isAnonymous;
-          if (user.isAnonymous) {
-            getUserDataFromPrefs().then((data) => _userData = data);
-          }
-        });
-      }
-    });
+    if (authentication.isAnonymous) {
+      getUserDataFromPrefs().then((data) => _userData = data);
+    }
   }
 
   void callback(FoundablesData foundable) {
@@ -67,12 +59,12 @@ class ChartsPageState extends State<ChartsPage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = List();
-    if (_isUserAnonymous != null && _isUserAnonymous && _userData != null) {
+    if (authentication.isAnonymous && _userData != null) {
       widgets.add(_getChartList(_userData.fragmentDataList));
     } else {
-      if (_userId != null) {
+      if (authentication.userId != null) {
         widgets.add(StreamBuilder<DocumentSnapshot>(
-            stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
+            stream: Firestore.instance.collection('userData').document(authentication.userId).snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData && snapshot.data.data != null) {
                 return _getChartList(snapshot.data.data);
@@ -196,7 +188,7 @@ class ChartsPageState extends State<ChartsPage> {
   }
 
   Widget getChartForChapter(Map<String, dynamic> data, String chapterId, String dark, String light) {
-    var chapter = getChapterWithId(_registry, chapterId);
+    var chapter = getChapterWithId(registryStore.registry, chapterId);
     var totalList = List<FoundablesData>();
     var returnedList = List<FoundablesData>();
     var key;

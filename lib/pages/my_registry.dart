@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:registry_helper_for_wu/store/authentication.dart';
+import 'package:registry_helper_for_wu/store/registry_store.dart';
 import 'package:registry_helper_for_wu/utils/fanalytics.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,20 +16,16 @@ import '../widgets/loading.dart';
 import 'tutorial/my_registry_tutorial.dart';
 
 class MyRegistryPage extends StatefulWidget {
-  final Registry _registry;
-  MyRegistryPage(this._registry);
+  MyRegistryPage();
 
   @override
-  State<StatefulWidget> createState() => MyRegistryPageState(_registry);
+  State<StatefulWidget> createState() => MyRegistryPageState();
 }
 
 class MyRegistryPageState extends State<MyRegistryPage> {
-  final Registry _registry;
-  MyRegistryPageState(this._registry);
+  MyRegistryPageState();
 
-  String _userId;
   AutoScrollController controller;
-  bool _isUserAnonymous;
   UserData _userData;
 
   GlobalKey globalKey1 = GlobalKey();
@@ -37,23 +34,18 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   GlobalKey globalKey4 = GlobalKey();
   bool _tutorialShown;
 
+  final authentication = GetIt.instance<Authentication>();
+  final registryStore = GetIt.instance<RegistryStore>();
+
   @override
   void initState() {
     super.initState();
     MyRegistryTutorial.initTargets(globalKey1, globalKey2, globalKey3, globalKey4);
     _getTutorialInfoFromSharedPrefs();
 
-    FirebaseAuth.instance.currentUser().then((user) {
-      if (user != null) {
-        setState(() {
-          _userId = user.uid;
-          _isUserAnonymous = user.isAnonymous;
-          if (user.isAnonymous) {
-            getUserDataFromPrefs().then((data) => _userData = data);
-          }
-        });
-      }
-    });
+    if (authentication.isAnonymous) {
+      getUserDataFromPrefs().then((data) => _userData = data);
+    }
 
     controller = AutoScrollController(
       viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
@@ -63,14 +55,14 @@ class MyRegistryPageState extends State<MyRegistryPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isUserAnonymous != null && _isUserAnonymous && _userData != null) {
+    if (authentication.isAnonymous && _userData != null) {
       return registryWidget(_userData.fragmentDataList);
     } else {
-      if (_userId != null) {
+      if (authentication.userId != null) {
         return StreamBuilder<DocumentSnapshot>(
-            stream: Firestore.instance.collection('userData').document(_userId).snapshots(),
+            stream: Firestore.instance.collection('userData').document(authentication.userId).snapshots(),
             builder: (context, snapshot) {
-              if (_registry != null && snapshot.hasData && snapshot.data.data != null) {
+              if (registryStore.registry != null && snapshot.hasData && snapshot.data.data != null) {
                 return registryWidget(snapshot.data.data);
               } else
                 return LoadingWidget();
@@ -129,7 +121,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   }
 
   Widget chapterCard(String chapterId, Map<String, dynamic> data, Color dark, Color light, int index) {
-    Chapter chapter = getChapterWithId(_registry, chapterId);
+    Chapter chapter = getChapterWithId(registryStore.registry, chapterId);
 
     List<Widget> widgets = List();
     widgets.add(Text(
@@ -176,7 +168,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
           onChanged: (newValue) {
             Map<String, dynamic> newData = Map();
             page.foundables.forEach((foundable) {
-              if (!_isUserAnonymous) {
+              if (!authentication.isAnonymous) {
                 newData[foundable.id] = {'count': 0, 'level': getPrestigeLevelWithPrestigeValue(newValue)};
               } else {
                 _userData.fragmentDataList[foundable.id]['count'] = 0;
@@ -184,8 +176,8 @@ class MyRegistryPageState extends State<MyRegistryPage> {
               }
             });
 
-            if (!_isUserAnonymous) {
-              Firestore.instance.collection('userData').document(_userId).setData(newData, merge: true);
+            if (!authentication.isAnonymous) {
+              Firestore.instance.collection('userData').document(authentication.userId).setData(newData, merge: true);
             } else {
               saveUserDataToPrefs(_userData);
             }
@@ -267,7 +259,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
             ),
             onPressed: () {
               _sendPlusEvent();
-              _submit(_userId, foundable, (currentCount + 1).toString(), intRequirement);
+              _submit(authentication.userId, foundable, (currentCount + 1).toString(), intRequirement);
             },
           ),
         ),
@@ -315,7 +307,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
         opaque: false,
         barrierDismissible: true,
         pageBuilder: (BuildContext context, _, __) {
-          return PageEditDialog(page, data, dropdownValue, darkColor, lightColor, _isUserAnonymous, _userId, _userData, callback);
+          return PageEditDialog(page, data, dropdownValue, darkColor, lightColor, authentication.isAnonymous, authentication.userId, _userData, callback);
         }));
   }
 
@@ -326,7 +318,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   _submit(String userId, Foundable foundable, String newValue, int requirement) {
     var newInt = int.tryParse(newValue) ?? 0;
 
-    if (!_isUserAnonymous) {
+    if (!authentication.isAnonymous) {
       Firestore.instance.collection('userData').document(userId).setData({
         foundable.id: {'count': newInt}
       }, merge: true);

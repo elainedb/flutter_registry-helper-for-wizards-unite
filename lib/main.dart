@@ -1,19 +1,15 @@
-import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bottom_bar_nav.dart';
-import 'data/data.dart';
 import 'resources/values/app_colors.dart';
 import 'resources/values/app_styles.dart';
 import 'signin.dart';
 import 'store/authentication.dart';
+import 'store/registry_store.dart';
 import 'utils/fanalytics.dart';
 import 'store/signin_image.dart';
 import 'widgets/loading.dart';
@@ -45,6 +41,7 @@ void main() {
   GetIt getIt = GetIt.instance;
   getIt.registerSingleton<Authentication>(Authentication());
   getIt.registerSingleton<SignInImage>(SignInImage());
+  getIt.registerSingleton<RegistryStore>(RegistryStore());
 
   runApp(MyApp());
 }
@@ -81,25 +78,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState();
 
-  bool _isRegistryLoading;
-  bool _isUserDataLoading;
-
-  Registry _registry;
+  final authentication = GetIt.instance<Authentication>();
+  final registryStore = GetIt.instance<RegistryStore>();
 
   @override
   void initState() {
     super.initState();
 
-    _isRegistryLoading = false;
-    _isUserDataLoading = false;
-
-    final authentication = GetIt.instance<Authentication>();
-
     authentication.initAuthState();
 
     if (authentication.authState) {
-      _setUserId();
-      _initRegistryDataFromJson();
+      authentication.sendUserId();
+      registryStore.initRegistryDataFromJson();
     }
   }
 
@@ -107,176 +97,17 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     print("main build");
 
-    final authentication = GetIt.instance<Authentication>();
-
     return Scaffold(
       body: Builder(
           builder: (BuildContext context) {
-      if(_isRegistryLoading || _isUserDataLoading) {
+      if(registryStore.isLoading) {
         return LoadingWidget();
       }
 
       return Observer(builder: (_) {
-        return authentication.authState ? BottomBarNavWidget(_registry) : SignInWidget();
+        return authentication.authState ? BottomBarNavWidget() : SignInWidget();
       });
     }), backgroundColor: AppColors.backgroundMaterialColor,);
   }
 
-  _initRegistryDataFromJson() async {
-    final authentication = GetIt.instance<Authentication>();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _isRegistryLoading = true;
-    });
-
-    var registryString = await rootBundle.loadString('assets/json/registry.json');
-    await prefs.setString('registry', registryString);
-    setState(() {
-      Map registryMap = jsonDecode(registryString);
-      _registry = Registry.fromJson(registryMap) ?? null;
-      _isRegistryLoading = false;
-    });
-
-    _initUserData(authentication.userId, prefs);
-  }
-
-  _initUserData(String userId, SharedPreferences prefs) {
-    final authentication = GetIt.instance<Authentication>();
-    setState(() {
-      _isUserDataLoading = true;
-    });
-    var registryIds = getAllFoundablesIds(_registry);
-
-    if (!authentication.isAnonymous) {
-      Firestore.instance.collection('userData').document(userId).get().then((snapshot) async {
-        if (!snapshot.exists) {
-          _addUserDataConnected(registryIds, userId);
-        } else {
-          _checkAndAddNewUserKeysConnected(snapshot, registryIds, userId);
-          setState(() {
-            _isUserDataLoading = false;
-          });
-        }
-      });
-    } else {
-      Firestore.instance.collection('userData').document(userId).get().then((snapshot) async {
-        if (!snapshot.exists) {
-          var userDataString = prefs.getString('userData');
-          if (userDataString == null) {
-            _initAnonymousData(registryIds);
-          } else {
-            _checkAndAddNewUserKeysAnonymous(userDataString, registryIds);
-            setState(() {
-              _isUserDataLoading = false;
-            });
-          }
-        } else {
-          _migrateAnonymous(snapshot.data, userId);
-        }
-      });
-    }
-  }
-
-  _checkAndAddNewUserKeysConnected(DocumentSnapshot snapshot, List<String> registryIds, String userId) {
-    var userIds = List<String>();
-    var toAddIds = List<String>();
-    snapshot.data.forEach((id, value) {
-      userIds.add(id);
-    });
-
-    registryIds.forEach((registryId) {
-      if (!userIds.contains(registryId)) {
-        toAddIds.add(registryId);
-      }
-    });
-
-    if (toAddIds.isNotEmpty) {
-      _addUserDataConnected(toAddIds, userId);
-    } else {
-      setState(() {
-        _isUserDataLoading = false;
-      });
-    }
-  }
-
-  _addUserDataConnected(List<String> ids, String userId) {
-    Map<String, dynamic> map = Map();
-
-    for (var id in ids) {
-      map[id] = {'count': 0, 'level': 1};
-    }
-
-    Firestore.instance.collection('userData').document(userId).setData(map, merge: true).then((_) {
-      setState(() {
-        _isUserDataLoading = false;
-      });
-    });
-  }
-
-  _checkAndAddNewUserKeysAnonymous(String userDataString, List<String> registryIds) {
-    var userIds = List<String>();
-    var toAddIds = List<String>();
-
-    Map map = jsonDecode(userDataString);
-    UserData oldUserData = UserData.fromJson(map);
-
-    oldUserData.fragmentDataList.forEach((id, value) {
-      userIds.add(id);
-    });
-
-    registryIds.forEach((registryId) {
-      if (!userIds.contains(registryId)) {
-        toAddIds.add(registryId);
-      }
-    });
-
-    if (toAddIds.isNotEmpty) {
-      _addUserDataAnonymous(toAddIds, oldUserData);
-    } else {
-      setState(() {
-        _isUserDataLoading = false;
-      });
-    }
-  }
-
-  _migrateAnonymous(Map<String, dynamic> data, String userId) async {
-    // TODO temp code -> delete when all anonymous were migrated
-    saveUserDataToPrefs(UserData(data)).then((value) {
-      Firestore.instance.collection('userData').document(userId).delete();
-      setState(() {
-        _isUserDataLoading = false;
-      });
-    });
-  }
-
-  _initAnonymousData(List<String> ids) async {
-    Map<String, dynamic> map = Map();
-    for (var id in ids) {
-      map[id] = {'count': 0, 'level': 1};
-    }
-
-    saveUserDataToPrefs(UserData(map)).then((value) {
-      setState(() {
-        _isUserDataLoading = false;
-      });
-    });
-  }
-
-  _addUserDataAnonymous(List<String> newIds, UserData oldUserData) {
-    Map<String, dynamic> map = oldUserData.fragmentDataList;
-    for (var id in newIds) {
-      map[id] = {'count': 0, 'level': 1};
-    }
-
-    saveUserDataToPrefs(UserData(map)).then((value) {
-      setState(() {
-        _isUserDataLoading = false;
-      });
-    });
-  }
-
-  _setUserId() async {
-    final authentication = GetIt.instance<Authentication>();
-    await FAnalytics.analytics.setUserId(authentication.userId);
-  }
 }
