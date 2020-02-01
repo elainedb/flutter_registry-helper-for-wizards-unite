@@ -3,6 +3,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:registry_helper_for_wu/utils/fanalytics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/data.dart';
@@ -17,17 +18,15 @@ import 'tutorial/charts_helper.dart';
 
 class ChartsPage extends StatefulWidget {
   final Registry _registry;
-  final FirebaseAnalytics _analytics;
-  ChartsPage(this._registry, this._analytics);
+  ChartsPage(this._registry);
 
   @override
-  State<StatefulWidget> createState() => ChartsPageState(_registry, _analytics);
+  State<StatefulWidget> createState() => ChartsPageState(_registry);
 }
 
 class ChartsPageState extends State<ChartsPage> {
   final Registry _registry;
-  final FirebaseAnalytics _analytics;
-  ChartsPageState(this._registry, this._analytics);
+  ChartsPageState(this._registry);
 
   String _userId;
   FoundablesData _selectedFoundableData;
@@ -376,13 +375,13 @@ class ChartsPageState extends State<ChartsPage> {
   }
 
   _sendClickChartEvent() async {
-    await _analytics.logEvent(
+    await FAnalytics.analytics.logEvent(
       name: 'click_chart',
     );
   }
 
   _sendDismissFoundableOverlayEvent() async {
-    await _analytics.logEvent(
+    await FAnalytics.analytics.logEvent(
       name: 'click_dismiss_foundable',
     );
   }

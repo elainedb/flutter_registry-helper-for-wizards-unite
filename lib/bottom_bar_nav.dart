@@ -13,6 +13,7 @@ import 'pages/my_registry.dart';
 import 'pages/settings.dart';
 import 'pages/charts.dart';
 import 'resources/values/app_colors.dart';
+import 'utils/fanalytics.dart';
 import 'widgets/loading.dart';
 
 //https://www.wizardunite.com/2019/05/hpwu-foundables-and-traces.html
@@ -21,19 +22,15 @@ import 'widgets/loading.dart';
 
 class BottomBarNavWidget extends StatefulWidget {
   final Registry _firebaseRegistry;
-  final FirebaseAnalyticsObserver _observer;
-  final FirebaseAnalytics _analytics;
-  BottomBarNavWidget(this._firebaseRegistry, this._observer, this._analytics);
+  BottomBarNavWidget(this._firebaseRegistry);
 
   @override
-  State<StatefulWidget> createState() => BottomBarNavWidgetState(_firebaseRegistry, _observer, _analytics);
+  State<StatefulWidget> createState() => BottomBarNavWidgetState(_firebaseRegistry);
 }
 
 class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   final Registry _jsonRegistry;
-  final FirebaseAnalyticsObserver _observer;
-  final FirebaseAnalytics _analytics;
-  BottomBarNavWidgetState(this._jsonRegistry, this._observer, this._analytics);
+  BottomBarNavWidgetState(this._jsonRegistry);
 
   String _shortcut = "";
   String _sortValue = "";
@@ -179,7 +176,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
           pageName = "SettingsPage";
           break;
       }
-      _observer.analytics.setCurrentScreen(
+      FAnalytics.analytics.setCurrentScreen(
         screenName: pageName,
       );
     });
@@ -188,10 +185,10 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   _updateWidgets() {
     setState(() {
       _widgetOptions = <Widget>[
-        MyRegistryPage(_registry, _analytics),
-        HelperPage(_registry, _sortValue, _observer, _analytics),
-        ChartsPage(_registry, _analytics),
-        SettingsPage(_analytics),
+        MyRegistryPage(_registry),
+        HelperPage(_registry, _sortValue),
+        ChartsPage(_registry),
+        SettingsPage(),
       ];
     });
   }

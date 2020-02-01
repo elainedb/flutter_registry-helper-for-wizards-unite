@@ -3,6 +3,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:registry_helper_for_wu/utils/fanalytics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/data.dart';
@@ -15,20 +16,16 @@ import 'tutorial/helper_tutorial.dart';
 class HelperPage extends StatefulWidget {
   final Registry _registry;
   final String _initialSortValue;
-  final FirebaseAnalyticsObserver _observer;
-  final FirebaseAnalytics _analytics;
-  HelperPage(this._registry, this._initialSortValue, this._observer, this._analytics);
+  HelperPage(this._registry, this._initialSortValue);
 
   @override
-  State<StatefulWidget> createState() => HelperPageState(_registry, _initialSortValue, _observer, _analytics);
+  State<StatefulWidget> createState() => HelperPageState(_registry, _initialSortValue);
 }
 
 class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMixin {
   final Registry _registry;
   String _initialSortValue;
-  final FirebaseAnalyticsObserver _observer;
-  final FirebaseAnalytics _analytics;
-  HelperPageState(this._registry, this._initialSortValue, this._observer, this._analytics);
+  HelperPageState(this._registry, this._initialSortValue);
 
   String _dropdownValue = sortValues[0];
   String _userId;
@@ -212,7 +209,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
   }
 
   _sendAnalyticsEvents() async {
-    await _analytics.logEvent(
+    await FAnalytics.analytics.logEvent(
       name: 'missing_foundables_dropdown_value',
       parameters: <String, dynamic>{'value': _dropdownValue},
     );
@@ -505,7 +502,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
           break;
       }
 
-      _observer.analytics.setCurrentScreen(
+      FAnalytics.observer.analytics.setCurrentScreen(
         screenName: pageName,
       );
     });

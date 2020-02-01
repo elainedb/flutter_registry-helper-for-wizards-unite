@@ -2,6 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:registry_helper_for_wu/utils/fanalytics.dart';
 import 'package:share/share.dart';
 
 import '../store/authentication.dart';
@@ -11,8 +12,7 @@ import '../resources/values/app_styles.dart';
 import '../widgets/version.dart';
 
 class SettingsPage extends StatelessWidget {
-  final FirebaseAnalytics _analytics;
-  SettingsPage(this._analytics);
+  SettingsPage();
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +94,7 @@ class SettingsPage extends StatelessWidget {
   }
 
   _sendLogoutEvent() async {
-    await _analytics.logEvent(
+    await FAnalytics.analytics.logEvent(
       name: 'click_logout',
     );
   }

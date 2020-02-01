@@ -1,11 +1,8 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -17,6 +14,7 @@ import 'resources/values/app_colors.dart';
 import 'resources/values/app_styles.dart';
 import 'signin.dart';
 import 'store/authentication.dart';
+import 'utils/fanalytics.dart';
 import 'store/signin_image.dart';
 import 'widgets/loading.dart';
 
@@ -52,11 +50,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -65,29 +62,25 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '',
       theme: AppStyles.appThemeData,
-      home: MyHomePage(title: '', observer: observer, analytics: analytics),
-      navigatorObservers: <NavigatorObserver>[observer],
+      home: MyHomePage(title: ''),
+      navigatorObservers: <NavigatorObserver>[FAnalytics.observer],
 //      debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title, this.observer, this.analytics}) : super(key: key);
+  MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
-  final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState(observer, analytics);
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  _MyHomePageState(this.observer, this.analytics);
+  _MyHomePageState();
 
-  final FirebaseAnalyticsObserver observer;
-  final FirebaseAnalytics analytics;
   bool _isRegistryLoading;
   bool _isUserDataLoading;
 
@@ -124,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
       return Observer(builder: (_) {
-        return authentication.authState ? BottomBarNavWidget(_registry, observer, analytics) : SignInWidget(analytics);
+        return authentication.authState ? BottomBarNavWidget(_registry) : SignInWidget();
       });
     }), backgroundColor: AppColors.backgroundMaterialColor,);
   }
@@ -284,6 +277,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _setUserId() async {
     final authentication = GetIt.instance<Authentication>();
-    await analytics.setUserId(authentication.userId);
+    await FAnalytics.analytics.setUserId(authentication.userId);
   }
 }

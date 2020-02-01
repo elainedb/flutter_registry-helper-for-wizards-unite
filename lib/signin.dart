@@ -12,19 +12,18 @@ import 'resources/values/app_colors.dart';
 import 'resources/values/app_dimens.dart';
 import 'resources/values/app_styles.dart';
 import 'store/authentication.dart';
+import 'utils/fanalytics.dart';
 import 'store/signin_image.dart';
 
 class SignInWidget extends StatefulWidget {
-  final FirebaseAnalytics _analytics;
-  SignInWidget(this._analytics);
+  SignInWidget();
 
   @override
-  State<StatefulWidget> createState() => SignInWidgetState(_analytics);
+  State<StatefulWidget> createState() => SignInWidgetState();
 }
 
 class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixin {
-  final FirebaseAnalytics _analytics;
-  SignInWidgetState(this._analytics);
+  SignInWidgetState();
 
   AnimationController _controller;
 
@@ -38,7 +37,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
 
     signInImage.loadImage();
 
-    _analytics.setCurrentScreen(
+    FAnalytics.analytics.setCurrentScreen(
       screenName: "SignInPage",
     );
 
@@ -228,7 +227,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
   }
 
   _sendLoginEvent(String type) async {
-    await _analytics.logEvent(
+    await FAnalytics.analytics.logEvent(
       name: 'click_login',
       parameters: <String, dynamic>{'value': type},
     );

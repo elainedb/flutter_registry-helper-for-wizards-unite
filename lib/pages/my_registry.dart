@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:registry_helper_for_wu/utils/fanalytics.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,17 +16,15 @@ import 'tutorial/my_registry_tutorial.dart';
 
 class MyRegistryPage extends StatefulWidget {
   final Registry _registry;
-  final FirebaseAnalytics _analytics;
-  MyRegistryPage(this._registry, this._analytics);
+  MyRegistryPage(this._registry);
 
   @override
-  State<StatefulWidget> createState() => MyRegistryPageState(_registry, _analytics);
+  State<StatefulWidget> createState() => MyRegistryPageState(_registry);
 }
 
 class MyRegistryPageState extends State<MyRegistryPage> {
   final Registry _registry;
-  final FirebaseAnalytics _analytics;
-  MyRegistryPageState(this._registry, this._analytics);
+  MyRegistryPageState(this._registry);
 
   String _userId;
   AutoScrollController controller;
@@ -316,7 +315,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
         opaque: false,
         barrierDismissible: true,
         pageBuilder: (BuildContext context, _, __) {
-          return PageEditDialog(page, data, dropdownValue, darkColor, lightColor, _isUserAnonymous, _userId, _userData, callback, _analytics);
+          return PageEditDialog(page, data, dropdownValue, darkColor, lightColor, _isUserAnonymous, _userId, _userData, callback);
         }));
   }
 
@@ -345,13 +344,13 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   }
 
   _sendPlusEvent() async {
-    await _analytics.logEvent(
+    await FAnalytics.analytics.logEvent(
       name: 'click_plus_one_fragment',
     );
   }
 
   _sendScrollToEvent(int value) async {
-    await _analytics.logEvent(
+    await FAnalytics.analytics.logEvent(
       name: 'scroll_to',
       parameters: <String, dynamic>{'value': value},
     );

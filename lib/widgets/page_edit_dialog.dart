@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:registry_helper_for_wu/utils/fanalytics.dart';
 
 import '../data/data.dart';
 import '../resources/values/app_colors.dart';
@@ -18,9 +19,8 @@ class PageEditDialog extends StatefulWidget {
   final bool isUserAnonymous;
   final String userId;
   final UserData userData;
-  final FirebaseAnalytics analytics;
 
-  PageEditDialog(this.page, this.data, this.dropdownValue, this.darkColor, this.lightColor, this.isUserAnonymous, this.userId, this.userData, this.registryCallback, this.analytics);
+  PageEditDialog(this.page, this.data, this.dropdownValue, this.darkColor, this.lightColor, this.isUserAnonymous, this.userId, this.userData, this.registryCallback);
 
   @override
   State<StatefulWidget> createState() => PageEditDialogState();
@@ -115,7 +115,7 @@ class PageEditDialogState extends State<PageEditDialog> {
   }
 
   _sendSubmitPageEvent() async {
-    await widget.analytics.logEvent(
+    await FAnalytics.analytics.logEvent(
       name: 'submit_page',
     );
   }
