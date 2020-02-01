@@ -67,16 +67,16 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
         children: <Widget>[
           Observer(
             builder: (_) {
-              if (signInImage.actualImage != null) {
-                double imageHeight = signInImage.actualImage.height.roundToDouble();
-                double imageWidth = signInImage.actualImage.width.roundToDouble();
+              if (signInImage.image != null) {
+                double imageHeight = signInImage.image.height.roundToDouble();
+                double imageWidth = signInImage.image.width.roundToDouble();
                 double scale = height / imageHeight;
                 double tweenBegin = -(imageWidth * scale) / 2;
                 return AnimatedBuilder(
                   animation: Tween(begin: tweenBegin, end: 0).animate(_controller),
                   child: CustomPaint(
                     size: Size(imageWidth, imageHeight),
-                    painter: MyPainter(signInImage.actualImage, scale),
+                    painter: MyPainter(signInImage.image, scale),
                   ),
                   builder: (context, child) {
                     return Transform.translate(

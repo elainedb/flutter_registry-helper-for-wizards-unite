@@ -10,18 +10,11 @@ class SignInImage = _SignInImage with _$SignInImage;
 abstract class _SignInImage with Store {
 
   @observable
-  ObservableFuture<ui.Image> image = ObservableFuture<ui.Image>.value(null);
-
-  @computed
-  ui.Image get actualImage => image.value;
+  ui.Image image;
 
   @action
-  Future<bool> loadImage() async {
-    ui.Image img = await load("assets/images/background.jpg");
-
-    image = ObservableFuture.value(img);
-
-    return await Future.value(true);
+  loadImage() async {
+    image = await load("assets/images/background.jpg");
   }
 
   Future<ui.Image> load(String asset) async {
