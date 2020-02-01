@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobx/mobx.dart';
@@ -12,13 +15,13 @@ class Authentication = _Authentication with _$Authentication;
 abstract class _Authentication with Store {
 
   @observable
-  ObservableFuture<bool> authState = ObservableFuture<bool>.value(false);
+  bool authState = false;
 
   @observable
-  ObservableFuture<String> email = ObservableFuture<String>.value("");
+  String email = "";
 
   @observable
-  ObservableFuture<FirebaseUser> user = ObservableFuture<FirebaseUser>.value(null);
+  FirebaseUser user;
 
   @action
   void setAuthState(dynamic newState) {
@@ -26,25 +29,16 @@ abstract class _Authentication with Store {
   }
 
   @computed
-  bool get actualAuthState => authState.value;
+  bool get isAnonymous => user != null ? user.isAnonymous : false;
 
   @computed
-  String get actualEmail => email.value;
-
-  @computed
-  FirebaseUser get actualUser => user.value;
-
-  @computed
-  bool get isAnonymous => user.value != null ? user.value.isAnonymous : false;
-
-  @computed
-  String get userId => user.value != null ? user.value.uid : "";
+  String get userId => user != null ? user.uid : "";
 
   @action
   Future<bool> signOut() async {
     await _auth.signOut();
     await _googleSignIn.signOut();
-    authState = ObservableFuture.value(false);
+    authState = false;
     return await Future.value(true);
   }
 
@@ -52,9 +46,9 @@ abstract class _Authentication with Store {
   Future<bool> getEmail() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     if (user.isAnonymous) {
-      email = ObservableFuture.value("Anonymous");
+      email = "Anonymous";
     } else {
-      email = ObservableFuture.value(user.email);
+      email = user.email;
     }
     return await Future.value(true);
   }
@@ -68,8 +62,40 @@ abstract class _Authentication with Store {
       idToken: googleAuth.idToken,
     );
 
-    FirebaseUser user = await _auth.signInWithCredential(credential);
-    authState = ObservableFuture.value(user.uid != null);
+    AuthResult authResult = await _auth.signInWithCredential(credential);
+    user = authResult.user;
+    authState = user != null;
+
+    return await Future.value(true);
+
+  }
+
+  @action
+  Future<bool> signInWithApple() async {
+    const Utf8Codec utf8 = Utf8Codec();
+
+    final AuthorizationResult result = await AppleSignIn.performRequests([
+      AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
+    ]);
+
+    switch (result.status) {
+      case AuthorizationStatus.authorized:
+        final AuthCredential credential = OAuthProvider(providerId: "apple.com").getCredential(
+             idToken: utf8.decode(result.credential.identityToken),
+             accessToken: utf8.decode(result.credential.authorizationCode));
+        AuthResult authResult = await _auth.signInWithCredential(credential);
+        user = authResult.user;
+        authState = user != null;
+        break;
+
+      case AuthorizationStatus.error:
+        print("Sign in failed: ${result.error.localizedDescription}");
+        break;
+
+      case AuthorizationStatus.cancelled:
+        print('User cancelled');
+        break;
+    }
 
     return await Future.value(true);
   }
@@ -77,15 +103,15 @@ abstract class _Authentication with Store {
   @action
   Future<bool> signInAnonymous() async {
     await _auth.signInAnonymously();
-    authState = ObservableFuture.value(true);
+    authState = true;
     return await Future.value(true);
   }
 
   @action
   Future<bool> initAuthState() async {
     FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
-    authState = ObservableFuture.value(firebaseUser != null);
-    user = ObservableFuture.value(firebaseUser);
+    authState = firebaseUser != null;
+    user = firebaseUser;
     return await Future.value(true);
   }
 

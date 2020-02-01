@@ -1,6 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:share/share.dart';
 
 import '../store/authentication.dart';
@@ -9,14 +10,14 @@ import '../resources/values/app_dimens.dart';
 import '../resources/values/app_styles.dart';
 import '../widgets/version.dart';
 
-final Authentication authentication = Authentication();
-
 class SettingsPage extends StatelessWidget {
   final FirebaseAnalytics _analytics;
   SettingsPage(this._analytics);
 
   @override
   Widget build(BuildContext context) {
+    final authentication = GetIt.instance<Authentication>();
+
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double width = mediaQueryData.size.width;
 
@@ -59,7 +60,7 @@ class SettingsPage extends StatelessWidget {
             ),
             Observer(builder: (_) {
               return Text(
-                "Logged in as ${authentication.actualEmail}",
+                "Logged in as ${authentication.email}",
                 style: AppStyles.lightContentText,
               );
             }),

@@ -9,30 +9,28 @@ part of 'authentication.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$Authentication on _Authentication, Store {
-  Computed<bool> _$actualAuthStateComputed;
+  Computed<bool> _$isAnonymousComputed;
 
   @override
-  bool get actualAuthState => (_$actualAuthStateComputed ??=
-          Computed<bool>(() => super.actualAuthState))
-      .value;
-  Computed<String> _$actualEmailComputed;
+  bool get isAnonymous =>
+      (_$isAnonymousComputed ??= Computed<bool>(() => super.isAnonymous)).value;
+  Computed<String> _$userIdComputed;
 
   @override
-  String get actualEmail =>
-      (_$actualEmailComputed ??= Computed<String>(() => super.actualEmail))
-          .value;
+  String get userId =>
+      (_$userIdComputed ??= Computed<String>(() => super.userId)).value;
 
   final _$authStateAtom = Atom(name: '_Authentication.authState');
 
   @override
-  ObservableFuture<bool> get authState {
+  bool get authState {
     _$authStateAtom.context.enforceReadPolicy(_$authStateAtom);
     _$authStateAtom.reportObserved();
     return super.authState;
   }
 
   @override
-  set authState(ObservableFuture<bool> value) {
+  set authState(bool value) {
     _$authStateAtom.context.conditionallyRunInAction(() {
       super.authState = value;
       _$authStateAtom.reportChanged();
@@ -42,18 +40,35 @@ mixin _$Authentication on _Authentication, Store {
   final _$emailAtom = Atom(name: '_Authentication.email');
 
   @override
-  ObservableFuture<String> get email {
+  String get email {
     _$emailAtom.context.enforceReadPolicy(_$emailAtom);
     _$emailAtom.reportObserved();
     return super.email;
   }
 
   @override
-  set email(ObservableFuture<String> value) {
+  set email(String value) {
     _$emailAtom.context.conditionallyRunInAction(() {
       super.email = value;
       _$emailAtom.reportChanged();
     }, _$emailAtom, name: '${_$emailAtom.name}_set');
+  }
+
+  final _$userAtom = Atom(name: '_Authentication.user');
+
+  @override
+  FirebaseUser get user {
+    _$userAtom.context.enforceReadPolicy(_$userAtom);
+    _$userAtom.reportObserved();
+    return super.user;
+  }
+
+  @override
+  set user(FirebaseUser value) {
+    _$userAtom.context.conditionallyRunInAction(() {
+      super.user = value;
+      _$userAtom.reportChanged();
+    }, _$userAtom, name: '${_$userAtom.name}_set');
   }
 
   final _$signOutAsyncAction = AsyncAction('signOut');
@@ -75,6 +90,13 @@ mixin _$Authentication on _Authentication, Store {
   @override
   Future<bool> signInWithGoogle() {
     return _$signInWithGoogleAsyncAction.run(() => super.signInWithGoogle());
+  }
+
+  final _$signInWithAppleAsyncAction = AsyncAction('signInWithApple');
+
+  @override
+  Future<bool> signInWithApple() {
+    return _$signInWithAppleAsyncAction.run(() => super.signInWithApple());
   }
 
   final _$signInAnonymousAsyncAction = AsyncAction('signInAnonymous');

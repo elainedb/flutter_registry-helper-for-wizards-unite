@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bottom_bar_nav.dart';
@@ -16,9 +17,8 @@ import 'resources/values/app_colors.dart';
 import 'resources/values/app_styles.dart';
 import 'signin.dart';
 import 'store/authentication.dart';
+import 'store/signin_image.dart';
 import 'widgets/loading.dart';
-
-final Authentication authentication = Authentication();
 
 void main() {
   Crashlytics.instance.enableInDevMode = false;
@@ -43,6 +43,10 @@ void main() {
       backgroundColor: AppColors.backgroundMaterialColor,
     );
   };
+
+  GetIt getIt = GetIt.instance;
+  getIt.registerSingleton<Authentication>(Authentication());
+  getIt.registerSingleton<SignInImage>(SignInImage());
 
   runApp(MyApp());
 }
@@ -96,14 +100,21 @@ class _MyHomePageState extends State<MyHomePage> {
     _isRegistryLoading = false;
     _isUserDataLoading = false;
 
-    _setUserId();
-    _initRegistryDataFromJson();
+    final authentication = GetIt.instance<Authentication>();
 
+    authentication.initAuthState();
+
+    if (authentication.authState) {
+      _setUserId();
+      _initRegistryDataFromJson();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    authentication.initAuthState();
+    print("main build");
+
+    final authentication = GetIt.instance<Authentication>();
 
     return Scaffold(
       body: Builder(
@@ -113,12 +124,13 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
       return Observer(builder: (_) {
-        return authentication.actualAuthState ? BottomBarNavWidget(_registry, observer, analytics) : SignInWidget(analytics);
+        return authentication.authState ? BottomBarNavWidget(_registry, observer, analytics) : SignInWidget(analytics);
       });
     }), backgroundColor: AppColors.backgroundMaterialColor,);
   }
 
   _initRegistryDataFromJson() async {
+    final authentication = GetIt.instance<Authentication>();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _isRegistryLoading = true;
@@ -136,6 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _initUserData(String userId, SharedPreferences prefs) {
+    final authentication = GetIt.instance<Authentication>();
     setState(() {
       _isUserDataLoading = true;
     });
@@ -270,6 +283,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _setUserId() async {
+    final authentication = GetIt.instance<Authentication>();
     await analytics.setUserId(authentication.userId);
   }
 }

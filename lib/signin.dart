@@ -1,11 +1,10 @@
 import 'dart:ui' as ui;
-import 'dart:convert';
 
-import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:registry_helper_for_wu/widgets/version.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -14,9 +13,6 @@ import 'resources/values/app_dimens.dart';
 import 'resources/values/app_styles.dart';
 import 'store/authentication.dart';
 import 'store/signin_image.dart';
-
-final Authentication authentication = Authentication();
-final SignInImage signInImage = SignInImage();
 
 class SignInWidget extends StatefulWidget {
   final FirebaseAnalytics _analytics;
@@ -37,6 +33,8 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
   @override
   void initState() {
     super.initState();
+
+    final signInImage = GetIt.instance<SignInImage>();
 
     signInImage.loadImage();
 
@@ -59,6 +57,8 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
 
   @override
   Widget build(BuildContext context) {
+    final signInImage = GetIt.instance<SignInImage>();
+    final authentication = GetIt.instance<Authentication>();
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double height = mediaQueryData.size.height;
 
@@ -161,6 +161,8 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
   }
 
   Widget _signInWidget() {
+    final authentication = GetIt.instance<Authentication>();
+
     List<Widget> widgets = List();
     widgets.addAll([
         Text(
@@ -174,7 +176,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
         FloatingActionButton.extended(
           backgroundColor: AppColors.fabBackgroundColor,
           onPressed: () async {
-            _signInWithGoogle();
+            authentication.signInWithGoogle();
           },
           label: const Text('Sign in with Google'),
           icon: Icon(Icons.account_circle),
@@ -189,7 +191,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
         FloatingActionButton.extended(
           backgroundColor: AppColors.fabBackgroundColor,
           onPressed: () async {
-            _signInWithApple();
+            authentication.signInWithApple();
           },
           label: const Text('Sign in with Apple'),
           icon: Icon(Icons.account_circle),
@@ -210,18 +212,6 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
     );
   }
 
-  void _signInWithGoogle() async {
-    _sendLoginEvent("Google");
-    final GoogleSignIn _googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-    await _auth.signInWithCredential(credential);
-  }
-
   void _setIsIOS13() {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       DeviceInfoPlugin().iosInfo.then((info) {
@@ -235,48 +225,6 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
       });
     }
 
-  }
-
-  void _signInWithApple() async {
-    const Utf8Codec utf8 = Utf8Codec();
-
-    final AuthorizationResult result = await AppleSignIn.performRequests([
-      AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
-    ]);
-
-    switch (result.status) {
-      case AuthorizationStatus.authorized:
-        final AuthCredential credential = AppleAuthProvider.getCredential(
-            idToken: utf8.decode(result.credential.identityToken),
-            accessToken: utf8.decode(result.credential.authorizationCode));
-        await _auth.signInWithCredential(credential);
-
-      // Store user ID
-//        await FlutterSecureStorage()
-//            .write(key: "userId", value: result.credential.user);
-//
-//        // Navigate to secret page (shhh!)
-//        Navigator.of(context).pushReplacement(MaterialPageRoute(
-//            builder: (_) =>
-//                SecretMembersOnlyPage(credential: result.credential)));
-        break;
-
-      case AuthorizationStatus.error:
-        print("Sign in failed: ${result.error.localizedDescription}");
-//        setState(() {
-//          errorMessage = "Sign in failed 😿";
-//        });
-        break;
-
-      case AuthorizationStatus.cancelled:
-        print('User cancelled');
-        break;
-    }
-  }
-
-  void _signInAnonymous() async {
-    _sendLoginEvent("Anonymous");
-    await _auth.signInAnonymously();
   }
 
   _sendLoginEvent(String type) async {

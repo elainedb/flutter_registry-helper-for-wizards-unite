@@ -28,14 +28,14 @@
 @import firebase_analytics;
 #endif
 
-#if __has_include(<firebase_auth/FirebaseAuthPlugin.h>)
-#import <firebase_auth/FirebaseAuthPlugin.h>
+#if __has_include(<firebase_auth/FLTFirebaseAuthPlugin.h>)
+#import <firebase_auth/FLTFirebaseAuthPlugin.h>
 #else
 @import firebase_auth;
 #endif
 
-#if __has_include(<firebase_core/FirebaseCorePlugin.h>)
-#import <firebase_core/FirebaseCorePlugin.h>
+#if __has_include(<firebase_core/FLTFirebaseCorePlugin.h>)
+#import <firebase_core/FLTFirebaseCorePlugin.h>
 #else
 @import firebase_core;
 #endif
@@ -46,8 +46,8 @@
 @import firebase_crashlytics;
 #endif
 
-#if __has_include(<firebase_performance/FirebasePerformancePlugin.h>)
-#import <firebase_performance/FirebasePerformancePlugin.h>
+#if __has_include(<firebase_performance/FLTFirebasePerformancePlugin.h>)
+#import <firebase_performance/FLTFirebasePerformancePlugin.h>
 #else
 @import firebase_performance;
 #endif
