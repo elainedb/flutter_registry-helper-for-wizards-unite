@@ -1,52 +1,26 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:registry_helper_for_wu/widgets/version.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
+import 'package:share/share.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final GoogleSignIn _googleSignIn = GoogleSignIn();
+import '../store/authentication.dart';
+import '../resources/values/app_colors.dart';
+import '../resources/values/app_dimens.dart';
+import '../resources/values/app_styles.dart';
+import '../utils/fanalytics.dart';
+import '../widgets/version.dart';
 
-class SettingsPage extends StatefulWidget {
-  final FirebaseAnalytics _analytics;
-  SettingsPage(this._analytics);
-
-  @override
-  State<StatefulWidget> createState() => SettingsPageState(_analytics);
-}
-
-class SettingsPageState extends State<SettingsPage> {
-  final FirebaseAnalytics _analytics;
-  SettingsPageState(this._analytics);
-
-  String _userEmail = "";
-
-  @override
-  void initState() {
-    super.initState();
-
-    FirebaseAuth.instance.currentUser().then((user) {
-      if (user != null) {
-        setState(() {
-          _userEmail = user.email;
-          if (user.isAnonymous) {
-            _userEmail = "Anonymous";
-          }
-        });
-      }
-    });
-
-    _auth.onAuthStateChanged.listen((user) {
-      if (user == null) {
-        setState(() {});
-      }
-    });
-  }
+class SettingsPage extends StatelessWidget {
+  SettingsPage();
 
   @override
   Widget build(BuildContext context) {
+    final authentication = GetIt.instance<Authentication>();
+
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double width = mediaQueryData.size.width;
+
+    authentication.getEmail();
 
     return Stack(
       children: <Widget>[
@@ -59,7 +33,7 @@ class SettingsPageState extends State<SettingsPage> {
         ),
         Positioned(
           child: Container(
-            color: Colors.black.withAlpha(100),
+            color: AppColors.transparentBlackCardColor,
           ),
           bottom: 0,
           top: 0,
@@ -69,18 +43,35 @@ class SettingsPageState extends State<SettingsPage> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "Logged in as $_userEmail",
-              style: TextStyle(color: Colors.white),
+            Center(
+              child: FloatingActionButton.extended(
+                backgroundColor: AppColors.fabBackgroundColor,
+                onPressed: () async {
+                  Share.share(
+                      'Check out Registry Helper for Wizards Unite! Android: https://play.google.com/store/apps/details?id=elainedb.dev.registry_helper_for_wu / iOS: https://testflight.apple.com/join/lQjFo3iR');
+                },
+                label: const Text("Share the app with your friends!"),
+                icon: Icon(Icons.share),
+              ),
             ),
             Container(
-              height: 24,
+              height: AppDimens.teraSize,
+            ),
+            Observer(builder: (_) {
+              return Text(
+                "Logged in as ${authentication.email}",
+                style: AppStyles.lightContentText,
+              );
+            }),
+            Container(
+              height: AppDimens.megaSize,
             ),
             Center(
               child: FloatingActionButton.extended(
-                backgroundColor: Colors.orange.withAlpha(120),
+                backgroundColor: AppColors.fabBackgroundColor,
                 onPressed: () async {
-                  _firebaseSignOut();
+                  _sendLogoutEvent();
+                  authentication.signOut();
                 },
                 label: const Text("Sign Out"),
                 icon: Icon(Icons.close),
@@ -93,7 +84,7 @@ class SettingsPageState extends State<SettingsPage> {
           children: <Widget>[
             Center(child: VersionWidget()),
             Container(
-              height: 16,
+              height: AppDimens.mediumSize,
             ),
           ],
         ),
@@ -101,14 +92,8 @@ class SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Future<void> _firebaseSignOut() async {
-    _sendLogoutEvent();
-    await _auth.signOut();
-    await _googleSignIn.signOut();
-  }
-
   _sendLogoutEvent() async {
-    await _analytics.logEvent(
+    await FAnalytics.analytics.logEvent(
       name: 'click_logout',
     );
   }

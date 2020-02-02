@@ -1,24 +1,24 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:registry_helper_for_wu/pages/helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../bottom_bar_nav.dart';
+import '../pages/helper.dart';
+import '../resources/values/app_colors.dart';
 
 const prestigeValues = ['Standard', 'Bronze', 'Silver', 'Gold'];
 const sortValues = ['Default', 'Low/Medium (no beam)', 'High (yellow beam)', 'Severe (orange beam)', 'Emergency (red beam)', 'Wizarding Challenges rewards'];
 var chaptersForDisplay = [
-  ChapterForDisplay("cmc", cmcDark, cmcLight),
-  ChapterForDisplay("da", daDark, daLight),
-  ChapterForDisplay("hs", hsDark, hsLight),
-  ChapterForDisplay("loh", lohDark, lohLight),
-  ChapterForDisplay("mom", momDark, momLight),
-  ChapterForDisplay("m", mDark, mLight),
-  ChapterForDisplay("mgs", mgsDark, mgsLight),
-  ChapterForDisplay("ma", maDark, maLight),
-  ChapterForDisplay("www", wwwDark, wwwLight),
-  ChapterForDisplay("o", oDark, oLight),
+  ChapterForDisplay("cmc", AppColors.cmcDark, AppColors.cmcLight),
+  ChapterForDisplay("da", AppColors.daDark, AppColors.daLight),
+  ChapterForDisplay("hs", AppColors.hsDark, AppColors.hsLight),
+  ChapterForDisplay("loh", AppColors.lohDark, AppColors.lohLight),
+  ChapterForDisplay("mom", AppColors.momDark, AppColors.momLight),
+  ChapterForDisplay("m", AppColors.mDark, AppColors.mLight),
+  ChapterForDisplay("mgs", AppColors.mgsDark, AppColors.mgsLight),
+  ChapterForDisplay("ma", AppColors.maDark, AppColors.maLight),
+  ChapterForDisplay("www", AppColors.wwwDark, AppColors.wwwLight),
+  ChapterForDisplay("o", AppColors.oDark, AppColors.oLight),
 ];
 
 class Registry {
@@ -106,7 +106,16 @@ class Foundable {
   final String howToCatch;
   final String threatLevel;
 
-  Foundable(this.id, this.name, this.fragmentRequirementStandard, this.fragmentRequirementBronze, this.fragmentRequirementSilver, this.fragmentRequirementGold, this.howToCatch, this.threatLevel);
+  Foundable(
+    this.id,
+    this.name,
+    this.fragmentRequirementStandard,
+    this.fragmentRequirementBronze,
+    this.fragmentRequirementSilver,
+    this.fragmentRequirementGold,
+    this.howToCatch,
+    this.threatLevel,
+  );
 
   Foundable.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -240,24 +249,24 @@ int getRequirementWithLevel(Foundable foundable, int level) {
 Color getColorWithFoundable(Foundable foundable) {
   switch (foundable.threatLevel) {
     case "l":
-      return Colors.grey;
+      return AppColors.lowThreatColor;
     case "m":
-      return Colors.white;
+      return AppColors.mediumThreatColor;
     case "h":
-      return Colors.yellow;
+      return AppColors.highThreatColor;
     case "s":
-      return Colors.orange;
+      return AppColors.severeThreatColor;
     case "e":
-      return Colors.red;
+      return AppColors.emergencyThreatColor;
   }
-  return Colors.white;
+  return AppColors.lowThreatColor;
 }
 
 Icon getIconWithFoundable(Foundable foundable, double size) {
   IconData id = Icons.not_interested;
   switch (foundable.howToCatch) {
     case "p":
-      id  = Icons.vpn_key;
+      id = Icons.vpn_key;
       break;
     case "pw":
 //      id = Icons.filter_2;
@@ -271,7 +280,11 @@ Icon getIconWithFoundable(Foundable foundable, double size) {
       break;
   }
 
-  return Icon(id, color: getColorWithFoundable(foundable), size: size,);
+  return Icon(
+    id,
+    color: getColorWithFoundable(foundable),
+    size: size,
+  );
 }
 
 MissingTraces getMissingTracesForChapter(Chapter chapter, Map<String, dynamic> data) {
@@ -351,7 +364,7 @@ class ChapterForDisplay {
 class AlmostCompletePage {
   final String pageName;
   final List<IncompleteFoundable> foundables;
-  
+
   AlmostCompletePage(this.pageName, this.foundables);
 }
 
@@ -359,7 +372,7 @@ class IncompleteFoundable {
   final String chapterId;
   final Foundable foundable;
   final int remainingFragments;
-  
+
   IncompleteFoundable(this.chapterId, this.foundable, this.remainingFragments);
 }
 
@@ -383,8 +396,8 @@ class UserData {
   }
 
   Map<String, dynamic> toJson() => {
-    'fragmentDataList': fragmentDataList,
-  };
+        'fragmentDataList': fragmentDataList,
+      };
 }
 
 // TODO move this elsewhere?

@@ -1,7 +1,9 @@
 import 'package:charts_flutter/flutter.dart';
-import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:registry_helper_for_wu/pages/charts.dart';
+import 'package:flutter/material.dart';
+
+import '../pages/charts.dart';
+import '../resources/values/app_dimens.dart';
 
 class StackedBarChart extends StatefulWidget {
   final Function callback;
@@ -27,7 +29,7 @@ class _StackedBarChartState extends State<StackedBarChart> {
     ));
 
     children.add(Container(
-      height: 240,
+      height: AppDimens.chartsHeight,
       child: charts.BarChart(
         widget.seriesList,
         animate: widget.animate,

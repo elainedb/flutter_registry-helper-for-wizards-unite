@@ -1,36 +1,44 @@
 import 'dart:ui' as ui;
 
-import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:registry_helper_for_wu/widgets/version.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:shimmer/shimmer.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
+import 'resources/values/app_colors.dart';
+import 'resources/values/app_dimens.dart';
+import 'resources/values/app_styles.dart';
+import 'store/authentication.dart';
+import 'store/signin_image.dart';
+import 'utils/fanalytics.dart';
+import 'widgets/version.dart';
 
 class SignInWidget extends StatefulWidget {
-  final FirebaseAnalytics _analytics;
-  SignInWidget(this._analytics);
+  SignInWidget();
 
   @override
-  State<StatefulWidget> createState() => SignInWidgetState(_analytics);
+  State<StatefulWidget> createState() => SignInWidgetState();
 }
 
 class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixin {
-  final FirebaseAnalytics _analytics;
-  SignInWidgetState(this._analytics);
+  SignInWidgetState();
 
   AnimationController _controller;
-  ui.Image image;
-  double scale = 1;
+
+  var isIOS13 = false;
 
   @override
   void initState() {
     super.initState();
 
-    _loadImage();
+    final signInImage = GetIt.instance<SignInImage>();
+
+    signInImage.loadImage();
+
+    FAnalytics.analytics.setCurrentScreen(
+      screenName: "SignInPage",
+    );
 
     _controller = AnimationController(
       duration: Duration(seconds: 30),
@@ -39,67 +47,56 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _setIsIOS13();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final signInImage = GetIt.instance<SignInImage>();
+    final authentication = GetIt.instance<Authentication>();
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double height = mediaQueryData.size.height;
-    double tweenBegin = 0;
-
-    if (image != null) {
-      scale = height / image.height;
-      tweenBegin = -(image.width * scale) / 2;
-      print("scale = $scale");
-      print("height = $height");
-      print("image.height = $image.height");
-    }
-
-    final animation = Tween(begin: tweenBegin, end: 0).animate(_controller);
 
     return Builder(builder: (BuildContext context) {
       return Stack(
         children: <Widget>[
-          AnimatedBuilder(
-            animation: animation,
-            /*child: Transform.translate(
-              offset: Offset(-50, 0),
-              child: Image.asset(
-                "images/background.jpg",
-                fit: BoxFit.none,
-                height: double.infinity,
-                width: double.infinity,
-                alignment: Alignment.center,),
-            ),*/
-            child: image != null
-                ? CustomPaint(
-                    size: Size(image.width.roundToDouble(), image.height.roundToDouble()),
-                    painter: MyPainter(image, scale),
-                  )
-                : Container(),
-            builder: (context, child) {
-              return Transform.translate(
-                offset: Offset(animation.value, 0),
-                child: child,
-              );
+          Observer(
+            builder: (_) {
+              if (signInImage.image != null) {
+                double imageHeight = signInImage.image.height.roundToDouble();
+                double imageWidth = signInImage.image.width.roundToDouble();
+                double scale = height / imageHeight;
+                double tweenBegin = -(imageWidth * scale) / 2;
+                return AnimatedBuilder(
+                  animation: Tween(begin: tweenBegin, end: 0).animate(_controller),
+                  child: CustomPaint(
+                    size: Size(imageWidth, imageHeight),
+                    painter: MyPainter(signInImage.image, scale),
+                  ),
+                  builder: (context, child) {
+                    return Transform.translate(
+                      offset: Offset(Tween(begin: tweenBegin, end: 0).animate(_controller).value, 0),
+                      child: child,
+                    );
+                  },
+                );
+              }
+
+              return Container();
             },
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: AppStyles.mediumInsets,
                 child: Stack(
                   children: <Widget>[
                     Text(
                       'Welcome to Registry Helper for Wizards Unite!',
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          shadows: <Shadow>[
-                            Shadow(
-                              offset: Offset(1.0, 1.0),
-                              blurRadius: 5.0,
-                              color: Colors.black,
-                            ),
-                          ]),
+                      style: AppStyles.titleText,
                       textAlign: TextAlign.center,
                     ),
                     Shimmer.fromColors(
@@ -108,67 +105,34 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                       period: Duration(seconds: 2),
                       child: Text(
                         'Welcome to Registry Helper for Wizards Unite!',
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
+                        style: AppStyles.extraLargeBoldText,
                         textAlign: TextAlign.center,
                       ),
                     ),
                   ],
                 ),
               ),
+              _signInWidget(),
               Card(
-                margin: EdgeInsets.all(8.0),
-                color: Colors.black.withAlpha(100),
+                margin: AppStyles.miniInsets,
+                color: AppColors.transparentBlackCardColor,
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        'In order to automatically backup your data, please sign in.',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      Container(
-                        height: 16,
-                      ),
-                      FloatingActionButton.extended(
-                        backgroundColor: Colors.orange.withAlpha(120),
-                        onPressed: () async {
-                          _signInWithGoogle();
-                        },
-                        label: const Text('Sign in with Google'),
-                        icon: Icon(Icons.account_circle),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Card(
-                margin: EdgeInsets.all(8.0),
-                color: Colors.black.withAlpha(100),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: AppStyles.mediumInsets,
                   child: Column(
                     children: <Widget>[
                       Text(
                         'If you wish to try out first, you can sign in anonymously.',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
+                        style: AppStyles.mediumText,
                         textAlign: TextAlign.center,
                       ),
                       Container(
-                        height: 16,
+                        height: AppDimens.mediumSize,
                       ),
                       FloatingActionButton.extended(
-                        backgroundColor: Colors.orange.withAlpha(120),
+                        backgroundColor: AppColors.fabBackgroundColor,
                         onPressed: () async {
-                          _signInAnonymous();
+                          _sendLoginEvent("Anonymous");
+                          authentication.signInAnonymous();
                         },
                         label: const Text('Anonymous sign in'),
                         icon: Icon(Icons.help),
@@ -184,7 +148,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
             children: <Widget>[
               Center(child: VersionWidget()),
               Container(
-                height: 16,
+                height: AppDimens.mediumSize,
               ),
             ],
           ),
@@ -193,36 +157,82 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
     });
   }
 
-  void _signInWithGoogle() async {
-    _sendLoginEvent("Google");
-    final GoogleSignIn _googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
+  Widget _signInWidget() {
+    final authentication = GetIt.instance<Authentication>();
+
+    List<Widget> widgets = List();
+    widgets.addAll([
+      Text(
+        'In order to automatically backup your data, please sign in.',
+        style: AppStyles.mediumText,
+        textAlign: TextAlign.center,
+      ),
+      Container(
+        height: AppDimens.mediumSize,
+      ),
+      FloatingActionButton.extended(
+        backgroundColor: AppColors.fabBackgroundColor,
+        onPressed: () async {
+          authentication.signInWithGoogle();
+        },
+        label: const Text('Sign in with Google'),
+        icon: Icon(Icons.account_circle),
+      )
+    ]);
+
+    if (isIOS13) {
+      widgets.addAll([
+        Container(
+          height: AppDimens.mediumSize,
+        ),
+        FloatingActionButton.extended(
+          backgroundColor: AppColors.fabBackgroundColor,
+          onPressed: () async {
+            authentication.signInWithApple();
+          },
+          label: const Text('Sign in with Apple'),
+          icon: Icon(Icons.account_circle),
+        )
+      ]);
+    }
+
+    return Card(
+      margin: AppStyles.miniInsets,
+      color: AppColors.transparentBlackCardColor,
+      child: Padding(
+        padding: AppStyles.mediumInsets,
+        child: Column(
+          children: widgets,
+        ),
+      ),
     );
-    await _auth.signInWithCredential(credential);
   }
 
-  void _signInAnonymous() async {
-    _sendLoginEvent("Anonymous");
-    await _auth.signInAnonymously();
+  void _setIsIOS13() {
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
+      DeviceInfoPlugin().iosInfo.then((info) {
+        var version = info.systemVersion;
+
+        if (int.parse(version.split(".")[0]) >= 13) {
+          setState(() {
+            isIOS13 = true;
+          });
+        }
+      });
+    }
   }
 
   _sendLoginEvent(String type) async {
-    await _analytics.logEvent(
+    await FAnalytics.analytics.logEvent(
       name: 'click_login',
       parameters: <String, dynamic>{'value': type},
     );
   }
 
-  _loadImage() {
-    load("assets/images/background.jpg").then((image) {
-      setState(() {
-        this.image = image;
-      });
-    });
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
 
@@ -241,11 +251,4 @@ class MyPainter extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) {
     return false;
   }
-}
-
-Future<ui.Image> load(String asset) async {
-  ByteData data = await rootBundle.load(asset);
-  ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
-  ui.FrameInfo fi = await codec.getNextFrame();
-  return fi.image;
 }

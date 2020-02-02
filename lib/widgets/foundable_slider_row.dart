@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:registry_helper_for_wu/data/data.dart';
+import 'package:get_it/get_it.dart';
 
-import '../main.dart';
+import '../data/data.dart';
+import '../resources/values/app_colors.dart';
+import '../resources/values/app_dimens.dart';
+import '../resources/values/app_styles.dart';
+import '../store/user_data_store.dart';
 
 class FoundableSliderRow extends StatefulWidget {
-  Function callback;
+  final Function callback;
   final String foundableId;
   final Page page;
-  Map<String, dynamic> data;
-  String dropdownValue;
+  final String dropdownValue;
   final Color color;
 
-  FoundableSliderRow(this.foundableId, this.page, this.data, this.dropdownValue, this.color, this.callback);
+  FoundableSliderRow(this.callback, this.foundableId, this.page, this.dropdownValue, this.color);
 
   @override
   State<StatefulWidget> createState() => FoundableSliderRowState();
 }
 
 class FoundableSliderRowState extends State<FoundableSliderRow> {
-
   double _currentCount;
   double _requirement;
   Foundable _foundable;
+
+  final userDataStore = GetIt.instance<UserDataStore>();
 
   @override
   void initState() {
@@ -29,8 +33,8 @@ class FoundableSliderRowState extends State<FoundableSliderRow> {
 
     _foundable = getFoundableWithId(widget.page, widget.foundableId);
 
-    int currentCount = widget.data[widget.foundableId]['count'];
-    int currentLevel = widget.data[widget.foundableId]['level'];
+    int currentCount = userDataStore.data[widget.foundableId]['count'];
+    int currentLevel = userDataStore.data[widget.foundableId]['level'];
     var intRequirement = getRequirementWithLevel(_foundable, currentLevel);
 
     _currentCount = currentCount.toDouble();
@@ -39,21 +43,23 @@ class FoundableSliderRowState extends State<FoundableSliderRow> {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: <Widget>[
-        Text("${_foundable.name}: ${_currentCount.round()}/${_requirement.round()}"),
+        Text(
+          "${_foundable.name}: ${_currentCount.round()}/${_requirement.round()}",
+          style: AppStyles.darkContentText,
+        ),
         Row(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Container(
-              width: 36,
+              width: AppDimens.gigaSize,
               child: RaisedButton(
-                color: backgroundColor,
-                padding: EdgeInsets.all(0),
+                color: AppColors.backgroundColor,
+                padding: AppStyles.zeroInsets,
                 child: Text(
                   "-",
-                  style: TextStyle(color: Colors.white),
+                  style: AppStyles.quantityText,
                 ),
                 onPressed: () {
                   if (_currentCount > 0) {
@@ -84,13 +90,13 @@ class FoundableSliderRowState extends State<FoundableSliderRow> {
               ),
             ),
             Container(
-              width: 36,
+              width: AppDimens.gigaSize,
               child: RaisedButton(
-                color: backgroundColor,
-                padding: EdgeInsets.all(0),
+                color: AppColors.backgroundColor,
+                padding: AppStyles.zeroInsets,
                 child: Text(
                   "+",
-                  style: TextStyle(color: Colors.white),
+                  style: AppStyles.quantityText,
                 ),
                 onPressed: () {
                   if (_currentCount < _requirement) {
@@ -108,5 +114,4 @@ class FoundableSliderRowState extends State<FoundableSliderRow> {
       ],
     );
   }
-
 }

@@ -555,6 +555,62 @@
               "threatLevel":"s"
             }
           ]
+        },
+        {
+          "id":"ms2",
+          "name":"Moving Staircases II",
+          "foundables":[
+            {
+              "id":"ms2_1",
+              "name":"Portrait of Salazar Slytherin",
+              "fragmentRequirementStandard":8,
+              "fragmentRequirementBronze":24,
+              "fragmentRequirementSilver":36,
+              "fragmentRequirementGold":43,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            },
+            {
+              "id":"ms2_2",
+              "name":"Portrait of Helga Hufflepuff",
+              "fragmentRequirementStandard":8,
+              "fragmentRequirementBronze":24,
+              "fragmentRequirementSilver":36,
+              "fragmentRequirementGold":43,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            },
+            {
+              "id":"ms2_3",
+              "name":"Wild Boar",
+              "fragmentRequirementStandard":15,
+              "fragmentRequirementBronze":18,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"wc",
+              "threatLevel":"l"
+            },
+            {
+              "id":"ms2_4",
+              "name":"Portrait of Rowena Ravenclaw",
+              "fragmentRequirementStandard":8,
+              "fragmentRequirementBronze":24,
+              "fragmentRequirementSilver":36,
+              "fragmentRequirementGold":43,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            },
+            {
+              "id":"ms2_5",
+              "name":"Portrait of Godric Gryffindor",
+              "fragmentRequirementStandard":8,
+              "fragmentRequirementBronze":24,
+              "fragmentRequirementSilver":36,
+              "fragmentRequirementGold":43,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            }
+          ]
         }
       ]
     },
@@ -739,6 +795,118 @@
               "fragmentRequirementGold":25,
               "howToCatch":"wc",
               "threatLevel":"e"
+            }
+          ]
+        },
+        {
+          "id":"rr5",
+          "name":"Room of Requirement V",
+          "foundables":[
+            {
+              "id":"rr5_1",
+              "name":"Fred Weasley",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":7,
+              "fragmentRequirementSilver":7,
+              "fragmentRequirementGold":7,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            },
+            {
+              "id":"rr5_2",
+              "name":"Angelina Johnson",
+              "fragmentRequirementStandard":12,
+              "fragmentRequirementBronze":12,
+              "fragmentRequirementSilver":12,
+              "fragmentRequirementGold":12,
+              "howToCatch":"w",
+              "threatLevel":"m"
+            },
+            {
+              "id":"rr5_3",
+              "name":"Parvati Patil",
+              "fragmentRequirementStandard":9,
+              "fragmentRequirementBronze":9,
+              "fragmentRequirementSilver":9,
+              "fragmentRequirementGold":9,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            },
+            {
+              "id":"rr5_4",
+              "name":"George Weasley",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":7,
+              "fragmentRequirementSilver":7,
+              "fragmentRequirementGold":7,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            },
+            {
+              "id":"rr5_5",
+              "name":"Dumbledore's Army Sign-up Sheet",
+              "fragmentRequirementStandard":5,
+              "fragmentRequirementBronze":5,
+              "fragmentRequirementSilver":5,
+              "fragmentRequirementGold":5,
+              "howToCatch":"wc",
+              "threatLevel":"l"
+            }
+          ]
+        },
+        {
+          "id":"yb",
+          "name":"Yule Ball Great Hall",
+          "foundables":[
+            {
+              "id":"yb_1",
+              "name":"Fred and Angelina",
+              "fragmentRequirementStandard":9,
+              "fragmentRequirementBronze":9,
+              "fragmentRequirementSilver":9,
+              "fragmentRequirementGold":9,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            },
+            {
+              "id":"yb_2",
+              "name":"Hagrid and Madame Maxime",
+              "fragmentRequirementStandard":9,
+              "fragmentRequirementBronze":9,
+              "fragmentRequirementSilver":9,
+              "fragmentRequirementGold":9,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            },
+            {
+              "id":"yb_3",
+              "name":"Hermione and Viktor",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":7,
+              "fragmentRequirementSilver":7,
+              "fragmentRequirementGold":7,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            },
+            {
+              "id":"yb_4",
+              "name":"Harry and Parvati",
+              "fragmentRequirementStandard":11,
+              "fragmentRequirementBronze":11,
+              "fragmentRequirementSilver":11,
+              "fragmentRequirementGold":11,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            },
+            {
+              "id":"yb_5",
+              "name":"Yule Ball Program",
+              "fragmentRequirementStandard":5,
+              "fragmentRequirementBronze":5,
+              "fragmentRequirementSilver":5,
+              "fragmentRequirementGold":5,
+              "howToCatch":"wc",
+              "threatLevel":"l"
             }
           ]
         }
@@ -1641,6 +1809,134 @@
               "threatLevel":"h"
             }
           ]
+        },
+        {
+          "id":"od3",
+          "name":"Oddities III",
+          "foundables":[
+            {
+              "id":"od3_1",
+              "name":"Chinese Fireball Egg",
+              "fragmentRequirementStandard":4,
+              "fragmentRequirementBronze":12,
+              "fragmentRequirementSilver":24,
+              "fragmentRequirementGold":36,
+              "howToCatch":"pw",
+              "threatLevel":"l"
+            },
+            {
+              "id":"od3_2",
+              "name":"Antipodean Opaleye Egg",
+              "fragmentRequirementStandard":4,
+              "fragmentRequirementBronze":12,
+              "fragmentRequirementSilver":24,
+              "fragmentRequirementGold":36,
+              "howToCatch":"pw",
+              "threatLevel":"l"
+            },
+            {
+              "id":"od3_3",
+              "name":"Chinese Fireball",
+              "fragmentRequirementStandard":10,
+              "fragmentRequirementBronze":20,
+              "fragmentRequirementSilver":40,
+              "fragmentRequirementGold":80,
+              "howToCatch":"w",
+              "threatLevel":"e"
+            },
+            {
+              "id":"od3_4",
+              "name":"Antipodean Opaleye",
+              "fragmentRequirementStandard":10,
+              "fragmentRequirementBronze":20,
+              "fragmentRequirementSilver":40,
+              "fragmentRequirementGold":80,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            }
+          ]
+        },
+        {
+          "id":"od4",
+          "name":"Oddities IV",
+          "foundables":[
+            {
+              "id":"od4_1",
+              "name":"Peruvian Vipertooth Egg",
+              "fragmentRequirementStandard":4,
+              "fragmentRequirementBronze":12,
+              "fragmentRequirementSilver":24,
+              "fragmentRequirementGold":36,
+              "howToCatch":"pw",
+              "threatLevel":"l"
+            },
+            {
+              "id":"od4_2",
+              "name":"Common Welsh Green Egg",
+              "fragmentRequirementStandard":4,
+              "fragmentRequirementBronze":12,
+              "fragmentRequirementSilver":24,
+              "fragmentRequirementGold":36,
+              "howToCatch":"pw",
+              "threatLevel":"l"
+            },
+            {
+              "id":"od4_3",
+              "name":"Peruvian Vipertooth",
+              "fragmentRequirementStandard":10,
+              "fragmentRequirementBronze":20,
+              "fragmentRequirementSilver":40,
+              "fragmentRequirementGold":80,
+              "howToCatch":"w",
+              "threatLevel":"e"
+            },
+            {
+              "id":"od4_4",
+              "name":"Common Welsh Green",
+              "fragmentRequirementStandard":10,
+              "fragmentRequirementBronze":20,
+              "fragmentRequirementSilver":40,
+              "fragmentRequirementGold":80,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            }
+          ]
+        },
+        {
+          "id":"od5",
+          "name":"Oddities V",
+          "foundables":[
+            {
+              "id":"od5_1",
+              "name":"Azkaban Escapee",
+              "fragmentRequirementStandard":13,
+              "fragmentRequirementBronze":26,
+              "fragmentRequirementSilver":52,
+              "fragmentRequirementGold":104,
+              "howToCatch":"w",
+              "threatLevel":"m"
+            },
+            {
+              "id":"od5_2",
+              "name":"Death Eater",
+              "fragmentRequirementStandard":15,
+              "fragmentRequirementBronze":30,
+              "fragmentRequirementSilver":60,
+              "fragmentRequirementGold":120,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            },
+            {
+              "id":"od5_3",
+              "name":"Three-Headed Dog",
+              "fragmentRequirementStandard":15,
+              "fragmentRequirementBronze":30,
+              "fragmentRequirementSilver":60,
+              "fragmentRequirementGold":120,
+              "howToCatch":"w",
+              "threatLevel":"e"
+            }
+          ]
         }
       ]
     },
@@ -1662,7 +1958,7 @@
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
               "howToCatch":"pw",
-              "threatLevel":"h"
+              "threatLevel":"m"
             },
             {
               "id":"rr4_2",
