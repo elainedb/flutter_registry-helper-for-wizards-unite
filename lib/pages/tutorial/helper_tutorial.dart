@@ -7,7 +7,6 @@ import '../../resources/values/app_dimens.dart';
 import '../../resources/values/app_styles.dart';
 
 abstract class HelperTutorial {
-
   static List<TargetFocus> targets = List();
 
   static initTargets(GlobalKey globalKey1, GlobalKey globalKey2, GlobalKey globalKey3) {
@@ -82,5 +81,4 @@ abstract class HelperTutorial {
       },
     )..show();
   }
-
 }

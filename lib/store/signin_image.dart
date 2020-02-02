@@ -8,7 +8,6 @@ part 'signin_image.g.dart';
 class SignInImage = _SignInImage with _$SignInImage;
 
 abstract class _SignInImage with Store {
-
   @observable
   ui.Image image;
 
@@ -23,5 +22,4 @@ abstract class _SignInImage with Store {
     ui.FrameInfo fi = await codec.getNextFrame();
     return fi.image;
   }
-
 }

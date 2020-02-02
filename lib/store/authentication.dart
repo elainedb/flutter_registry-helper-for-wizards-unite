@@ -4,7 +4,8 @@ import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobx/mobx.dart';
-import 'package:registry_helper_for_wu/utils/fanalytics.dart';
+
+import '../utils/fanalytics.dart';
 
 part 'authentication.g.dart';
 
@@ -14,7 +15,6 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 class Authentication = _Authentication with _$Authentication;
 
 abstract class _Authentication with Store {
-
   @observable
   bool authState = false;
 
@@ -77,8 +77,9 @@ abstract class _Authentication with Store {
     switch (result.status) {
       case AuthorizationStatus.authorized:
         final AuthCredential credential = OAuthProvider(providerId: "apple.com").getCredential(
-             idToken: utf8.decode(result.credential.identityToken),
-             accessToken: utf8.decode(result.credential.authorizationCode));
+          idToken: utf8.decode(result.credential.identityToken),
+          accessToken: utf8.decode(result.credential.authorizationCode),
+        );
         AuthResult authResult = await _auth.signInWithCredential(credential);
         user = authResult.user;
         authState = user != null;
@@ -123,5 +124,4 @@ abstract class _Authentication with Store {
 
     return googleUser;
   }
-
 }

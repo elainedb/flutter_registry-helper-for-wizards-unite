@@ -1,19 +1,18 @@
 import 'dart:ui' as ui;
 
 import 'package:device_info/device_info.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:registry_helper_for_wu/widgets/version.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'resources/values/app_colors.dart';
 import 'resources/values/app_dimens.dart';
 import 'resources/values/app_styles.dart';
 import 'store/authentication.dart';
-import 'utils/fanalytics.dart';
 import 'store/signin_image.dart';
+import 'utils/fanalytics.dart';
+import 'widgets/version.dart';
 
 class SignInWidget extends StatefulWidget {
   SignInWidget();
@@ -46,7 +45,6 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
       vsync: this,
     )..repeat(reverse: true);
   }
-
 
   @override
   void didChangeDependencies() {
@@ -164,23 +162,23 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
 
     List<Widget> widgets = List();
     widgets.addAll([
-        Text(
-          'In order to automatically backup your data, please sign in.',
-          style: AppStyles.mediumText,
-          textAlign: TextAlign.center,
-        ),
-        Container(
-          height: AppDimens.mediumSize,
-        ),
-        FloatingActionButton.extended(
-          backgroundColor: AppColors.fabBackgroundColor,
-          onPressed: () async {
-            authentication.signInWithGoogle();
-          },
-          label: const Text('Sign in with Google'),
-          icon: Icon(Icons.account_circle),
-        )]
-    );
+      Text(
+        'In order to automatically backup your data, please sign in.',
+        style: AppStyles.mediumText,
+        textAlign: TextAlign.center,
+      ),
+      Container(
+        height: AppDimens.mediumSize,
+      ),
+      FloatingActionButton.extended(
+        backgroundColor: AppColors.fabBackgroundColor,
+        onPressed: () async {
+          authentication.signInWithGoogle();
+        },
+        label: const Text('Sign in with Google'),
+        icon: Icon(Icons.account_circle),
+      )
+    ]);
 
     if (isIOS13) {
       widgets.addAll([
@@ -197,7 +195,6 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
         )
       ]);
     }
-
 
     return Card(
       margin: AppStyles.miniInsets,
@@ -223,7 +220,6 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
         }
       });
     }
-
   }
 
   _sendLoginEvent(String type) async {
@@ -232,7 +228,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
       parameters: <String, dynamic>{'value': type},
     );
   }
-  
+
   @override
   void dispose() {
     _controller.dispose();

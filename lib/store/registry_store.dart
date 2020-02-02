@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:registry_helper_for_wu/data/data.dart';
-import 'package:registry_helper_for_wu/pages/charts.dart';
-import 'package:registry_helper_for_wu/pages/helper.dart';
-import 'package:registry_helper_for_wu/pages/my_registry.dart';
-import 'package:registry_helper_for_wu/pages/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../data/data.dart';
+import '../pages/charts.dart';
+import '../pages/helper.dart';
+import '../pages/my_registry.dart';
+import '../pages/settings.dart';
 import 'authentication.dart';
 
 part 'registry_store.g.dart';
@@ -19,7 +19,6 @@ part 'registry_store.g.dart';
 class RegistryStore = _RegistryStore with _$RegistryStore;
 
 abstract class _RegistryStore with Store {
-
   @observable
   Registry registry;
 

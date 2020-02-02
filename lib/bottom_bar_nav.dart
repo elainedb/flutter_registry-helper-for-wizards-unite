@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:quick_actions/quick_actions.dart';
-import 'package:registry_helper_for_wu/store/registry_store.dart';
 
 import 'resources/values/app_colors.dart';
 import 'store/authentication.dart';
+import 'store/registry_store.dart';
+import 'store/user_data_store.dart';
 import 'utils/fanalytics.dart';
 import 'widgets/loading.dart';
 
@@ -30,6 +31,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
 
   final registryStore = GetIt.instance<RegistryStore>();
   final authentication = GetIt.instance<Authentication>();
+  final userDataStore = GetIt.instance<UserDataStore>();
 
   @override
   void initState() {
@@ -61,8 +63,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
             break;
         }
         registryStore.updateWidgets(_sortValue);
-      }
-      );
+      });
     });
 
     quickActions.setShortcutItems(<ShortcutItem>[
@@ -87,6 +88,8 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
         icon: 'ic_folder',
       ),
     ]);
+
+    userDataStore.initData();
   }
 
   @override
@@ -134,7 +137,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
     setState(() {
       _selectedIndex = index;
       String pageName = "";
-      switch(index) {
+      switch (index) {
         case 0:
           pageName = "MyRegistryPage";
           break;

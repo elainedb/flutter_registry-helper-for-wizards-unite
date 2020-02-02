@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../data/data.dart';
 import '../resources/values/app_colors.dart';
 import '../resources/values/app_dimens.dart';
 import '../resources/values/app_styles.dart';
+import '../store/user_data_store.dart';
 
 class FoundableSliderRow extends StatefulWidget {
   final Function callback;
   final String foundableId;
   final Page page;
-  final Map<String, dynamic> data;
   final String dropdownValue;
   final Color color;
 
-  FoundableSliderRow(this.foundableId, this.page, this.data, this.dropdownValue, this.color, this.callback);
+  FoundableSliderRow(this.callback, this.foundableId, this.page, this.dropdownValue, this.color);
 
   @override
   State<StatefulWidget> createState() => FoundableSliderRowState();
@@ -24,14 +25,16 @@ class FoundableSliderRowState extends State<FoundableSliderRow> {
   double _requirement;
   Foundable _foundable;
 
+  final userDataStore = GetIt.instance<UserDataStore>();
+
   @override
   void initState() {
     super.initState();
 
     _foundable = getFoundableWithId(widget.page, widget.foundableId);
 
-    int currentCount = widget.data[widget.foundableId]['count'];
-    int currentLevel = widget.data[widget.foundableId]['level'];
+    int currentCount = userDataStore.data[widget.foundableId]['count'];
+    int currentLevel = userDataStore.data[widget.foundableId]['level'];
     var intRequirement = getRequirementWithLevel(_foundable, currentLevel);
 
     _currentCount = currentCount.toDouble();

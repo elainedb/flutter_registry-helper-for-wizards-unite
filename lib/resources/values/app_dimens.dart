@@ -1,5 +1,4 @@
 abstract class AppDimens {
-
   static const picoSize = 1.0;
   static const nanoSize = 2.0;
   static const microSize = 4.0;
@@ -35,5 +34,4 @@ abstract class AppDimens {
 
   static const paddingFocus = 4.0;
   static const opacityShadow = 0.8;
-
 }

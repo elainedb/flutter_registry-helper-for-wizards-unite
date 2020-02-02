@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:registry_helper_for_wu/store/authentication.dart';
-import 'package:registry_helper_for_wu/store/registry_store.dart';
-import 'package:registry_helper_for_wu/utils/fanalytics.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +8,10 @@ import '../data/data.dart';
 import '../resources/values/app_colors.dart';
 import '../resources/values/app_dimens.dart';
 import '../resources/values/app_styles.dart';
+import '../store/authentication.dart';
+import '../store/registry_store.dart';
+import '../store/user_data_store.dart';
+import '../utils/fanalytics.dart';
 import '../widgets/page_edit_dialog.dart';
 import '../widgets/loading.dart';
 import 'tutorial/my_registry_tutorial.dart';
@@ -26,7 +27,6 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   MyRegistryPageState();
 
   AutoScrollController controller;
-  UserData _userData;
 
   GlobalKey globalKey1 = GlobalKey();
   GlobalKey globalKey2 = GlobalKey();
@@ -36,16 +36,13 @@ class MyRegistryPageState extends State<MyRegistryPage> {
 
   final authentication = GetIt.instance<Authentication>();
   final registryStore = GetIt.instance<RegistryStore>();
+  final userDataStore = GetIt.instance<UserDataStore>();
 
   @override
   void initState() {
     super.initState();
     MyRegistryTutorial.initTargets(globalKey1, globalKey2, globalKey3, globalKey4);
     _getTutorialInfoFromSharedPrefs();
-
-    if (authentication.isAnonymous) {
-      getUserDataFromPrefs().then((data) => _userData = data);
-    }
 
     controller = AutoScrollController(
       viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
@@ -55,24 +52,16 @@ class MyRegistryPageState extends State<MyRegistryPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (authentication.isAnonymous && _userData != null) {
-      return registryWidget(_userData.fragmentDataList);
-    } else {
-      if (authentication.userId != null) {
-        return StreamBuilder<DocumentSnapshot>(
-            stream: Firestore.instance.collection('userData').document(authentication.userId).snapshots(),
-            builder: (context, snapshot) {
-              if (registryStore.registry != null && snapshot.hasData && snapshot.data.data != null) {
-                return registryWidget(snapshot.data.data);
-              } else
-                return LoadingWidget();
-            });
+    return Observer(builder: (_) {
+      if (userDataStore.isLoading) {
+        return LoadingWidget();
+      } else {
+        return registryWidget();
       }
-    }
-    return LoadingWidget();
+    });
   }
 
-  Widget registryWidget(Map<String, dynamic> data) {
+  Widget registryWidget() {
     WidgetsBinding.instance.addPostFrameCallback((_) => executeAfterBuild(context));
 
     return Row(
@@ -82,16 +71,16 @@ class MyRegistryPageState extends State<MyRegistryPage> {
             scrollDirection: Axis.vertical,
             controller: controller,
             children: <Widget>[
-              chapterCard("cmc", data, AppColors.cmcDark, AppColors.cmcLight, 0),
-              chapterCard("da", data, AppColors.daDark, AppColors.daLight, 1),
-              chapterCard("hs", data, AppColors.hsDark, AppColors.hsLight, 2),
-              chapterCard("loh", data, AppColors.lohDark, AppColors.lohLight, 3),
-              chapterCard("mom", data, AppColors.momDark, AppColors.momLight, 4),
-              chapterCard("m", data, AppColors.mDark, AppColors.mLight, 5),
-              chapterCard("mgs", data, AppColors.mgsDark, AppColors.mgsLight, 6),
-              chapterCard("ma", data, AppColors.maDark, AppColors.maLight, 7),
-              chapterCard("www", data, AppColors.wwwDark, AppColors.wwwLight, 8),
-              chapterCard("o", data, AppColors.oDark, AppColors.oLight, 9),
+              chapterCard("cmc", AppColors.cmcDark, AppColors.cmcLight, 0),
+              chapterCard("da", AppColors.daDark, AppColors.daLight, 1),
+              chapterCard("hs", AppColors.hsDark, AppColors.hsLight, 2),
+              chapterCard("loh", AppColors.lohDark, AppColors.lohLight, 3),
+              chapterCard("mom", AppColors.momDark, AppColors.momLight, 4),
+              chapterCard("m", AppColors.mDark, AppColors.mLight, 5),
+              chapterCard("mgs", AppColors.mgsDark, AppColors.mgsLight, 6),
+              chapterCard("ma", AppColors.maDark, AppColors.maLight, 7),
+              chapterCard("www", AppColors.wwwDark, AppColors.wwwLight, 8),
+              chapterCard("o", AppColors.oDark, AppColors.oLight, 9),
             ],
           ),
         ),
@@ -120,7 +109,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     );
   }
 
-  Widget chapterCard(String chapterId, Map<String, dynamic> data, Color dark, Color light, int index) {
+  Widget chapterCard(String chapterId, Color dark, Color light, int index) {
     Chapter chapter = getChapterWithId(registryStore.registry, chapterId);
 
     List<Widget> widgets = List();
@@ -128,7 +117,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
       "${chapter.name}",
       style: AppStyles.lightContentText,
     ));
-    widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, light, data, dark)));
+    widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, light, dark)));
 
     return AutoScrollTag(
       controller: controller,
@@ -143,9 +132,9 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     );
   }
 
-  Widget pageCard(String pageId, Chapter chapter, Color lightColor, Map<String, dynamic> data, Color darkColor) {
+  Widget pageCard(String pageId, Chapter chapter, Color lightColor, Color darkColor) {
     Page page = getPageWithId(chapter, pageId);
-    String dropdownValue = getPrestigeLevelWithPageId(pageId, data);
+    String dropdownValue = getPrestigeLevelWithPageId(pageId, userDataStore.data);
     var key1;
     var key3;
     if (pageId == "hh") {
@@ -165,24 +154,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
         DropdownButton<String>(
           key: key3,
           value: dropdownValue,
-          onChanged: (newValue) {
-            Map<String, dynamic> newData = Map();
-            page.foundables.forEach((foundable) {
-              if (!authentication.isAnonymous) {
-                newData[foundable.id] = {'count': 0, 'level': getPrestigeLevelWithPrestigeValue(newValue)};
-              } else {
-                _userData.fragmentDataList[foundable.id]['count'] = 0;
-                _userData.fragmentDataList[foundable.id]['level'] = getPrestigeLevelWithPrestigeValue(newValue);
-              }
-            });
-
-            if (!authentication.isAnonymous) {
-              Firestore.instance.collection('userData').document(authentication.userId).setData(newData, merge: true);
-            } else {
-              saveUserDataToPrefs(_userData);
-            }
-            setState(() {});
-          },
+          onChanged: (newValue) => userDataStore.setPrestigeLevel(page, newValue),
           items: prestigeValues.map<DropdownMenuItem<String>>((value) {
             return DropdownMenuItem<String>(
               value: value,
@@ -199,14 +171,14 @@ class MyRegistryPageState extends State<MyRegistryPage> {
             Icons.edit,
             color: AppColors.darkColor,
           ),
-          onPressed: () => _pushDialog(page, data, dropdownValue, darkColor, lightColor),
+          onPressed: () => _pushDialog(dropdownValue, page, darkColor, lightColor),
         )
       ],
     );
 
     List<Widget> widgets = List();
     widgets.add(header);
-    widgets.addAll(getFoundablesIds(page).map((f) => foundableRow(f, page, data, dropdownValue, darkColor)));
+    widgets.addAll(getFoundablesIds(page).map((f) => foundableRow(f, page, darkColor)));
 
     return Card(
       color: lightColor,
@@ -219,10 +191,10 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     );
   }
 
-  Widget foundableRow(String foundableId, Page page, Map<String, dynamic> data, String dropdownValue, Color color) {
+  Widget foundableRow(String foundableId, Page page, Color color) {
     Foundable foundable = getFoundableWithId(page, foundableId);
-    int currentCount = data[foundableId]['count'];
-    int currentLevel = data[foundableId]['level'];
+    int currentCount = userDataStore.data[foundableId]['count'];
+    int currentLevel = userDataStore.data[foundableId]['level'];
     var intRequirement = getRequirementWithLevel(foundable, currentLevel);
 
     List<Widget> widgets = List();
@@ -240,8 +212,8 @@ class MyRegistryPageState extends State<MyRegistryPage> {
       ),
       Expanded(
           child: Text(
-            foundable.name,
-            style: AppStyles.darkContentText,
+        foundable.name,
+        style: AppStyles.darkContentText,
       )),
     ]);
 
@@ -259,7 +231,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
             ),
             onPressed: () {
               _sendPlusEvent();
-              _submit(authentication.userId, foundable, (currentCount + 1).toString(), intRequirement);
+              userDataStore.submitNewValue(foundable, (currentCount + 1).toString(), intRequirement);
             },
           ),
         ),
@@ -302,32 +274,13 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     );
   }
 
-  _pushDialog(Page page, Map<String, dynamic> data, String dropdownValue, Color darkColor, Color lightColor) {
+  _pushDialog(String dropdownValue, Page page, Color darkColor, Color lightColor) {
     Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
         barrierDismissible: true,
         pageBuilder: (BuildContext context, _, __) {
-          return PageEditDialog(page, data, dropdownValue, darkColor, lightColor, authentication.isAnonymous, authentication.userId, _userData, callback);
+          return PageEditDialog(page, dropdownValue, darkColor, lightColor);
         }));
-  }
-
-  callback() {
-    setState(() {});
-  }
-
-  _submit(String userId, Foundable foundable, String newValue, int requirement) {
-    var newInt = int.tryParse(newValue) ?? 0;
-
-    if (!authentication.isAnonymous) {
-      Firestore.instance.collection('userData').document(userId).setData({
-        foundable.id: {'count': newInt}
-      }, merge: true);
-    } else {
-      _userData.fragmentDataList[foundable.id]['count'] = newInt;
-      saveUserDataToPrefs(_userData).then((value) {
-        setState(() {});
-      });
-    }
   }
 
   Future _scrollToIndex(int index) async {

@@ -1,6 +1,6 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
@@ -10,8 +10,9 @@ import 'resources/values/app_styles.dart';
 import 'signin.dart';
 import 'store/authentication.dart';
 import 'store/registry_store.dart';
-import 'utils/fanalytics.dart';
 import 'store/signin_image.dart';
+import 'store/user_data_store.dart';
+import 'utils/fanalytics.dart';
 import 'widgets/loading.dart';
 
 void main() {
@@ -42,15 +43,14 @@ void main() {
   getIt.registerSingleton<Authentication>(Authentication());
   getIt.registerSingleton<SignInImage>(SignInImage());
   getIt.registerSingleton<RegistryStore>(RegistryStore());
+  getIt.registerSingleton<UserDataStore>(UserDataStore());
 
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -98,16 +98,16 @@ class _MyHomePageState extends State<MyHomePage> {
     print("main build");
 
     return Scaffold(
-      body: Builder(
-          builder: (BuildContext context) {
-      if(registryStore.isLoading) {
-        return LoadingWidget();
-      }
+      body: Builder(builder: (BuildContext context) {
+        if (registryStore.isLoading) {
+          return LoadingWidget();
+        }
 
-      return Observer(builder: (_) {
-        return authentication.authState ? BottomBarNavWidget() : SignInWidget();
-      });
-    }), backgroundColor: AppColors.backgroundMaterialColor,);
+        return Observer(builder: (_) {
+          return authentication.authState ? BottomBarNavWidget() : SignInWidget();
+        });
+      }),
+      backgroundColor: AppColors.backgroundMaterialColor,
+    );
   }
-
 }

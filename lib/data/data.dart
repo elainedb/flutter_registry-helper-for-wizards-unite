@@ -106,7 +106,16 @@ class Foundable {
   final String howToCatch;
   final String threatLevel;
 
-  Foundable(this.id, this.name, this.fragmentRequirementStandard, this.fragmentRequirementBronze, this.fragmentRequirementSilver, this.fragmentRequirementGold, this.howToCatch, this.threatLevel);
+  Foundable(
+    this.id,
+    this.name,
+    this.fragmentRequirementStandard,
+    this.fragmentRequirementBronze,
+    this.fragmentRequirementSilver,
+    this.fragmentRequirementGold,
+    this.howToCatch,
+    this.threatLevel,
+  );
 
   Foundable.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -257,7 +266,7 @@ Icon getIconWithFoundable(Foundable foundable, double size) {
   IconData id = Icons.not_interested;
   switch (foundable.howToCatch) {
     case "p":
-      id  = Icons.vpn_key;
+      id = Icons.vpn_key;
       break;
     case "pw":
 //      id = Icons.filter_2;
@@ -271,7 +280,11 @@ Icon getIconWithFoundable(Foundable foundable, double size) {
       break;
   }
 
-  return Icon(id, color: getColorWithFoundable(foundable), size: size,);
+  return Icon(
+    id,
+    color: getColorWithFoundable(foundable),
+    size: size,
+  );
 }
 
 MissingTraces getMissingTracesForChapter(Chapter chapter, Map<String, dynamic> data) {
@@ -351,7 +364,7 @@ class ChapterForDisplay {
 class AlmostCompletePage {
   final String pageName;
   final List<IncompleteFoundable> foundables;
-  
+
   AlmostCompletePage(this.pageName, this.foundables);
 }
 
@@ -359,7 +372,7 @@ class IncompleteFoundable {
   final String chapterId;
   final Foundable foundable;
   final int remainingFragments;
-  
+
   IncompleteFoundable(this.chapterId, this.foundable, this.remainingFragments);
 }
 
@@ -383,8 +396,8 @@ class UserData {
   }
 
   Map<String, dynamic> toJson() => {
-    'fragmentDataList': fragmentDataList,
-  };
+        'fragmentDataList': fragmentDataList,
+      };
 }
 
 // TODO move this elsewhere?

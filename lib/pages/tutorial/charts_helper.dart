@@ -7,7 +7,6 @@ import '../../resources/values/app_dimens.dart';
 import '../../resources/values/app_styles.dart';
 
 abstract class ChartsTutorial {
-
   static List<TargetFocus> targets = List();
 
   static initTargets(GlobalKey globalKey1, GlobalKey globalKey2, GlobalKey globalKey3) {

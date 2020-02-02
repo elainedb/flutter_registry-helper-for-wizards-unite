@@ -1,21 +1,20 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:registry_helper_for_wu/store/authentication.dart';
-import 'package:registry_helper_for_wu/store/registry_store.dart';
-import 'package:registry_helper_for_wu/utils/fanalytics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/data.dart';
 import '../resources/values/app_colors.dart';
 import '../resources/values/app_dimens.dart';
 import '../resources/values/app_styles.dart';
+import '../store/authentication.dart';
+import '../store/registry_store.dart';
+import '../store/user_data_store.dart';
+import '../utils/fanalytics.dart';
 import '../utils/utils.dart';
-import '../widgets/loading.dart';
 import '../widgets/chart.dart';
+import '../widgets/loading.dart';
 import 'tutorial/charts_helper.dart';
-
 
 class ChartsPage extends StatefulWidget {
   ChartsPage();
@@ -28,7 +27,6 @@ class ChartsPageState extends State<ChartsPage> {
   ChartsPageState();
 
   FoundablesData _selectedFoundableData;
-  UserData _userData;
 
   GlobalKey globalKey1 = GlobalKey();
   GlobalKey globalKey2 = GlobalKey();
@@ -37,16 +35,13 @@ class ChartsPageState extends State<ChartsPage> {
 
   final authentication = GetIt.instance<Authentication>();
   final registryStore = GetIt.instance<RegistryStore>();
+  final userDataStore = GetIt.instance<UserDataStore>();
 
   @override
   void initState() {
     super.initState();
     ChartsTutorial.initTargets(globalKey1, globalKey2, globalKey3);
     _getTutorialInfoFromSharedPrefs();
-
-    if (authentication.isAnonymous) {
-      getUserDataFromPrefs().then((data) => _userData = data);
-    }
   }
 
   void callback(FoundablesData foundable) {
@@ -59,70 +54,54 @@ class ChartsPageState extends State<ChartsPage> {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = List();
-    if (authentication.isAnonymous && _userData != null) {
-      widgets.add(_getChartList(_userData.fragmentDataList));
-    } else {
-      if (authentication.userId != null) {
-        widgets.add(StreamBuilder<DocumentSnapshot>(
-            stream: Firestore.instance.collection('userData').document(authentication.userId).snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data.data != null) {
-                return _getChartList(snapshot.data.data);
-              } else
-                return LoadingWidget();
-            }));
-      }
-    }
 
-    if (_selectedFoundableData != null) {
-      widgets.add(
-          GestureDetector(
-            onTap: _deleteFoundable,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Container(
-                  height: AppDimens.megaSize,
-                ),
-                Card(
-                  color: AppColors.chartsCardColor,
-                  child: Padding(
-                    padding: AppStyles.miniInsets,
-                    child: Container(
-                      width: AppDimens.chartsCardWidth,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Container(
-                            width: AppDimens.mediumImageSize,
-                            height: AppDimens.mediumImageSize,
-                            child: Image.asset("assets/images/foundables/${_selectedFoundableData.id}.png"),
-                          ),
-                          Text(
-                            "${_selectedFoundableData.name}",
-                            style: AppStyles.darkText,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
+    if (userDataStore.isLoading) {
+      widgets.add(LoadingWidget());
+    } else {
+      widgets.add(_getChartList(userDataStore.data));
+      if (_selectedFoundableData != null) {
+        widgets.add(GestureDetector(
+          onTap: _deleteFoundable,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Container(
+                height: AppDimens.megaSize,
+              ),
+              Card(
+                color: AppColors.chartsCardColor,
+                child: Padding(
+                  padding: AppStyles.miniInsets,
+                  child: Container(
+                    width: AppDimens.chartsCardWidth,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Container(
+                          width: AppDimens.mediumImageSize,
+                          height: AppDimens.mediumImageSize,
+                          child: Image.asset("assets/images/foundables/${_selectedFoundableData.id}.png"),
+                        ),
+                        Text(
+                          "${_selectedFoundableData.name}",
+                          style: AppStyles.darkText,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
-          )
-      );
-    }
-
-    if (widgets.isEmpty) {
-      widgets.add(LoadingWidget());
+              ),
+            ],
+          ),
+        ));
+      }
     }
 
     return Stack(
       alignment: AlignmentDirectional.topEnd,
       children: widgets,
     );
-
   }
 
   Widget _getChartList(Map<String, dynamic> data) {

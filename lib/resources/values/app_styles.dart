@@ -111,6 +111,7 @@ abstract class AppStyles {
       fontWeight: FontWeight.bold,
     );
   }
+
   static TextStyle helperDialogBoldBodyText(Color color) {
     return TextStyle(
       color: color,
@@ -118,6 +119,7 @@ abstract class AppStyles {
       fontWeight: FontWeight.bold,
     );
   }
+
   static TextStyle helperDialogBodyText(Color color) {
     return TextStyle(
       color: color,

@@ -68,6 +68,23 @@ mixin _$RegistryStore on _RegistryStore, Store {
     }, _$isUserDataLoadingAtom, name: '${_$isUserDataLoadingAtom.name}_set');
   }
 
+  final _$widgetOptionsAtom = Atom(name: '_RegistryStore.widgetOptions');
+
+  @override
+  List<Widget> get widgetOptions {
+    _$widgetOptionsAtom.context.enforceReadPolicy(_$widgetOptionsAtom);
+    _$widgetOptionsAtom.reportObserved();
+    return super.widgetOptions;
+  }
+
+  @override
+  set widgetOptions(List<Widget> value) {
+    _$widgetOptionsAtom.context.conditionallyRunInAction(() {
+      super.widgetOptions = value;
+      _$widgetOptionsAtom.reportChanged();
+    }, _$widgetOptionsAtom, name: '${_$widgetOptionsAtom.name}_set');
+  }
+
   final _$initRegistryDataFromJsonAsyncAction =
       AsyncAction('initRegistryDataFromJson');
 
@@ -84,5 +101,18 @@ mixin _$RegistryStore on _RegistryStore, Store {
   Future getRegistryFromSharedPrefs() {
     return _$getRegistryFromSharedPrefsAsyncAction
         .run(() => super.getRegistryFromSharedPrefs());
+  }
+
+  final _$_RegistryStoreActionController =
+      ActionController(name: '_RegistryStore');
+
+  @override
+  dynamic updateWidgets(String sortValue) {
+    final _$actionInfo = _$_RegistryStoreActionController.startAction();
+    try {
+      return super.updateWidgets(sortValue);
+    } finally {
+      _$_RegistryStoreActionController.endAction(_$actionInfo);
+    }
   }
 }

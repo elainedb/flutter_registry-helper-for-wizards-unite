@@ -1,14 +1,13 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:registry_helper_for_wu/utils/fanalytics.dart';
 import 'package:share/share.dart';
 
 import '../store/authentication.dart';
 import '../resources/values/app_colors.dart';
 import '../resources/values/app_dimens.dart';
 import '../resources/values/app_styles.dart';
+import '../utils/fanalytics.dart';
 import '../widgets/version.dart';
 
 class SettingsPage extends StatelessWidget {

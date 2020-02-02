@@ -1,18 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:registry_helper_for_wu/store/authentication.dart';
-import 'package:registry_helper_for_wu/store/registry_store.dart';
-import 'package:registry_helper_for_wu/utils/fanalytics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/data.dart';
 import '../resources/values/app_colors.dart';
 import '../resources/values/app_dimens.dart';
 import '../resources/values/app_styles.dart';
+import '../store/authentication.dart';
+import '../store/registry_store.dart';
+import '../store/user_data_store.dart';
+import '../utils/fanalytics.dart';
 import '../widgets/loading.dart';
 import 'tutorial/helper_tutorial.dart';
 
@@ -30,7 +27,6 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
 
   String _dropdownValue = sortValues[0];
   int _initialIndex = 0;
-  UserData _userData;
   TabController _controller;
 
   GlobalKey globalKey1 = GlobalKey();
@@ -40,16 +36,13 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
 
   final authentication = GetIt.instance<Authentication>();
   final registryStore = GetIt.instance<RegistryStore>();
+  final userDataStore = GetIt.instance<UserDataStore>();
 
   @override
   void initState() {
     super.initState();
     HelperTutorial.initTargets(globalKey1, globalKey2, globalKey3);
     _getTutorialInfoFromSharedPrefs();
-
-    if (authentication.isAnonymous) {
-      getUserDataFromPrefs().then((data) => _userData = data);
-    }
 
     if (_initialSortValue.isNotEmpty) {
       _dropdownValue = _initialSortValue;
@@ -67,21 +60,11 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
       _initialSortValue = "";
     }
 
-    if (authentication.isAnonymous && _userData != null) {
-      return _tabController(_userData.fragmentDataList);
+    if (userDataStore.isLoading) {
+      return LoadingWidget();
     } else {
-      if (authentication.userId != null) {
-        return StreamBuilder<DocumentSnapshot>(
-            stream: Firestore.instance.collection('userData').document(authentication.userId).snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data.data != null) {
-                return _tabController(snapshot.data.data);
-              } else
-                return LoadingWidget();
-            });
-      }
+      return _tabController(userDataStore.data);
     }
-    return LoadingWidget();
   }
 
   Widget _tabController(Map<String, dynamic> data) {
@@ -527,8 +510,8 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
                       ),
                       Center(
                           child: Text(
-                            chapter.name,
-                            style: AppStyles.helperDialogTitleText(chapterForDisplay.darkColor),
+                        chapter.name,
+                        style: AppStyles.helperDialogTitleText(chapterForDisplay.darkColor),
                       )),
                       Container(
                         height: AppDimens.megaSize,
