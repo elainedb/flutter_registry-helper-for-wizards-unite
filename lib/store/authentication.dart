@@ -108,11 +108,6 @@ abstract class _Authentication with Store {
     user = firebaseUser;
   }
 
-  @action
-  sendUserId() async {
-    await FAnalytics.analytics.setUserId(userId);
-  }
-
   Future getGoogleUser() async {
     GoogleSignInAccount googleUser = _googleSignIn.currentUser;
     if (googleUser == null) {

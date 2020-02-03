@@ -113,13 +113,6 @@ mixin _$Authentication on _Authentication, Store {
     return _$initAuthStateAsyncAction.run(() => super.initAuthState());
   }
 
-  final _$sendUserIdAsyncAction = AsyncAction('sendUserId');
-
-  @override
-  Future sendUserId() {
-    return _$sendUserIdAsyncAction.run(() => super.sendUserId());
-  }
-
   final _$_AuthenticationActionController =
       ActionController(name: '_Authentication');
 

@@ -28,17 +28,17 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
 
   var isIOS13 = false;
 
+  final signInImage = GetIt.instance<SignInImage>();
+  final authentication = GetIt.instance<Authentication>();
+  final analytics = GetIt.instance<FAnalytics>();
+
   @override
   void initState() {
     super.initState();
 
-    final signInImage = GetIt.instance<SignInImage>();
-
     signInImage.loadImage();
 
-    FAnalytics.analytics.setCurrentScreen(
-      screenName: "SignInPage",
-    );
+    analytics.sendCurrentScreen("SignInPage");
 
     _controller = AnimationController(
       duration: Duration(seconds: 30),
@@ -54,8 +54,6 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
 
   @override
   Widget build(BuildContext context) {
-    final signInImage = GetIt.instance<SignInImage>();
-    final authentication = GetIt.instance<Authentication>();
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double height = mediaQueryData.size.height;
 
@@ -131,7 +129,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                       FloatingActionButton.extended(
                         backgroundColor: AppColors.fabBackgroundColor,
                         onPressed: () async {
-                          _sendLoginEvent("Anonymous");
+                          analytics.sendLoginEvent("Anonymous");
                           authentication.signInAnonymous();
                         },
                         label: const Text('Anonymous sign in'),
@@ -158,8 +156,6 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
   }
 
   Widget _signInWidget() {
-    final authentication = GetIt.instance<Authentication>();
-
     List<Widget> widgets = List();
     widgets.addAll([
       Text(
@@ -220,13 +216,6 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
         }
       });
     }
-  }
-
-  _sendLoginEvent(String type) async {
-    await FAnalytics.analytics.logEvent(
-      name: 'click_login',
-      parameters: <String, dynamic>{'value': type},
-    );
   }
 
   @override

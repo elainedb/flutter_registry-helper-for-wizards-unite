@@ -44,6 +44,7 @@ void main() {
   getIt.registerSingleton<SignInImage>(SignInImage());
   getIt.registerSingleton<RegistryStore>(RegistryStore());
   getIt.registerSingleton<UserDataStore>(UserDataStore());
+  getIt.registerSingleton<FAnalytics>(FAnalytics());
 
   runApp(MyApp());
 }
@@ -80,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final authentication = GetIt.instance<Authentication>();
   final registryStore = GetIt.instance<RegistryStore>();
+  final analytics = GetIt.instance<FAnalytics>();
 
   @override
   void initState() {
@@ -88,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
     authentication.initAuthState();
 
     if (authentication.authState) {
-      authentication.sendUserId();
+      analytics.sendUserId(authentication.userId);
       registryStore.initRegistryDataFromJson();
     }
   }

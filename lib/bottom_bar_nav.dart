@@ -32,6 +32,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   final registryStore = GetIt.instance<RegistryStore>();
   final authentication = GetIt.instance<Authentication>();
   final userDataStore = GetIt.instance<UserDataStore>();
+  final analytics = GetIt.instance<FAnalytics>();
 
   @override
   void initState() {
@@ -151,9 +152,9 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
           pageName = "SettingsPage";
           break;
       }
-      FAnalytics.analytics.setCurrentScreen(
-        screenName: pageName,
-      );
+
+      analytics.sendTab(pageName);
+
     });
   }
 }

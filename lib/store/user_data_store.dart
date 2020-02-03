@@ -83,14 +83,7 @@ abstract class _UserDataStore with Store {
 
       saveUserDataToPrefs(UserData(data));
     }
-    _sendSubmitPageEvent();
 
     return Future.value(0);
-  }
-
-  _sendSubmitPageEvent() async {
-    await FAnalytics.analytics.logEvent(
-      name: 'submit_page',
-    );
   }
 }

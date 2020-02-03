@@ -37,6 +37,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   final authentication = GetIt.instance<Authentication>();
   final registryStore = GetIt.instance<RegistryStore>();
   final userDataStore = GetIt.instance<UserDataStore>();
+  final analytics = GetIt.instance<FAnalytics>();
 
   @override
   void initState() {
@@ -230,7 +231,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
               style: AppStyles.quantityText,
             ),
             onPressed: () {
-              _sendPlusEvent();
+              analytics.sendPlusEvent();
               userDataStore.submitNewValue(foundable, (currentCount + 1).toString(), intRequirement);
             },
           ),
@@ -284,21 +285,8 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   }
 
   Future _scrollToIndex(int index) async {
-    _sendScrollToEvent(index);
+    analytics.sendScrollToEvent(index);
     await controller.scrollToIndex(index, preferPosition: AutoScrollPosition.begin, duration: Duration(seconds: 1));
-  }
-
-  _sendPlusEvent() async {
-    await FAnalytics.analytics.logEvent(
-      name: 'click_plus_one_fragment',
-    );
-  }
-
-  _sendScrollToEvent(int value) async {
-    await FAnalytics.analytics.logEvent(
-      name: 'scroll_to',
-      parameters: <String, dynamic>{'value': value},
-    );
   }
 
   executeAfterBuild(_) {

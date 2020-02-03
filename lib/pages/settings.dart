@@ -16,6 +16,7 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authentication = GetIt.instance<Authentication>();
+    final analytics = GetIt.instance<FAnalytics>();
 
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double width = mediaQueryData.size.width;
@@ -70,7 +71,7 @@ class SettingsPage extends StatelessWidget {
               child: FloatingActionButton.extended(
                 backgroundColor: AppColors.fabBackgroundColor,
                 onPressed: () async {
-                  _sendLogoutEvent();
+                  analytics.sendLogoutEvent();
                   authentication.signOut();
                 },
                 label: const Text("Sign Out"),
@@ -92,9 +93,4 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  _sendLogoutEvent() async {
-    await FAnalytics.analytics.logEvent(
-      name: 'click_logout',
-    );
-  }
 }
