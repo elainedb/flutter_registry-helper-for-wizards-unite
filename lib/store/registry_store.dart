@@ -19,6 +19,8 @@ part 'registry_store.g.dart';
 class RegistryStore = _RegistryStore with _$RegistryStore;
 
 abstract class _RegistryStore with Store {
+  final authentication = GetIt.instance<Authentication>();
+
   @observable
   Registry registry;
 
@@ -41,7 +43,6 @@ abstract class _RegistryStore with Store {
 
   @action
   initRegistryDataFromJson() async {
-    final authentication = GetIt.instance<Authentication>();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     isRegistryLoading = true;
 
@@ -51,7 +52,7 @@ abstract class _RegistryStore with Store {
     registry = Registry.fromJson(registryMap) ?? null;
     isRegistryLoading = false;
 
-    _initUserData(authentication.userId, prefs);
+    await _initUserData(authentication.userId, prefs);
   }
 
   @action
@@ -74,34 +75,33 @@ abstract class _RegistryStore with Store {
     ];
   }
 
-  _initUserData(String userId, SharedPreferences prefs) {
-    final authentication = GetIt.instance<Authentication>();
+  _initUserData(String userId, SharedPreferences prefs) async {
     isUserDataLoading = true;
     var registryIds = getAllFoundablesIds(registry);
 
     if (!authentication.isAnonymous) {
-      Firestore.instance.collection('userData').document(userId).get().then((snapshot) async {
-        if (!snapshot.exists) {
-          _addUserDataConnected(registryIds, userId);
+      var snapshot = await Firestore.instance.collection('userData').document(userId).get();
+
+      if (!snapshot.exists) {
+        _addUserDataConnected(registryIds, userId);
+      } else {
+        _checkAndAddNewUserKeysConnected(snapshot, registryIds, userId);
+        isUserDataLoading = false;
+      }
+    } else {
+      var snapshot = await Firestore.instance.collection('userData').document(userId).get();
+
+      if (!snapshot.exists) {
+        var userDataString = prefs.getString('userData');
+        if (userDataString == null) {
+          _initAnonymousData(registryIds);
         } else {
-          _checkAndAddNewUserKeysConnected(snapshot, registryIds, userId);
+          _checkAndAddNewUserKeysAnonymous(userDataString, registryIds);
           isUserDataLoading = false;
         }
-      });
-    } else {
-      Firestore.instance.collection('userData').document(userId).get().then((snapshot) async {
-        if (!snapshot.exists) {
-          var userDataString = prefs.getString('userData');
-          if (userDataString == null) {
-            _initAnonymousData(registryIds);
-          } else {
-            _checkAndAddNewUserKeysAnonymous(userDataString, registryIds);
-            isUserDataLoading = false;
-          }
-        } else {
-          _migrateAnonymous(snapshot.data, userId);
-        }
-      });
+      } else {
+        _migrateAnonymous(snapshot.data, userId);
+      }
     }
   }
 
@@ -175,9 +175,8 @@ abstract class _RegistryStore with Store {
       map[id] = {'count': 0, 'level': 1};
     }
 
-    saveUserDataToPrefs(UserData(map)).then((value) {
-      isUserDataLoading = false;
-    });
+    await saveUserDataToPrefs(UserData(map));
+    isUserDataLoading = false;
   }
 
   _addUserDataAnonymous(List<String> newIds, UserData oldUserData) {

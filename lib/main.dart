@@ -13,7 +13,6 @@ import 'store/registry_store.dart';
 import 'store/signin_image.dart';
 import 'store/user_data_store.dart';
 import 'utils/fanalytics.dart';
-import 'widgets/loading.dart';
 
 void main() {
   Crashlytics.instance.enableInDevMode = false;
@@ -80,19 +79,12 @@ class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState();
 
   final authentication = GetIt.instance<Authentication>();
-  final registryStore = GetIt.instance<RegistryStore>();
   final analytics = GetIt.instance<FAnalytics>();
 
   @override
   void initState() {
     super.initState();
-
     authentication.initAuthState();
-
-    if (authentication.authState) {
-      analytics.sendUserId(authentication.userId);
-      registryStore.initRegistryDataFromJson();
-    }
   }
 
   @override
@@ -101,10 +93,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       body: Builder(builder: (BuildContext context) {
-        if (registryStore.isLoading) {
-          return LoadingWidget();
-        }
-
         return Observer(builder: (_) {
           return authentication.authState ? BottomBarNavWidget() : SignInWidget();
         });

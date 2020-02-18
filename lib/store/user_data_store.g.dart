@@ -43,6 +43,22 @@ mixin _$UserDataStore on _UserDataStore, Store {
     }, _$dataAtom, name: '${_$dataAtom.name}_set');
   }
 
+  final _$setPrestigeLevelAsyncAction = AsyncAction('setPrestigeLevel');
+
+  @override
+  Future setPrestigeLevel(Page page, String newValue) {
+    return _$setPrestigeLevelAsyncAction
+        .run(() => super.setPrestigeLevel(page, newValue));
+  }
+
+  final _$submitNewValueAsyncAction = AsyncAction('submitNewValue');
+
+  @override
+  Future submitNewValue(Foundable foundable, String newValue, int requirement) {
+    return _$submitNewValueAsyncAction
+        .run(() => super.submitNewValue(foundable, newValue, requirement));
+  }
+
   final _$_UserDataStoreActionController =
       ActionController(name: '_UserDataStore');
 
@@ -51,27 +67,6 @@ mixin _$UserDataStore on _UserDataStore, Store {
     final _$actionInfo = _$_UserDataStoreActionController.startAction();
     try {
       return super.initData();
-    } finally {
-      _$_UserDataStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setPrestigeLevel(Page page, String newValue) {
-    final _$actionInfo = _$_UserDataStoreActionController.startAction();
-    try {
-      return super.setPrestigeLevel(page, newValue);
-    } finally {
-      _$_UserDataStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic submitNewValue(
-      Foundable foundable, String newValue, int requirement) {
-    final _$actionInfo = _$_UserDataStoreActionController.startAction();
-    try {
-      return super.submitNewValue(foundable, newValue, requirement);
     } finally {
       _$_UserDataStoreActionController.endAction(_$actionInfo);
     }

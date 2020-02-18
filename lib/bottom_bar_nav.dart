@@ -38,59 +38,63 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
   void initState() {
     super.initState();
 
-    if (registryStore.registry == null) {
-      registryStore.getRegistryFromSharedPrefs();
-    }
-    registryStore.updateWidgets(_sortValue);
+    analytics.sendUserId(authentication.userId);
 
-    final QuickActions quickActions = QuickActions();
-    quickActions.initialize((String shortcutType) {
-      setState(() {
-        if (shortcutType != null) _shortcut = shortcutType;
-        switch (_shortcut) {
-          case 'helper_low':
-            _selectedIndex = 1;
-            _sortValue = "Low/Medium (no beam)";
-            break;
-          case 'helper_challenges':
-            _selectedIndex = 1;
-            _sortValue = "Wizarding Challenges rewards";
-            break;
-          case 'my_registry':
-            _selectedIndex = 0;
-            break;
-          case 'charts':
-            _selectedIndex = 2;
-            break;
-        }
-        registryStore.updateWidgets(_sortValue);
+    registryStore.initRegistryDataFromJson().then((_) {
+      if (registryStore.registry == null) {
+        registryStore.getRegistryFromSharedPrefs();
+      }
+      registryStore.updateWidgets(_sortValue);
+
+      final QuickActions quickActions = QuickActions();
+      quickActions.initialize((String shortcutType) {
+        setState(() {
+          if (shortcutType != null) _shortcut = shortcutType;
+          switch (_shortcut) {
+            case 'helper_low':
+              _selectedIndex = 1;
+              _sortValue = "Low/Medium (no beam)";
+              break;
+            case 'helper_challenges':
+              _selectedIndex = 1;
+              _sortValue = "Wizarding Challenges rewards";
+              break;
+            case 'my_registry':
+              _selectedIndex = 0;
+              break;
+            case 'charts':
+              _selectedIndex = 2;
+              break;
+          }
+          registryStore.updateWidgets(_sortValue);
+        });
       });
+
+      quickActions.setShortcutItems(<ShortcutItem>[
+        const ShortcutItem(
+          type: 'helper_low',
+          localizedTitle: 'Helper - Low/Medium',
+          icon: 'ic_wild',
+        ),
+        const ShortcutItem(
+          type: 'helper_challenges',
+          localizedTitle: 'Helper - Challenges',
+          icon: 'ic_challenges',
+        ),
+        const ShortcutItem(
+          type: 'charts',
+          localizedTitle: 'Charts',
+          icon: 'ic_charts',
+        ),
+        const ShortcutItem(
+          type: 'my_registry',
+          localizedTitle: 'My Registry',
+          icon: 'ic_folder',
+        ),
+      ]);
+
+      userDataStore.initData();
     });
-
-    quickActions.setShortcutItems(<ShortcutItem>[
-      const ShortcutItem(
-        type: 'helper_low',
-        localizedTitle: 'Helper - Low/Medium',
-        icon: 'ic_wild',
-      ),
-      const ShortcutItem(
-        type: 'helper_challenges',
-        localizedTitle: 'Helper - Challenges',
-        icon: 'ic_challenges',
-      ),
-      const ShortcutItem(
-        type: 'charts',
-        localizedTitle: 'Charts',
-        icon: 'ic_charts',
-      ),
-      const ShortcutItem(
-        type: 'my_registry',
-        localizedTitle: 'My Registry',
-        icon: 'ic_folder',
-      ),
-    ]);
-
-    userDataStore.initData();
   }
 
   @override
@@ -98,7 +102,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
     print('build for _userId = ${authentication.userId}, selectedIndex = $_selectedIndex, sortValue = $_sortValue, shortcut = $_shortcut');
 
     return Observer(builder: (BuildContext context) {
-      if (authentication.userId.isEmpty) {
+      if (authentication.userId.isEmpty || registryStore.isLoading) {
         return LoadingWidget();
       }
       return Scaffold(

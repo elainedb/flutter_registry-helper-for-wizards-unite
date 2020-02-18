@@ -97,8 +97,9 @@ abstract class _Authentication with Store {
 
   @action
   signInAnonymous() async {
-    await _auth.signInAnonymously();
-    authState = true;
+    AuthResult authResult = await _auth.signInAnonymously();
+    user = authResult.user;
+    authState = user != null;
   }
 
   @action

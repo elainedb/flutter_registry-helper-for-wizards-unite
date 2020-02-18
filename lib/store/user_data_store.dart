@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import '../data/data.dart';
-import '../utils/fanalytics.dart';
 import 'authentication.dart';
 
 part 'user_data_store.g.dart';
@@ -35,7 +34,7 @@ abstract class _UserDataStore with Store {
   }
 
   @action
-  setPrestigeLevel(Page page, String newValue) {
+  setPrestigeLevel(Page page, String newValue) async {
     Map<String, dynamic> newData = Map();
     page.foundables.forEach((foundable) {
       data[foundable.id]['count'] = 0;
@@ -49,13 +48,15 @@ abstract class _UserDataStore with Store {
     if (!authentication.isAnonymous) {
       Firestore.instance.collection('userData').document(authentication.userId).setData(newData, merge: true);
     } else {
-      saveUserDataToPrefs(UserData(data));
+      await saveUserDataToPrefs(UserData(data));
+      getUserDataFromPrefs().then((d) {
+        data = d.fragmentDataList;
+      });
     }
   }
 
   @action
-  submitNewValue(Foundable foundable, String newValue, int requirement) {
-    final authentication = GetIt.instance<Authentication>();
+  submitNewValue(Foundable foundable, String newValue, int requirement) async {
     var newInt = int.tryParse(newValue) ?? 0;
     data[foundable.id]['count'] = newInt;
 
@@ -64,11 +65,14 @@ abstract class _UserDataStore with Store {
         foundable.id: {'count': newInt}
       }, merge: true);
     } else {
-      saveUserDataToPrefs(UserData(data));
+      await saveUserDataToPrefs(UserData(data));
+      getUserDataFromPrefs().then((d) {
+        data = d.fragmentDataList;
+      });
     }
   }
 
-  Future<void> submitNewPage(Map<String, double> foundableCount) {
+  Future<void> submitNewPage(Map<String, double> foundableCount) async {
     Map<String, dynamic> newData = Map();
     foundableCount.forEach((id, count) {
       newData[id] = {'count': count.truncate()};
@@ -81,7 +85,10 @@ abstract class _UserDataStore with Store {
         data[id]['count'] = count.truncate();
       });
 
-      saveUserDataToPrefs(UserData(data));
+      await saveUserDataToPrefs(UserData(data));
+      getUserDataFromPrefs().then((d) {
+        data = d.fragmentDataList;
+      });
     }
 
     return Future.value(0);
