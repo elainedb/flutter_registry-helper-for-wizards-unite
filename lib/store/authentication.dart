@@ -5,8 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobx/mobx.dart';
 
-import '../utils/fanalytics.dart';
-
 part 'authentication.g.dart';
 
 final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -97,8 +95,9 @@ abstract class _Authentication with Store {
 
   @action
   signInAnonymous() async {
-    await _auth.signInAnonymously();
-    authState = true;
+    AuthResult authResult = await _auth.signInAnonymously();
+    user = authResult.user;
+    authState = user != null;
   }
 
   @action
@@ -106,11 +105,6 @@ abstract class _Authentication with Store {
     FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
     authState = firebaseUser != null;
     user = firebaseUser;
-  }
-
-  @action
-  sendUserId() async {
-    await FAnalytics.analytics.setUserId(userId);
   }
 
   Future getGoogleUser() async {

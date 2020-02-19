@@ -36,6 +36,7 @@ class ChartsPageState extends State<ChartsPage> {
   final authentication = GetIt.instance<Authentication>();
   final registryStore = GetIt.instance<RegistryStore>();
   final userDataStore = GetIt.instance<UserDataStore>();
+  final analytics = GetIt.instance<FAnalytics>();
 
   @override
   void initState() {
@@ -45,8 +46,8 @@ class ChartsPageState extends State<ChartsPage> {
   }
 
   void callback(FoundablesData foundable) {
+    analytics.sendClickChartEvent();
     setState(() {
-      _sendClickChartEvent();
       _selectedFoundableData = foundable;
     });
   }
@@ -144,9 +145,9 @@ class ChartsPageState extends State<ChartsPage> {
                   Container(
                     height: AppDimens.miniSize,
                   ),
-                  getHowToRow(Icons.pets, "Wild"),
-                  getHowToRow(Icons.vpn_key, "Portkey / Wild"),
-                  getHowToRow(Icons.flash_on, "Wizarding Challenges"),
+                  getHowToRow("🌳", "Wild"),
+                  getHowToRow("🔑️", "Portkey / Wild"),
+                  getHowToRow("⚔️", "Fortress"),
                 ],
               ),
             ],
@@ -210,11 +211,14 @@ class ChartsPageState extends State<ChartsPage> {
         ),
         Stack(
           key: key,
-          alignment: AlignmentDirectional.bottomCenter,
+          alignment: AlignmentDirectional.center,
           children: <Widget>[
             getPageSeparators(chapter),
             StackedBarChart(chartData, true, callback),
-            getHowToCatchForChapter(chapter),
+            Container(
+              margin: AppStyles.chartsInsets,
+              child: getHowToCatchForChapter(chapter),
+            ),
           ],
         ),
         Container(
@@ -320,12 +324,11 @@ class ChartsPageState extends State<ChartsPage> {
     );
   }
 
-  Widget getHowToRow(IconData iconData, String text) {
+  Widget getHowToRow(String data, String text) {
     return Row(
       children: <Widget>[
-        Icon(
-          iconData,
-          color: Colors.white,
+        Text(
+          data,
         ),
         Container(
           width: AppDimens.microSize,
@@ -339,22 +342,10 @@ class ChartsPageState extends State<ChartsPage> {
   }
 
   _deleteFoundable() {
-    _sendDismissFoundableOverlayEvent();
+    analytics.sendDismissFoundableOverlayEvent();
     setState(() {
       _selectedFoundableData = null;
     });
-  }
-
-  _sendClickChartEvent() async {
-    await FAnalytics.analytics.logEvent(
-      name: 'click_chart',
-    );
-  }
-
-  _sendDismissFoundableOverlayEvent() async {
-    await FAnalytics.analytics.logEvent(
-      name: 'click_dismiss_foundable',
-    );
   }
 
   executeAfterBuild(_) {

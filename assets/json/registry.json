@@ -17,8 +17,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"hh_2",
@@ -27,8 +27,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"hh_3",
@@ -37,7 +37,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"s"
             },
             {
@@ -47,7 +47,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
-              "howToCatch":"w",
+              "howToCatch":"p2",
               "threatLevel":"h"
             },
             {
@@ -103,7 +103,7 @@
               "fragmentRequirementBronze":10,
               "fragmentRequirementSilver":30,
               "fragmentRequirementGold":50,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"l"
             },
             {
@@ -113,7 +113,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"m"
             }
           ]
@@ -159,7 +159,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
+              "howToCatch":"p5f",
               "threatLevel":"l"
             },
             {
@@ -169,7 +169,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"m"
             },
             {
@@ -213,7 +213,7 @@
               "fragmentRequirementBronze":10,
               "fragmentRequirementSilver":30,
               "fragmentRequirementGold":50,
-              "howToCatch":"pw",
+              "howToCatch":"p2",
               "threatLevel":"l"
             },
             {
@@ -259,7 +259,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
+              "howToCatch":"p5f",
               "threatLevel":"e"
             },
             {
@@ -269,7 +269,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"s"
             },
             {
@@ -309,7 +309,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"m"
             }
           ]
@@ -325,8 +325,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"fm_2",
@@ -335,8 +335,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"fm_3",
@@ -365,7 +365,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":46,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"h"
             }
           ]
@@ -389,7 +389,7 @@
               "fragmentRequirementBronze":10,
               "fragmentRequirementSilver":30,
               "fragmentRequirementGold":50,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"l"
             },
             {
@@ -419,7 +419,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"p2",
               "threatLevel":"m"
             },
             {
@@ -495,7 +495,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
+              "howToCatch":"p5f",
               "threatLevel":"e"
             }
           ]
@@ -521,7 +521,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"m"
             },
             {
@@ -531,8 +531,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"gh_4",
@@ -541,8 +541,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"gh_5",
@@ -551,7 +551,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"s"
             }
           ]
@@ -587,7 +587,7 @@
               "fragmentRequirementBronze":18,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
+              "howToCatch":"f",
               "threatLevel":"l"
             },
             {
@@ -641,7 +641,7 @@
               "fragmentRequirementBronze":10,
               "fragmentRequirementSilver":30,
               "fragmentRequirementGold":50,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"l"
             },
             {
@@ -671,7 +671,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"p2",
               "threatLevel":"m"
             },
             {
@@ -697,7 +697,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"s"
             },
             {
@@ -707,7 +707,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
+              "howToCatch":"p10f",
               "threatLevel":"e"
             },
             {
@@ -727,7 +727,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"h"
             },
             {
@@ -773,8 +773,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"cc_4",
@@ -793,8 +793,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             }
           ]
         },
@@ -806,9 +806,9 @@
               "id":"rr5_1",
               "name":"Fred Weasley",
               "fragmentRequirementStandard":7,
-              "fragmentRequirementBronze":7,
-              "fragmentRequirementSilver":7,
-              "fragmentRequirementGold":7,
+              "fragmentRequirementBronze":18,
+              "fragmentRequirementSilver":30,
+              "fragmentRequirementGold":45,
               "howToCatch":"w",
               "threatLevel":"s"
             },
@@ -816,9 +816,9 @@
               "id":"rr5_2",
               "name":"Angelina Johnson",
               "fragmentRequirementStandard":12,
-              "fragmentRequirementBronze":12,
-              "fragmentRequirementSilver":12,
-              "fragmentRequirementGold":12,
+              "fragmentRequirementBronze":25,
+              "fragmentRequirementSilver":42,
+              "fragmentRequirementGold":60,
               "howToCatch":"w",
               "threatLevel":"m"
             },
@@ -826,9 +826,9 @@
               "id":"rr5_3",
               "name":"Parvati Patil",
               "fragmentRequirementStandard":9,
-              "fragmentRequirementBronze":9,
-              "fragmentRequirementSilver":9,
-              "fragmentRequirementGold":9,
+              "fragmentRequirementBronze":21,
+              "fragmentRequirementSilver":35,
+              "fragmentRequirementGold":52,
               "howToCatch":"w",
               "threatLevel":"h"
             },
@@ -836,9 +836,9 @@
               "id":"rr5_4",
               "name":"George Weasley",
               "fragmentRequirementStandard":7,
-              "fragmentRequirementBronze":7,
-              "fragmentRequirementSilver":7,
-              "fragmentRequirementGold":7,
+              "fragmentRequirementBronze":18,
+              "fragmentRequirementSilver":30,
+              "fragmentRequirementGold":45,
               "howToCatch":"w",
               "threatLevel":"s"
             },
@@ -846,10 +846,10 @@
               "id":"rr5_5",
               "name":"Dumbledore's Army Sign-up Sheet",
               "fragmentRequirementStandard":5,
-              "fragmentRequirementBronze":5,
-              "fragmentRequirementSilver":5,
-              "fragmentRequirementGold":5,
-              "howToCatch":"wc",
+              "fragmentRequirementBronze":12,
+              "fragmentRequirementSilver":22,
+              "fragmentRequirementGold":30,
+              "howToCatch":"f",
               "threatLevel":"l"
             }
           ]
@@ -862,9 +862,9 @@
               "id":"yb_1",
               "name":"Fred and Angelina",
               "fragmentRequirementStandard":9,
-              "fragmentRequirementBronze":9,
-              "fragmentRequirementSilver":9,
-              "fragmentRequirementGold":9,
+              "fragmentRequirementBronze":21,
+              "fragmentRequirementSilver":35,
+              "fragmentRequirementGold":52,
               "howToCatch":"w",
               "threatLevel":"h"
             },
@@ -872,9 +872,9 @@
               "id":"yb_2",
               "name":"Hagrid and Madame Maxime",
               "fragmentRequirementStandard":9,
-              "fragmentRequirementBronze":9,
-              "fragmentRequirementSilver":9,
-              "fragmentRequirementGold":9,
+              "fragmentRequirementBronze":21,
+              "fragmentRequirementSilver":35,
+              "fragmentRequirementGold":52,
               "howToCatch":"w",
               "threatLevel":"h"
             },
@@ -882,9 +882,9 @@
               "id":"yb_3",
               "name":"Hermione and Viktor",
               "fragmentRequirementStandard":7,
-              "fragmentRequirementBronze":7,
-              "fragmentRequirementSilver":7,
-              "fragmentRequirementGold":7,
+              "fragmentRequirementBronze":18,
+              "fragmentRequirementSilver":30,
+              "fragmentRequirementGold":45,
               "howToCatch":"w",
               "threatLevel":"s"
             },
@@ -892,9 +892,9 @@
               "id":"yb_4",
               "name":"Harry and Parvati",
               "fragmentRequirementStandard":11,
-              "fragmentRequirementBronze":11,
-              "fragmentRequirementSilver":11,
-              "fragmentRequirementGold":11,
+              "fragmentRequirementBronze":33,
+              "fragmentRequirementSilver":49,
+              "fragmentRequirementGold":59,
               "howToCatch":"w",
               "threatLevel":"s"
             },
@@ -902,10 +902,10 @@
               "id":"yb_5",
               "name":"Yule Ball Program",
               "fragmentRequirementStandard":5,
-              "fragmentRequirementBronze":5,
-              "fragmentRequirementSilver":5,
-              "fragmentRequirementGold":5,
-              "howToCatch":"wc",
+              "fragmentRequirementBronze":12,
+              "fragmentRequirementSilver":22,
+              "fragmentRequirementGold":30,
+              "howToCatch":"f",
               "threatLevel":"l"
             }
           ]
@@ -949,7 +949,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"p2",
               "threatLevel":"m"
             },
             {
@@ -1005,7 +1005,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"h"
             },
             {
@@ -1025,7 +1025,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"s"
             },
             {
@@ -1035,7 +1035,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
+              "howToCatch":"p5f",
               "threatLevel":"e"
             }
           ]
@@ -1051,8 +1051,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"ny_2",
@@ -1061,8 +1061,8 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"ny_3",
@@ -1091,7 +1091,7 @@
               "fragmentRequirementBronze":10,
               "fragmentRequirementSilver":30,
               "fragmentRequirementGold":50,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"h"
             }
           ]
@@ -1135,7 +1135,7 @@
               "fragmentRequirementBronze":10,
               "fragmentRequirementSilver":30,
               "fragmentRequirementGold":50,
-              "howToCatch":"pw",
+              "howToCatch":"p2",
               "threatLevel":"l"
             },
             {
@@ -1171,7 +1171,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"h"
             },
             {
@@ -1191,7 +1191,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"s"
             },
             {
@@ -1201,7 +1201,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"m"
             },
             {
@@ -1211,7 +1211,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
+              "howToCatch":"p10f",
               "threatLevel":"e"
             }
           ]
@@ -1237,8 +1237,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"h"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"rr3_3",
@@ -1267,8 +1267,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"rr3_6",
@@ -1311,7 +1311,7 @@
               "fragmentRequirementBronze":10,
               "fragmentRequirementSilver":30,
               "fragmentRequirementGold":50,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"l"
             },
             {
@@ -1331,7 +1331,7 @@
               "fragmentRequirementBronze":10,
               "fragmentRequirementSilver":30,
               "fragmentRequirementGold":50,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"l"
             },
             {
@@ -1341,7 +1341,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"p2",
               "threatLevel":"m"
             }
           ]
@@ -1397,7 +1397,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
+              "howToCatch":"p5f",
               "threatLevel":"e"
             },
             {
@@ -1423,7 +1423,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"h"
             },
             {
@@ -1433,7 +1433,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"s"
             },
             {
@@ -1453,8 +1453,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"tm_5",
@@ -1463,8 +1463,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             }
           ]
         },
@@ -1519,7 +1519,7 @@
               "fragmentRequirementBronze": 14,
               "fragmentRequirementSilver": 21,
               "fragmentRequirementGold": 25,
-              "howToCatch": "wc",
+              "howToCatch": "f",
               "threatLevel": "l"
             }
           ]
@@ -1543,7 +1543,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"p2",
               "threatLevel":"m"
             },
             {
@@ -1583,7 +1583,7 @@
               "fragmentRequirementBronze":10,
               "fragmentRequirementSilver":30,
               "fragmentRequirementGold":50,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"m"
             }
           ]
@@ -1599,7 +1599,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"s"
             },
             {
@@ -1609,7 +1609,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
+              "howToCatch":"p5f",
               "threatLevel":"e"
             },
             {
@@ -1645,7 +1645,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"m"
             },
             {
@@ -1655,7 +1655,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"h"
             },
             {
@@ -1665,8 +1665,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"ct_4",
@@ -1685,8 +1685,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             }
           ]
         }
@@ -1729,7 +1729,7 @@
               "fragmentRequirementBronze":20,
               "fragmentRequirementSilver":40,
               "fragmentRequirementGold":80,
-              "howToCatch":"wc",
+              "howToCatch":"p5f",
               "threatLevel":"e"
             },
             {
@@ -1739,7 +1739,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
-              "howToCatch":"w",
+              "howToCatch":"p10",
               "threatLevel":"h"
             },
             {
@@ -1795,7 +1795,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"pw",
+              "howToCatch":"p5",
               "threatLevel":"e"
             },
             {
@@ -1805,7 +1805,7 @@
               "fragmentRequirementBronze":20,
               "fragmentRequirementSilver":40,
               "fragmentRequirementGold":80,
-              "howToCatch":"wc",
+              "howToCatch":"p5f",
               "threatLevel":"h"
             }
           ]
@@ -1821,7 +1821,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"p",
               "threatLevel":"l"
             },
             {
@@ -1831,7 +1831,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"p10",
               "threatLevel":"l"
             },
             {
@@ -1867,7 +1867,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"p",
               "threatLevel":"l"
             },
             {
@@ -1877,7 +1877,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"p10",
               "threatLevel":"l"
             },
             {
@@ -1957,7 +1957,7 @@
               "fragmentRequirementBronze":12,
               "fragmentRequirementSilver":24,
               "fragmentRequirementGold":36,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"m"
             },
             {
@@ -1967,7 +1967,7 @@
               "fragmentRequirementBronze":10,
               "fragmentRequirementSilver":30,
               "fragmentRequirementGold":50,
-              "howToCatch":"pw",
+              "howToCatch":"p2",
               "threatLevel":"l"
             },
             {
@@ -2033,7 +2033,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"s"
             },
             {
@@ -2053,7 +2053,7 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
+              "howToCatch":"p10f",
               "threatLevel":"e"
             },
             {
@@ -2079,8 +2079,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"kc_2",
@@ -2089,8 +2089,8 @@
               "fragmentRequirementBronze":14,
               "fragmentRequirementSilver":21,
               "fragmentRequirementGold":25,
-              "howToCatch":"wc",
-              "threatLevel":"e"
+              "howToCatch":"f",
+              "threatLevel":"l"
             },
             {
               "id":"kc_3",
@@ -2099,7 +2099,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
-              "howToCatch":"pw",
+              "howToCatch":"w",
               "threatLevel":"h"
             },
             {

@@ -37,6 +37,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
   final authentication = GetIt.instance<Authentication>();
   final registryStore = GetIt.instance<RegistryStore>();
   final userDataStore = GetIt.instance<UserDataStore>();
+  final analytics = GetIt.instance<FAnalytics>();
 
   @override
   void initState() {
@@ -123,9 +124,9 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
               key: globalKey2,
               value: _dropdownValue,
               onChanged: (newValue) {
+                analytics.sendAnalyticsEvents(_dropdownValue);
                 setState(() {
                   _dropdownValue = newValue;
-                  _sendAnalyticsEvents();
                 });
               },
               items: sortValues.map<DropdownMenuItem<String>>((value) {
@@ -161,7 +162,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
         case 'Emergency (red beam)':
           value = missingTraces.emergency;
           break;
-        case 'Wizarding Challenges rewards':
+        case 'Fortress rewards':
           value = missingTraces.challenges;
           break;
       }
@@ -182,13 +183,6 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
 
     return ListView(
       children: widgets,
-    );
-  }
-
-  _sendAnalyticsEvents() async {
-    await FAnalytics.analytics.logEvent(
-      name: 'missing_foundables_dropdown_value',
-      parameters: <String, dynamic>{'value': _dropdownValue},
     );
   }
 
@@ -479,9 +473,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
           break;
       }
 
-      FAnalytics.observer.analytics.setCurrentScreen(
-        screenName: pageName,
-      );
+      analytics.sendTab(pageName);
     });
   }
 

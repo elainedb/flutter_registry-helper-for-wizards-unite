@@ -7,11 +7,12 @@ import '../resources/values/app_dimens.dart';
 import '../resources/values/app_styles.dart';
 import '../store/authentication.dart';
 import '../store/user_data_store.dart';
+import '../utils/fanalytics.dart';
 import 'foundable_slider_row.dart';
 
 class PageEditDialog extends StatefulWidget {
   final Page page;
-  String dropdownValue;
+  final String dropdownValue;
   final Color darkColor;
   final Color lightColor;
 
@@ -28,6 +29,7 @@ class PageEditDialogState extends State<PageEditDialog> {
 
   final authentication = GetIt.instance<Authentication>();
   final userDataStore = GetIt.instance<UserDataStore>();
+  final analytics = GetIt.instance<FAnalytics>();
 
   @override
   void initState() {
@@ -46,6 +48,7 @@ class PageEditDialogState extends State<PageEditDialog> {
       backgroundColor: AppColors.backgroundColor,
       onPressed: () {
         userDataStore.submitNewPage(foundableCount).then((_) {
+          analytics.sendSubmitPageEvent();
           Navigator.pop(context);
         });
       },

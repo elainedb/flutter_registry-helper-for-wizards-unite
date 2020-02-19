@@ -35,7 +35,7 @@ abstract class HelperTutorial {
           ContentTarget(
             align: AlignContent.bottom,
             child: Text(
-              "You can sort this list by Threat Level or Wizarding Challenges.",
+              "You can sort this list by Threat Level or Fortress Rewards.",
               style: AppStyles.tutorialText,
               textAlign: TextAlign.right,
             ),
