@@ -37,7 +37,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"w",
+              "howToCatch":"p10",
               "threatLevel":"s"
             },
             {
@@ -269,7 +269,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"w",
+              "howToCatch":"p10",
               "threatLevel":"s"
             },
             {
@@ -365,7 +365,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":46,
-              "howToCatch":"w",
+              "howToCatch":"p2",
               "threatLevel":"h"
             }
           ]
@@ -521,7 +521,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"w",
+              "howToCatch":"p2",
               "threatLevel":"m"
             },
             {
@@ -551,7 +551,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"w",
+              "howToCatch":"p5",
               "threatLevel":"s"
             }
           ]
@@ -697,7 +697,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"w",
+              "howToCatch":"p10",
               "threatLevel":"s"
             },
             {
@@ -727,7 +727,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
-              "howToCatch":"w",
+              "howToCatch":"p5",
               "threatLevel":"h"
             },
             {
@@ -1005,7 +1005,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
-              "howToCatch":"w",
+              "howToCatch":"p5",
               "threatLevel":"h"
             },
             {
@@ -1025,7 +1025,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"w",
+              "howToCatch":"p10",
               "threatLevel":"s"
             },
             {
@@ -1171,7 +1171,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
-              "howToCatch":"w",
+              "howToCatch":"p5",
               "threatLevel":"h"
             },
             {
@@ -1191,7 +1191,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"w",
+              "howToCatch":"p10",
               "threatLevel":"s"
             },
             {
@@ -1423,7 +1423,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
-              "howToCatch":"w",
+              "howToCatch":"p2",
               "threatLevel":"h"
             },
             {
@@ -1433,7 +1433,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"w",
+              "howToCatch":"p10",
               "threatLevel":"s"
             },
             {
@@ -1599,7 +1599,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"w",
+              "howToCatch":"p5",
               "threatLevel":"s"
             },
             {
@@ -2033,7 +2033,7 @@
               "fragmentRequirementBronze":33,
               "fragmentRequirementSilver":49,
               "fragmentRequirementGold":59,
-              "howToCatch":"w",
+              "howToCatch":"p10",
               "threatLevel":"s"
             },
             {
@@ -2099,7 +2099,7 @@
               "fragmentRequirementBronze":24,
               "fragmentRequirementSilver":36,
               "fragmentRequirementGold":43,
-              "howToCatch":"w",
+              "howToCatch":"p5",
               "threatLevel":"h"
             },
             {
