@@ -5,8 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobx/mobx.dart';
 
-import '../utils/fanalytics.dart';
-
 part 'authentication.g.dart';
 
 final GoogleSignIn _googleSignIn = GoogleSignIn();

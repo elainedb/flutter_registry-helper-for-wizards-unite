@@ -1291,11 +1291,11 @@
       "examples":"Sports Fields, Bowling Alleys, Golf Course",
       "pages":[
         {
-          "id":"f",
+          "id":"wc",
           "name":"World Cup Grounds",
           "foundables":[
             {
-              "id":"f_1",
+              "id":"wc_1",
               "name":"Gobstone Set",
               "fragmentRequirementStandard":1,
               "fragmentRequirementBronze":10,
@@ -1305,7 +1305,7 @@
               "threatLevel":"l"
             },
             {
-              "id":"f_2",
+              "id":"wc_2",
               "name":"Quaffle",
               "fragmentRequirementStandard":1,
               "fragmentRequirementBronze":10,
@@ -1315,7 +1315,7 @@
               "threatLevel":"l"
             },
             {
-              "id":"f_3",
+              "id":"wc_3",
               "name":"Magical Megaphone",
               "fragmentRequirementStandard":1,
               "fragmentRequirementBronze":10,
@@ -1325,7 +1325,7 @@
               "threatLevel":"l"
             },
             {
-              "id":"f_4",
+              "id":"wc_4",
               "name":"Chudley Cannons Player",
               "fragmentRequirementStandard":1,
               "fragmentRequirementBronze":10,
@@ -1335,7 +1335,7 @@
               "threatLevel":"l"
             },
             {
-              "id":"f_5",
+              "id":"wc_5",
               "name":"Quidditch World Cup",
               "fragmentRequirementStandard":4,
               "fragmentRequirementBronze":12,

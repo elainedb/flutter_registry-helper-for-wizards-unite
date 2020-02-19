@@ -12,7 +12,7 @@ import 'foundable_slider_row.dart';
 
 class PageEditDialog extends StatefulWidget {
   final Page page;
-  String dropdownValue;
+  final String dropdownValue;
   final Color darkColor;
   final Color lightColor;
 
