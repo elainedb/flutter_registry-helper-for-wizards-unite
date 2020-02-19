@@ -57,7 +57,7 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
               break;
             case 'helper_challenges':
               _selectedIndex = 1;
-              _sortValue = "Wizarding Challenges rewards";
+              _sortValue = "Fortress rewards";
               break;
             case 'my_registry':
               _selectedIndex = 0;

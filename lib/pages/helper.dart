@@ -162,7 +162,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
         case 'Emergency (red beam)':
           value = missingTraces.emergency;
           break;
-        case 'Wizarding Challenges rewards':
+        case 'Fortress rewards':
           value = missingTraces.challenges;
           break;
       }

@@ -7,7 +7,7 @@ import '../pages/helper.dart';
 import '../resources/values/app_colors.dart';
 
 const prestigeValues = ['Standard', 'Bronze', 'Silver', 'Gold'];
-const sortValues = ['Default', 'Low/Medium (no beam)', 'High (yellow beam)', 'Severe (orange beam)', 'Emergency (red beam)', 'Wizarding Challenges rewards'];
+const sortValues = ['Default', 'Low/Medium (no beam)', 'High (yellow beam)', 'Severe (orange beam)', 'Emergency (red beam)', 'Fortress rewards'];
 var chaptersForDisplay = [
   ChapterForDisplay("cmc", AppColors.cmcDark, AppColors.cmcLight),
   ChapterForDisplay("da", AppColors.daDark, AppColors.daLight),
@@ -262,28 +262,70 @@ Color getColorWithFoundable(Foundable foundable) {
   return AppColors.lowThreatColor;
 }
 
-Icon getIconWithFoundable(Foundable foundable, double size) {
-  IconData id = Icons.not_interested;
-  switch (foundable.howToCatch) {
-    case "p":
-      id = Icons.vpn_key;
-      break;
-    case "pw":
-//      id = Icons.filter_2;
-      id = Icons.vpn_key;
-      break;
-    case "w":
-      id = Icons.pets;
-      break;
-    case "wc":
-      id = Icons.flash_on;
-      break;
-  }
+Widget getIconWithFoundable(Foundable foundable, double size) {
+  var km = "";
+  if (foundable.howToCatch.contains("p2")) km = "2";
+  if (foundable.howToCatch.contains("p5")) km = "5";
+  if (foundable.howToCatch.contains("p10")) km = "10";
 
-  return Icon(
-    id,
+  if (foundable.howToCatch.contains("p") && foundable.howToCatch.contains("f")) {
+    return Container(
+      width: size + 6,
+      color: getColorWithFoundable(foundable),
+      child: Column(
+        children: <Widget>[
+          portkeyWidget(size, foundable, km),
+          regularWidget(size, foundable, "⚔️"),
+        ],
+      ),
+    );
+  } else if (foundable.howToCatch.contains("p") && foundable.howToCatch.length > 1) {
+    return portkeyWidget(size, foundable, km);
+  } else {
+    String data = "";
+
+    if (foundable.howToCatch == "p") data = "🔑️";
+    if (foundable.howToCatch.contains("w")) data = "🌳";
+    if (foundable.howToCatch.contains("f")) data = "⚔️";
+
+    return regularWidget(size, foundable, data);
+  }
+}
+
+Widget portkeyWidget(double size, Foundable foundable, String km) {
+  return Container(
+    width: size + 4,
     color: getColorWithFoundable(foundable),
-    size: size,
+    child: Stack(
+      alignment: Alignment.bottomRight,
+      children: <Widget>[
+        Text(
+          km,
+          style: TextStyle(
+            fontSize: size * 0.7,
+          ),
+        ),
+        Text(
+          "🔑️",
+          style: TextStyle(
+            fontSize: size,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget regularWidget(double size, Foundable foundable, String data) {
+  return Container(
+    width: size,
+    child: Text(
+      data,
+      style: TextStyle(
+        backgroundColor: getColorWithFoundable(foundable),
+        fontSize: size,
+      ),
+    ),
   );
 }
 
@@ -302,9 +344,10 @@ MissingTraces getMissingTracesForChapter(Chapter chapter, Map<String, dynamic> d
       var returned = data[foundable.id]["count"];
       var remainder = total - returned;
 
-      if (foundable.howToCatch == "wc") {
+      if (foundable.howToCatch.contains("f")) {
         challenges += remainder;
-      } else if (foundable.howToCatch == "w" || foundable.howToCatch == "pw") {
+      }
+      if (foundable.howToCatch == "w" || foundable.howToCatch.contains("p")) {
         switch (foundable.threatLevel) {
           case "l":
             low += remainder;
