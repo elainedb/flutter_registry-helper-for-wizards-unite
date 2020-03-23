@@ -6,6 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shimmer/shimmer.dart';
 
+import 'resources/i18n/app_strings.dart';
 import 'resources/values/app_colors.dart';
 import 'resources/values/app_dimens.dart';
 import 'resources/values/app_styles.dart';
@@ -93,7 +94,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                 child: Stack(
                   children: <Widget>[
                     Text(
-                      'Welcome to Registry Helper for Wizards Unite!',
+                      "welcome".i18n(),
                       style: AppStyles.titleText,
                       textAlign: TextAlign.center,
                     ),
@@ -102,7 +103,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                       highlightColor: Colors.orangeAccent,
                       period: Duration(seconds: 2),
                       child: Text(
-                        'Welcome to Registry Helper for Wizards Unite!',
+                        "welcome".i18n(),
                         style: AppStyles.extraLargeBoldText,
                         textAlign: TextAlign.center,
                       ),
@@ -119,7 +120,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                   child: Column(
                     children: <Widget>[
                       Text(
-                        'If you wish to try out first, you can sign in anonymously.',
+                        "try_out".i18n(),
                         style: AppStyles.mediumText,
                         textAlign: TextAlign.center,
                       ),
@@ -132,7 +133,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
                           analytics.sendLoginEvent("Anonymous");
                           authentication.signInAnonymous();
                         },
-                        label: const Text('Anonymous sign in'),
+                        label: Text("sign_in_anon".i18n()),
                         icon: Icon(Icons.help),
                       ),
                     ],
@@ -159,7 +160,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
     List<Widget> widgets = List();
     widgets.addAll([
       Text(
-        'In order to automatically backup your data, please sign in.',
+        "backup_data".i18n(),
         style: AppStyles.mediumText,
         textAlign: TextAlign.center,
       ),
@@ -171,7 +172,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
         onPressed: () async {
           authentication.signInWithGoogle();
         },
-        label: const Text('Sign in with Google'),
+        label: Text("sign_in_google".i18n()),
         icon: Icon(Icons.account_circle),
       )
     ]);
@@ -186,7 +187,7 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
           onPressed: () async {
             authentication.signInWithApple();
           },
-          label: const Text('Sign in with Apple'),
+          label: Text("sign_in_apple".i18n()),
           icon: Icon(Icons.account_circle),
         )
       ]);

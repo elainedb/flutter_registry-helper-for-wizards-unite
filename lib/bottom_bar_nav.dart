@@ -7,6 +7,7 @@ import 'resources/values/app_colors.dart';
 import 'store/authentication.dart';
 import 'store/registry_store.dart';
 import 'store/user_data_store.dart';
+import 'resources/i18n/app_strings.dart';
 import 'utils/fanalytics.dart';
 import 'widgets/loading.dart';
 
@@ -53,11 +54,11 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
           switch (_shortcut) {
             case 'helper_low':
               _selectedIndex = 1;
-              _sortValue = "Low/Medium (no beam)";
+              _sortValue = "sort_low".i18n();
               break;
             case 'helper_challenges':
               _selectedIndex = 1;
-              _sortValue = "Fortress rewards";
+              _sortValue = "sort_fortress".i18n();
               break;
             case 'my_registry':
               _selectedIndex = 0;
@@ -71,24 +72,24 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
       });
 
       quickActions.setShortcutItems(<ShortcutItem>[
-        const ShortcutItem(
+        ShortcutItem(
           type: 'helper_low',
-          localizedTitle: 'Helper - Low/Medium',
+          localizedTitle: "shortcut_title_low".i18n(),
           icon: 'ic_wild',
         ),
-        const ShortcutItem(
+        ShortcutItem(
           type: 'helper_challenges',
-          localizedTitle: 'Helper - Challenges',
+          localizedTitle: "shortcut_title_challenges".i18n(),
           icon: 'ic_challenges',
         ),
-        const ShortcutItem(
+        ShortcutItem(
           type: 'charts',
-          localizedTitle: 'Charts',
+          localizedTitle: "charts".i18n(),
           icon: 'ic_charts',
         ),
-        const ShortcutItem(
+        ShortcutItem(
           type: 'my_registry',
-          localizedTitle: 'My Registry',
+          localizedTitle: "my_registry".i18n(),
           icon: 'ic_folder',
         ),
       ]);
@@ -109,22 +110,22 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
         body: registryStore.widgetOptions.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          items: const <BottomNavigationBarItem>[
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.folder),
-              title: Text('My Registry'),
+              title: Text("my_registry".i18n()),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.star),
-              title: Text('Helper'),
+              title: Text("helper".i18n()),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.insert_chart),
-              title: Text('Charts'),
+              title: Text("charts".i18n()),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
-              title: Text('Settings'),
+              title: Text("settings".i18n()),
             ),
           ],
           selectedItemColor: AppColors.backgroundColor,

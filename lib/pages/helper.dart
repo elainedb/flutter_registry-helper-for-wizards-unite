@@ -9,6 +9,7 @@ import '../resources/values/app_styles.dart';
 import '../store/authentication.dart';
 import '../store/registry_store.dart';
 import '../store/user_data_store.dart';
+import '../resources/i18n/app_strings.dart';
 import '../utils/fanalytics.dart';
 import '../widgets/loading.dart';
 import 'tutorial/helper_tutorial.dart';
@@ -82,8 +83,8 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
               labelColor: Colors.amber,
               indicatorColor: Colors.amber,
               tabs: [
-                Tab(text: "Missing Foundables"),
-                Tab(key: globalKey3, text: "Insights"),
+                Tab(text: "missing_foundables_title".i18n()),
+                Tab(key: globalKey3, text: "insights".i18n()),
               ],
             ),
           ),
@@ -105,7 +106,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
     widgets.add(Padding(
       padding: AppStyles.miniInsets,
       child: Text(
-        "Below is the missing count for all foundables in a family. You can use it to help you decide which trace to click if you have a cluster!",
+        "missing_foundables_description".i18n(),
         style: AppStyles.lightContentText,
       ),
     ));
@@ -115,7 +116,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Text(
-            'Sort by:',
+            "sort_by".i18n(),
             style: AppStyles.lightContentText,
           ),
           Theme(
@@ -133,7 +134,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(
-                    value,
+                    value.i18n(),
                     style: AppStyles.lightContentText,
                   ),
                 );
@@ -149,27 +150,16 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
       var chapter = getChapterWithId(registryStore.registry, chapterForDisplay.id);
       var missingTraces = getMissingTracesForChapter(chapter, data);
       var value = index;
-      switch (_dropdownValue) {
-        case 'Low/Medium (no beam)':
-          value = missingTraces.low + missingTraces.medium;
-          break;
-        case 'High (yellow beam)':
-          value = missingTraces.high;
-          break;
-        case 'Severe (orange beam)':
-          value = missingTraces.severe;
-          break;
-        case 'Emergency (red beam)':
-          value = missingTraces.emergency;
-          break;
-        case 'Fortress rewards':
-          value = missingTraces.challenges;
-          break;
-      }
+
+      if (_dropdownValue == "sort_low") value = missingTraces.low + missingTraces.medium;
+      else if (_dropdownValue == "sort_high") value = missingTraces.high;
+      else if (_dropdownValue == "sort_severe") value = missingTraces.severe;
+      else if (_dropdownValue == "sort_emergency") value = missingTraces.emergency;
+      else if (_dropdownValue == "sort_fortress") value = missingTraces.challenges;
       chapterRowsMap[_chapterRow(chapterForDisplay, chapter, missingTraces)] = value;
     });
 
-    if (_dropdownValue != 'Default') {
+    if (_dropdownValue != "sort_default") {
       var sortedValues = chapterRowsMap.values.toList()..sort();
       sortedValues.reversed.forEach((i) {
         var key = chapterRowsMap.keys.firstWhere((k) => chapterRowsMap[k] == i && !widgets.contains(k));
@@ -215,7 +205,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
     widgets.add(Padding(
       padding: AppStyles.mediumInsets,
       child: Text(
-        "Focused playing: this is a list of pages that have only one or two remaining foundables in order to be complete!",
+        "focused_playing".i18n(),
         style: AppStyles.lightContentText,
         textAlign: TextAlign.center,
       ),
@@ -261,7 +251,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
             child: getIconWithFoundable(foundable.foundable, AppDimens.smallImageSize),
           ),
           Text(
-            "${foundable.remainingFragments} left",
+            "left".i18n().replaceFirst("arg1", "${foundable.remainingFragments}"),
             style: AppStyles.lightContentText,
           ),
         ],
@@ -315,7 +305,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
       widgets.add(Padding(
         padding: AppStyles.miniInsets,
         child: Text(
-          "Below is your no-click zone! You currently have no missing foundables on your Registry for the following families/categories:",
+          "no_click_zone".i18n(),
           style: AppStyles.lightContentText,
           textAlign: TextAlign.center,
         ),
@@ -502,20 +492,20 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
                       ),
                       Center(
                           child: Text(
-                        chapter.name,
+                        chapter.id.i18n(),
                         style: AppStyles.helperDialogTitleText(chapterForDisplay.darkColor),
                       )),
                       Container(
                         height: AppDimens.megaSize,
                       ),
                       Text(
-                        "Open Street Maps Value/Category:",
+                        "osm_value".i18n(),
                         style: AppStyles.helperDialogBodyText(chapterForDisplay.darkColor),
                       ),
                       Padding(
                         padding: AppStyles.helperDialogBodyInsets,
                         child: Text(
-                          chapter.osm,
+                          "${chapter.id}_osm".i18n(),
                           style: AppStyles.helperDialogBoldBodyText(chapterForDisplay.darkColor),
                         ),
                       ),
@@ -523,13 +513,13 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
                         height: AppDimens.megaSize,
                       ),
                       Text(
-                        "Examples:",
+                        "examples".i18n(),
                         style: AppStyles.helperDialogBodyText(chapterForDisplay.darkColor),
                       ),
                       Padding(
                         padding: AppStyles.helperDialogBodyInsets,
                         child: Text(
-                          chapter.examples,
+                          "${chapter.id}_examples".i18n(),
                           style: AppStyles.helperDialogBoldBodyText(chapterForDisplay.darkColor),
                         ),
                       ),

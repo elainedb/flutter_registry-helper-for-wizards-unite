@@ -5,9 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../pages/helper.dart';
 import '../resources/values/app_colors.dart';
+import '../resources/i18n/app_strings.dart';
 
-const prestigeValues = ['Standard', 'Bronze', 'Silver', 'Gold'];
-const sortValues = ['Default', 'Low/Medium (no beam)', 'High (yellow beam)', 'Severe (orange beam)', 'Emergency (red beam)', 'Fortress rewards'];
+const prestigeValues = ['prestige_standard', 'prestige_bronze', 'prestige_silver', 'prestige_gold'];
+const sortValues = ['sort_default', 'sort_low', 'sort_high', 'sort_severe', 'sort_emergency', 'sort_fortress'];
 var chaptersForDisplay = [
   ChapterForDisplay("cmc", AppColors.cmcDark, AppColors.cmcLight),
   ChapterForDisplay("da", AppColors.daDark, AppColors.daLight),
@@ -205,30 +206,18 @@ String getPrestigeLevelWithPageId(String pageId, Map<String, dynamic> data) {
 }
 
 int getPrestigeLevelWithPrestigeValue(String value) {
-  switch (value) {
-    case 'Standard':
-      return 1;
-    case 'Bronze':
-      return 2;
-    case 'Silver':
-      return 3;
-    case 'Gold':
-      return 4;
-  }
+  if (value == prestigeValues[0]) return 1;
+  else if (value == prestigeValues[1]) return 2;
+  else if (value == prestigeValues[2]) return 3;
+  else if (value == prestigeValues[3]) return 4;
   return 1;
 }
 
 String getFragmentRequirement(Foundable foundable, String dropdownValue) {
-  switch (dropdownValue) {
-    case 'Standard':
-      return "/${foundable.fragmentRequirementStandard}";
-    case 'Bronze':
-      return "/${foundable.fragmentRequirementBronze}";
-    case 'Silver':
-      return "/${foundable.fragmentRequirementSilver}";
-    case 'Gold':
-      return "/${foundable.fragmentRequirementGold}";
-  }
+  if (dropdownValue == prestigeValues[0]) return "/${foundable.fragmentRequirementStandard}";
+  else if (dropdownValue == prestigeValues[1]) return "/${foundable.fragmentRequirementBronze}";
+  else if (dropdownValue == prestigeValues[2]) return "/${foundable.fragmentRequirementSilver}";
+  else if (dropdownValue == prestigeValues[3]) return "/${foundable.fragmentRequirementGold}";
   return "/${foundable.fragmentRequirementStandard}";
 }
 
@@ -389,7 +378,7 @@ List<AlmostCompletePage> getPagesWithOneOreTwoMissing(Chapter chapter, Map<Strin
     });
 
     if (incompleteFoundables.length < 3 && incompleteFoundables.length > 0) {
-      almostCompletePages.add(AlmostCompletePage(page.name, incompleteFoundables));
+      almostCompletePages.add(AlmostCompletePage(page.id.i18n(), incompleteFoundables));
     }
   });
 

@@ -12,6 +12,7 @@ import '../pages/charts.dart';
 import '../pages/helper.dart';
 import '../pages/my_registry.dart';
 import '../pages/settings.dart';
+import '../resources/i18n/app_strings.dart';
 import 'authentication.dart';
 
 part 'registry_store.g.dart';
@@ -32,10 +33,10 @@ abstract class _RegistryStore with Store {
 
   @observable
   List<Widget> widgetOptions = <Widget>[
-    Text('Loading'),
-    Text('Loading'),
-    Text('Loading'),
-    Text('Loading'),
+    Text("loading".i18n()),
+    Text("loading".i18n()),
+    Text("loading".i18n()),
+    Text("loading".i18n()),
   ];
 
   @computed

@@ -3,8 +3,6 @@
     {
       "id":"cmc",
       "name":"Care of Magical Creatures",
-      "osm":"Leisure",
-      "examples":"Parks",
       "pages":[
         {
           "id":"hh",
@@ -189,8 +187,6 @@
     {
       "id":"da",
       "name":"Dark Arts",
-      "osm":"Financial",
-      "examples":"Banks, Loan Stores, ATMs",
       "pages":[
         {
           "id":"bb",
@@ -375,8 +371,6 @@
     {
       "id":"hs",
       "name":"Hogwarts School",
-      "osm":"Education",
-      "examples":"Schools, Universities, Libraries",
       "pages":[
         {
           "id":"dc",
@@ -617,8 +611,6 @@
     {
       "id":"loh",
       "name":"Legends of Hogwarts",
-      "osm":"Tourism/Historic",
-      "examples":"Tourism Office, Museums, Monuments",
       "pages":[
         {
           "id":"rr1",
@@ -915,8 +907,6 @@
     {
       "id":"m",
       "name":"Magizoology",
-      "osm":"Animals",
-      "examples":"Veterinarian, Animal Refuge, Pet Shop/Store, Dog Park",
       "pages":[
         {
           "id":"nc",
@@ -1101,8 +1091,6 @@
     {
       "id":"ma",
       "name":"Mysterious Artefacts",
-      "osm":"Healthcare/Shop",
-      "examples":"Drugstore, Beauty Salon, Dentist, Shopping Malls, Stores",
       "pages":[
         {
           "id":"rr2",
@@ -1287,8 +1275,6 @@
     {
       "id":"mgs",
       "name":"Magical Games and Sports",
-      "osm":"Leisure",
-      "examples":"Sports Fields, Bowling Alleys, Golf Course",
       "pages":[
         {
           "id":"wc",
@@ -1529,8 +1515,6 @@
     {
       "id":"mom",
       "name":"Ministry of Magic",
-      "osm":"Office",
-      "examples":"Office Building, Town Hall, Court House, Ministry/Government Building",
       "pages":[
         {
           "id":"ma",
@@ -1705,8 +1689,6 @@
     {
       "id":"o",
       "name":"Oddities",
-      "osm":"No specific pattern",
-      "examples":"N.A.",
       "pages":[
         {
           "id":"od1",
@@ -1953,8 +1935,6 @@
     {
       "id":"www",
       "name":"Wonders of the Wizarding World",
-      "osm":"No specific pattern",
-      "examples":"N.A.",
       "pages":[
         {
           "id":"rr4",

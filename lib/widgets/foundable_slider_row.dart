@@ -6,6 +6,7 @@ import '../resources/values/app_colors.dart';
 import '../resources/values/app_dimens.dart';
 import '../resources/values/app_styles.dart';
 import '../store/user_data_store.dart';
+import '../resources/i18n/app_strings.dart';
 
 class FoundableSliderRow extends StatefulWidget {
   final Function callback;
@@ -46,7 +47,7 @@ class FoundableSliderRowState extends State<FoundableSliderRow> {
     return Column(
       children: <Widget>[
         Text(
-          "${_foundable.name}: ${_currentCount.round()}/${_requirement.round()}",
+          "${_foundable.id.i18n()}: ${_currentCount.round()}/${_requirement.round()}",
           style: AppStyles.darkContentText,
         ),
         Row(

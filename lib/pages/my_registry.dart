@@ -11,6 +11,7 @@ import '../resources/values/app_styles.dart';
 import '../store/authentication.dart';
 import '../store/registry_store.dart';
 import '../store/user_data_store.dart';
+import '../resources/i18n/app_strings.dart';
 import '../utils/fanalytics.dart';
 import '../widgets/page_edit_dialog.dart';
 import '../widgets/loading.dart';
@@ -115,7 +116,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
 
     List<Widget> widgets = List();
     widgets.add(Text(
-      "${chapter.name}",
+      "${chapter.id.i18n()}",
       style: AppStyles.lightContentText,
     ));
     widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, light, dark)));
@@ -148,7 +149,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
       children: <Widget>[
         Flexible(
             child: Text(
-          "${page.name}",
+          "${page.id.i18n()}",
           style: AppStyles.darkBoldContentText,
           textAlign: TextAlign.center,
         )),
@@ -160,7 +161,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(
-                value,
+                value.i18n(),
                 style: AppStyles.darkContentText,
               ),
             );
@@ -213,7 +214,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
       ),
       Expanded(
           child: Text(
-        foundable.name,
+        foundable.id.i18n(),
         style: AppStyles.darkContentText,
       )),
     ]);

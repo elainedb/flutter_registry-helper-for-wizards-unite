@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../resources/i18n/app_strings.dart';
 import '../resources/values/app_styles.dart';
 
 class LoadingWidget extends StatelessWidget {
@@ -7,7 +8,7 @@ class LoadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        "Loading...",
+        "loading".i18n(),
         style: AppStyles.lightContentText,
       ),
     );

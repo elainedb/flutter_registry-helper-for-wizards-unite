@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:share/share.dart';
 
 import '../store/authentication.dart';
+import '../resources/i18n/app_strings.dart';
 import '../resources/values/app_colors.dart';
 import '../resources/values/app_dimens.dart';
 import '../resources/values/app_styles.dart';
@@ -48,10 +49,9 @@ class SettingsPage extends StatelessWidget {
               child: FloatingActionButton.extended(
                 backgroundColor: AppColors.fabBackgroundColor,
                 onPressed: () async {
-                  Share.share(
-                      'Check out Registry Helper for Wizards Unite! Android: https://play.google.com/store/apps/details?id=elainedb.dev.registry_helper_for_wu / iOS: https://testflight.apple.com/join/lQjFo3iR');
+                  Share.share("share_text".i18n());
                 },
-                label: const Text("Share the app with your friends!"),
+                label: Text("share_button".i18n()),
                 icon: Icon(Icons.share),
               ),
             ),
@@ -60,7 +60,7 @@ class SettingsPage extends StatelessWidget {
             ),
             Observer(builder: (_) {
               return Text(
-                "Logged in as ${authentication.email}",
+                "logged_as".i18n().replaceFirst("arg1", "${authentication.email}"),
                 style: AppStyles.lightContentText,
               );
             }),
@@ -74,7 +74,7 @@ class SettingsPage extends StatelessWidget {
                   analytics.sendLogoutEvent();
                   authentication.signOut();
                 },
-                label: const Text("Sign Out"),
+                label: Text("sign_out".i18n()),
                 icon: Icon(Icons.close),
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../data/data.dart';
+import '../resources/i18n/app_strings.dart';
 import '../resources/values/app_colors.dart';
 import '../resources/values/app_dimens.dart';
 import '../resources/values/app_styles.dart';
@@ -52,7 +53,7 @@ class PageEditDialogState extends State<PageEditDialog> {
           Navigator.pop(context);
         });
       },
-      label: const Text("Submit"),
+      label: Text("submit".i18n()),
       icon: Icon(Icons.send),
     ));
   }

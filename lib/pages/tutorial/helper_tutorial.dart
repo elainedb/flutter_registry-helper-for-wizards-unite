@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/animated_focus_light.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
+import '../../resources/i18n/app_strings.dart';
 import '../../resources/values/app_colors.dart';
 import '../../resources/values/app_dimens.dart';
 import '../../resources/values/app_styles.dart';
@@ -19,7 +20,7 @@ abstract class HelperTutorial {
           ContentTarget(
               align: AlignContent.bottom,
               child: Text(
-                "Here you can find how many fragments are missing for each threat level. Information about where you can find nests for the family can be consulted by clicking here.",
+                "tutorial_helper_1".i18n(),
                 style: AppStyles.tutorialText,
                 textAlign: TextAlign.center,
               ))
@@ -35,7 +36,7 @@ abstract class HelperTutorial {
           ContentTarget(
             align: AlignContent.bottom,
             child: Text(
-              "You can sort this list by Threat Level or Fortress Rewards.",
+              "tutorial_helper_2".i18n(),
               style: AppStyles.tutorialText,
               textAlign: TextAlign.right,
             ),
@@ -52,7 +53,7 @@ abstract class HelperTutorial {
           ContentTarget(
             align: AlignContent.bottom,
             child: Text(
-              "You can find personalized insights here.",
+              "tutorial_helper_3".i18n(),
               style: AppStyles.tutorialText,
               textAlign: TextAlign.right,
             ),
@@ -67,7 +68,7 @@ abstract class HelperTutorial {
       context,
       targets: targets,
       colorShadow: AppColors.tutorialColor,
-      textSkip: "SKIP",
+      textSkip: "tutorial_skip".i18n(),
       paddingFocus: AppDimens.paddingFocus,
       opacityShadow: AppDimens.opacityShadow,
       finish: () {

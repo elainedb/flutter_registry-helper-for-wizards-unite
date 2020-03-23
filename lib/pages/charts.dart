@@ -10,6 +10,7 @@ import '../resources/values/app_styles.dart';
 import '../store/authentication.dart';
 import '../store/registry_store.dart';
 import '../store/user_data_store.dart';
+import '../resources/i18n/app_strings.dart';
 import '../utils/fanalytics.dart';
 import '../utils/utils.dart';
 import '../widgets/chart.dart';
@@ -84,7 +85,7 @@ class ChartsPageState extends State<ChartsPage> {
                           child: Image.asset("assets/images/foundables/${_selectedFoundableData.id}.png"),
                         ),
                         Text(
-                          "${_selectedFoundableData.name}",
+                          "${_selectedFoundableData.id.i18n()}",
                           style: AppStyles.darkText,
                           textAlign: TextAlign.center,
                         ),
@@ -119,17 +120,17 @@ class ChartsPageState extends State<ChartsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "Threat Level",
+                    "threat_level".i18n(),
                     style: AppStyles.lightBoldContentText,
                   ),
                   Container(
                     height: AppDimens.miniSize,
                   ),
-                  getThreatLevelRow(AppColors.lowThreatColor, "Low"),
-                  getThreatLevelRow(AppColors.mediumThreatColor, "Medium"),
-                  getThreatLevelRow(AppColors.highThreatColor, "High"),
-                  getThreatLevelRow(AppColors.severeThreatColor, "Severe"),
-                  getThreatLevelRow(AppColors.emergencyThreatColor, "Emergency"),
+                  getThreatLevelRow(AppColors.lowThreatColor, "threat_level_low".i18n()),
+                  getThreatLevelRow(AppColors.mediumThreatColor, "threat_level_medium".i18n()),
+                  getThreatLevelRow(AppColors.highThreatColor, "threat_level_high".i18n()),
+                  getThreatLevelRow(AppColors.severeThreatColor, "threat_level_severe".i18n()),
+                  getThreatLevelRow(AppColors.emergencyThreatColor, "threat_level_emergency".i18n()),
                 ],
               ),
               Container(
@@ -139,15 +140,15 @@ class ChartsPageState extends State<ChartsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    "How to catch",
+                    "how_to_catch".i18n(),
                     style: AppStyles.lightBoldContentText,
                   ),
                   Container(
                     height: AppDimens.miniSize,
                   ),
-                  getHowToRow("🌳", "Wild"),
-                  getHowToRow("🔑️", "Portkey / Wild"),
-                  getHowToRow("⚔️", "Fortress"),
+                  getHowToRow("🌳", "how_to_catch_wild".i18n()),
+                  getHowToRow("🔑️", "how_to_catch_portkey".i18n()),
+                  getHowToRow("⚔️", "how_to_catch_fortress".i18n()),
                 ],
               ),
             ],
@@ -181,8 +182,8 @@ class ChartsPageState extends State<ChartsPage> {
         var returned = data[foundable.id]["count"];
         var remainder = total - returned;
 
-        totalList.add(FoundablesData(foundable.id, foundable.name, remainder));
-        returnedList.add(FoundablesData(foundable.id, foundable.name, returned));
+        totalList.add(FoundablesData(foundable.id, foundable.id.i18n(), remainder));
+        returnedList.add(FoundablesData(foundable.id, foundable.id.i18n(), returned));
       });
     });
 
@@ -206,7 +207,7 @@ class ChartsPageState extends State<ChartsPage> {
     return Column(
       children: <Widget>[
         Text(
-          chapter.name,
+          chapter.id.i18n(),
           style: AppStyles.chartsTitle(Color(hexToInt(light))),
         ),
         Stack(

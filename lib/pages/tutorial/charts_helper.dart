@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/animated_focus_light.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
+import '../../resources/i18n/app_strings.dart';
 import '../../resources/values/app_colors.dart';
 import '../../resources/values/app_dimens.dart';
 import '../../resources/values/app_styles.dart';
@@ -19,7 +20,7 @@ abstract class ChartsTutorial {
           ContentTarget(
               align: AlignContent.top,
               child: Text(
-                "You can visualize your progress here. Click on a bar in order to see the foundable behind it.",
+                "tutorial_charts_1".i18n(),
                 style: AppStyles.tutorialText,
                 textAlign: TextAlign.center,
               ))
@@ -35,7 +36,7 @@ abstract class ChartsTutorial {
           ContentTarget(
             align: AlignContent.bottom,
             child: Text(
-              "Information about the threat level (color) and how to catch (icon) is shown here.",
+              "tutorial_charts_2".i18n(),
               style: AppStyles.tutorialText,
               textAlign: TextAlign.center,
             ),
@@ -52,7 +53,7 @@ abstract class ChartsTutorial {
           ContentTarget(
             align: AlignContent.bottom,
             child: Text(
-              "Here's the legend for the icons shown below the charts.",
+              "tutorial_charts_3".i18n(),
               style: AppStyles.tutorialText,
               textAlign: TextAlign.center,
             ),
@@ -67,7 +68,7 @@ abstract class ChartsTutorial {
       context,
       targets: targets,
       colorShadow: AppColors.tutorialColor,
-      textSkip: "SKIP",
+      textSkip: "tutorial_skip".i18n(),
       paddingFocus: AppDimens.paddingFocus,
       opacityShadow: AppDimens.opacityShadow,
       finish: () {

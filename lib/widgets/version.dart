@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 
+import '../resources/i18n/app_strings.dart';
 import '../resources/values/app_styles.dart';
 
 class VersionWidget extends StatefulWidget {
@@ -22,7 +23,7 @@ class _VersionWidgetState extends State<VersionWidget> {
   Widget build(BuildContext context) {
     var text = "";
     if (_packageInfo != null) {
-      text = "version ${_packageInfo.version}";
+      text = "version".i18n().replaceFirst("arg1", "${_packageInfo.version}");
     }
     return Text(
       text,

@@ -1,4 +1,5 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -12,7 +13,9 @@ import 'store/authentication.dart';
 import 'store/registry_store.dart';
 import 'store/signin_image.dart';
 import 'store/user_data_store.dart';
+import 'resources/i18n/app_strings.dart';
 import 'utils/fanalytics.dart';
+import 'utils/globals.dart' as globals;
 
 void main() {
   Crashlytics.instance.enableInDevMode = false;
@@ -27,9 +30,9 @@ void main() {
     return Scaffold(
       body: Padding(
         padding: AppStyles.miniInsets,
-        child: const Center(
+        child: Center(
           child: Text(
-            'An unexpected error occurred.',
+            "error".i18n(),
             style: AppStyles.largeText,
           ),
         ),
@@ -57,19 +60,27 @@ class MyApp extends StatelessWidget {
     ]);
 
     return MaterialApp(
-      title: '',
       theme: AppStyles.appThemeData,
-      home: MyHomePage(title: ''),
+      home: MyHomePage(),
       navigatorObservers: <NavigatorObserver>[FAnalytics.observer],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale.fromSubtags(languageCode: 'en'),
+        const Locale.fromSubtags(languageCode: 'fr'),
+//        const Locale.fromSubtags(languageCode: 'pt'),
+//        const Locale.fromSubtags(languageCode: 'es'),
+      ],
 //      debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  MyHomePage({Key key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -90,6 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     print("main build");
+
+    Locale myLocale = Localizations.localeOf(context);
+    print(myLocale.languageCode);
+    globals.lang = myLocale.languageCode;
 
     return Scaffold(
       body: Builder(builder: (BuildContext context) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tutorial_coach_mark/animated_focus_light.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
+import '../../resources/i18n/app_strings.dart';
 import '../../resources/values/app_colors.dart';
 import '../../resources/values/app_dimens.dart';
 import '../../resources/values/app_styles.dart';
@@ -19,7 +20,7 @@ abstract class MyRegistryTutorial {
           ContentTarget(
               align: AlignContent.bottom,
               child: Text(
-                "Click here to edit the fragment count for this page.",
+                "tutorial_registry_1".i18n(),
                 style: AppStyles.tutorialText,
                 textAlign: TextAlign.right,
               ))
@@ -35,7 +36,7 @@ abstract class MyRegistryTutorial {
           ContentTarget(
             align: AlignContent.bottom,
             child: Text(
-              "After successfully retrieving a foundable, click on this button to add a fragment.",
+              "tutorial_registry_2".i18n(),
               style: AppStyles.tutorialText,
               textAlign: TextAlign.right,
             ),
@@ -52,7 +53,7 @@ abstract class MyRegistryTutorial {
           ContentTarget(
             align: AlignContent.bottom,
             child: Text(
-              "Set your current prestige level here.",
+              "tutorial_registry_3".i18n(),
               style: AppStyles.tutorialText,
               textAlign: TextAlign.center,
             ),
@@ -69,7 +70,7 @@ abstract class MyRegistryTutorial {
           ContentTarget(
             align: AlignContent.left,
             child: Text(
-              "\nQuickly access other families.",
+              "tutorial_registry_4".i18n(),
               style: AppStyles.tutorialText,
               textAlign: TextAlign.end,
             ),
@@ -84,7 +85,7 @@ abstract class MyRegistryTutorial {
       context,
       targets: targets,
       colorShadow: AppColors.tutorialColor,
-      textSkip: "SKIP",
+      textSkip: "tutorial_skip".i18n(),
       paddingFocus: AppDimens.paddingFocus,
       opacityShadow: AppDimens.opacityShadow,
       finish: () {
