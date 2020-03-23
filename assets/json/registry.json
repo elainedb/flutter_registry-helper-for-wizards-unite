@@ -1631,6 +1631,16 @@
               "fragmentRequirementGold":59,
               "howToCatch":"w",
               "threatLevel":"s"
+            },
+            {
+              "id":"ma2_5",
+              "name":"Ministry Employee Newt Scamander",
+              "fragmentRequirementStandard":15,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"w",
+              "threatLevel":"e"
             }
           ]
         },
