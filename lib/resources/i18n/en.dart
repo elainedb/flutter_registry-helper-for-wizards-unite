@@ -202,7 +202,7 @@ Map<String, String> values_en = {
   "hqs": "Hogwarts Quidditch Stands",
   "hqs_1": "Quidditch Fan Hermione Granger",
   "hqs_2": "Quidditch Fan Neville Longbottom",
-  "hqs_3": "Quidditch Fan Seamus Finnigan",
+  "hqs_3": "Quidditch Tryouts Seamus Finnigan",
   "hqs_4": "Quidditch Fan Luna Lovegood",
   "hqs_5": "Gryffindor Quidditch Banner",
 
