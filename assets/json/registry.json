@@ -901,6 +901,62 @@
               "threatLevel":"l"
             }
           ]
+        },
+        {
+          "id": "hgr",
+          "name": "Hogwarts Grounds",
+          "foundables":[
+            {
+              "id":"hgr_1",
+              "name":"Young Sirius Black",
+              "fragmentRequirementStandard":9,
+              "fragmentRequirementBronze":21,
+              "fragmentRequirementSilver":35,
+              "fragmentRequirementGold":52,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            },
+            {
+              "id":"hgr_2",
+              "name":"Young James Potter",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":18,
+              "fragmentRequirementSilver":30,
+              "fragmentRequirementGold":45,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            },
+            {
+              "id":"hgr_3",
+              "name":"Young Remus Lupin",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":18,
+              "fragmentRequirementSilver":30,
+              "fragmentRequirementGold":45,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            },
+            {
+              "id":"hgr_4",
+              "name":"Young Peter Pettigrew",
+              "fragmentRequirementStandard":9,
+              "fragmentRequirementBronze":21,
+              "fragmentRequirementSilver":35,
+              "fragmentRequirementGold":52,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            },
+            {
+              "id":"hgr_5",
+              "name":"Unfinished Marauder's Map",
+              "fragmentRequirementStandard":5,
+              "fragmentRequirementBronze":12,
+              "fragmentRequirementSilver":22,
+              "fragmentRequirementGold":30,
+              "howToCatch":"f",
+              "threatLevel":"l"
+            }
+          ]
         }
       ]
     },

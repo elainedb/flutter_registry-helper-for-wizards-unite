@@ -133,6 +133,13 @@ Map<String, String> values_en = {
   "yb_4": "Harry and Parvati",
   "yb_5": "Yule Ball Program",
 
+  "hgr": "Hogwarts Grounds",
+  "hgr_1": "Young Sirius Black",
+  "hgr_2": "Young James Potter",
+  "hgr_3": "Young Remus Lupin",
+  "hgr_4": "Young Peter Pettigrew",
+  "hgr_5": "Unfinished Marauder's Map",
+
   "nc": "Newt's Case",
   "nc_1": "Young Graphorn",
   "nc_2": "Billywig",

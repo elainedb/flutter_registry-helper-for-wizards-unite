@@ -133,6 +133,13 @@ Map<String, String> values_pt = {
   "yb_4": "Parvati e Harry",
   "yb_5": "Programação do Baile de Inverno",
 
+  "hgr": "Terras de Hogwarts",
+  "hgr_1": "Sirius Black Jovem",
+  "hgr_2": "Tiago Potter Jovem",
+  "hgr_3": "Remo Lupin Jovem",
+  "hgr_4": "Pedro Pettigrew Jovem",
+  "hgr_5": "Mapa do Maroto Incompleto",
+
   "nc": "Mala de Newt",
   "nc_1": "Arpéu Jovem",
   "nc_2": "Gira-Gira",

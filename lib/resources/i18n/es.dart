@@ -133,6 +133,13 @@ Map<String, String> values_es = {
   "yb_4": "Parvati y Harry",
   "yb_5": "Programa del Baile de Navidad",
 
+  "hgr": "Terrenos de Hogwarts",
+  "hgr_1": "Sirius Black Joven",
+  "hgr_2": "James Potter Joven",
+  "hgr_3": "Remus Lupin Joven",
+  "hgr_4": "Peter Pettigrew Joven",
+  "hgr_5": "Mapa del Merodeador Incompleto",
+
   "nc": "Maleta de Newt",
   "nc_1": "Graphorn Joven",
   "nc_2": "Billywig",
