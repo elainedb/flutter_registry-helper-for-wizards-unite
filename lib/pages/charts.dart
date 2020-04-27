@@ -161,7 +161,7 @@ class ChartsPageState extends State<ChartsPage> {
         getChartForChapter(data, "mom", AppColors.momDarkStringHex, AppColors.momLightStringHex),
         getChartForChapter(data, "m", AppColors.mDarkStringHex, AppColors.mLightStringHex),
         getChartForChapter(data, "mgs", AppColors.mgsDarkStringHex, AppColors.mgsLightStringHex),
-        getChartForChapter(data, "ma", AppColors.maDarkStringHex, AppColors.maLightStringHex),
+        getChartForChapter(data, "mar", AppColors.maDarkStringHex, AppColors.maLightStringHex),
         getChartForChapter(data, "www", AppColors.wwwDarkStringHex, AppColors.wwwLightStringHex),
         getChartForChapter(data, "o", AppColors.oDarkStringHex, AppColors.oLightStringHex),
       ],

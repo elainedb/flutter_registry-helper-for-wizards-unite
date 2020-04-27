@@ -80,7 +80,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
               chapterCard("mom", AppColors.momDark, AppColors.momLight, 4),
               chapterCard("m", AppColors.mDark, AppColors.mLight, 5),
               chapterCard("mgs", AppColors.mgsDark, AppColors.mgsLight, 6),
-              chapterCard("ma", AppColors.maDark, AppColors.maLight, 7),
+              chapterCard("mar", AppColors.maDark, AppColors.maLight, 7),
               chapterCard("www", AppColors.wwwDark, AppColors.wwwLight, 8),
               chapterCard("o", AppColors.oDark, AppColors.oLight, 9),
             ],

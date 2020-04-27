@@ -17,7 +17,7 @@ var chaptersForDisplay = [
   ChapterForDisplay("mom", AppColors.momDark, AppColors.momLight),
   ChapterForDisplay("m", AppColors.mDark, AppColors.mLight),
   ChapterForDisplay("mgs", AppColors.mgsDark, AppColors.mgsLight),
-  ChapterForDisplay("ma", AppColors.maDark, AppColors.maLight),
+  ChapterForDisplay("mar", AppColors.maDark, AppColors.maLight),
   ChapterForDisplay("www", AppColors.wwwDark, AppColors.wwwLight),
   ChapterForDisplay("o", AppColors.oDark, AppColors.oLight),
 ];

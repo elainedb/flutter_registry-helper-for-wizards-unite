@@ -1,4 +1,4 @@
-Map<String, String> values_pt = {
+const Map<String, String> values_pt = {
   "error": "Um erro inesperado ocorreu.",
   "loading": "Carregando...",
 
@@ -18,7 +18,7 @@ Map<String, String> values_pt = {
   "hs": "Hogwarts",
   "loh": "Lendas de Hogwarts",
   "m": "Magizoologia",
-  "ma": "Artefatos Misteriosos",
+  "mar": "Artefatos Misteriosos",
   "mgs": "Jogos e Esportes Mágicos",
   "mom": "Ministério da Magia",
   "o": "Anomalus",
@@ -321,8 +321,8 @@ Map<String, String> values_pt = {
   "loh_examples": "Escritório de Turismo, Museus, Monumentos",
   "m_osm": "Animais",
   "m_examples": "Veterinária, Refúgio de Animais, Pet Shop/Store, Parque de Cães",
-  "ma_osm": "Saúde",
-  "ma_examples": "Farmácia, Cabelereiro, Dentista, Shopping, Lojas",
+  "mar_osm": "Saúde",
+  "mar_examples": "Farmácia, Cabelereiro, Dentista, Shopping, Lojas",
   "mgs_osm": "Lazer",
   "mgs_examples": "Campo de Esporte, Boliche, Campo de Golfe",
   "mom_osm": "Escritório",

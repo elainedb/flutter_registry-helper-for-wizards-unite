@@ -1,4 +1,4 @@
-Map<String, String> values_fr = {
+const Map<String, String> values_fr = {
   "error": "Une erreur est survenue.",
   "loading": "Chargement...",
 
@@ -18,7 +18,7 @@ Map<String, String> values_fr = {
   "hs": "Collège Poudlard",
   "loh": "Légendes de Poudlard",
   "m": "Magizoologie",
-  "ma": "Artefacts Mystérieux",
+  "mar": "Artefacts Mystérieux",
   "mgs": "Jeux et Sports Magiques",
   "mom": "Ministère de la Magie",
   "o": "Curiosités",
@@ -321,8 +321,8 @@ Map<String, String> values_fr = {
   "loh_examples": "Office de Tourisme, Musées, Monuments",
   "m_osm": "Animaux",
   "m_examples": "Vétérinaire, Refuge animalier, Animalerie, Parc à Chien",
-  "ma_osm": "Santé",
-  "ma_examples": "Pharmacie, Coiffeur, Dentiste, Centres Commerciaux, Magasins",
+  "mar_osm": "Santé",
+  "mar_examples": "Pharmacie, Coiffeur, Dentiste, Centres Commerciaux, Magasins",
   "mgs_osm": "Loisir",
   "mgs_examples": "Terrains de Sport, Bowlings, Terrain de Golf",
   "mom_osm": "Bureau",
