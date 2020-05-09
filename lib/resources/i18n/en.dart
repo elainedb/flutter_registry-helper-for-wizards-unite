@@ -287,6 +287,13 @@ const Map<String, String> values_en = {
   "kc_4": "Baby Mandrake",
   "kc_5": "Giant's Helm",
 
+  "weww": "Weasleys' Wizarding Wheezes",
+  "weww_1": "Puking Pastilles Display",
+  "weww_2": "Lee Jordan",
+  "weww_3" :"Proprietor George Weasley",
+  "weww_4": "Proprietor Fred Weasley",
+  "weww_5": "Open Skiving Snackbox",
+
   "prestige_standard": "Standard",
   "prestige_bronze": "Bronze",
   "prestige_silver": "Silver",

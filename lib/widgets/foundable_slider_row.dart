@@ -11,7 +11,7 @@ import '../resources/i18n/app_strings.dart';
 class FoundableSliderRow extends StatefulWidget {
   final Function callback;
   final String foundableId;
-  final Page page;
+  final WUPage page;
   final String dropdownValue;
   final Color color;
 

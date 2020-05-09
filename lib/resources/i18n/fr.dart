@@ -287,7 +287,14 @@ const Map<String, String> values_fr = {
   "kc_4": "Pousse de Mandragore",
   "kc_5": "Heaume de Géant",
 
-  "prestige_standard": "Défaut",
+  "weww": "Weasley, Farces pour Sorciers Facétieux",
+  "weww_1": "Étalage de Pastilles de Gerbe",
+  "weww_2": "Lee Jordan",
+  "weww_3" :"George Weasley, Propriétaire",
+  "weww_4": "Fred Weasley, Propriétaire",
+  "weww_5": "Boîte à Flemme Ouverte",
+
+  "prestige_standard": "Normal",
   "prestige_bronze": "Bronze",
   "prestige_silver": "Argent",
   "prestige_gold": "Or",

@@ -34,7 +34,7 @@ abstract class _UserDataStore with Store {
   }
 
   @action
-  setPrestigeLevel(Page page, String newValue) async {
+  setPrestigeLevel(WUPage page, String newValue) async {
     Map<String, dynamic> newData = Map();
     page.foundables.forEach((foundable) {
       data[foundable.id]['count'] = 0;
@@ -56,7 +56,7 @@ abstract class _UserDataStore with Store {
   }
 
   @action
-  submitNewValue(Foundable foundable, String newValue, int requirement) async {
+  submitNewValue(Foundable foundable, String newValue) async {
     var newInt = int.tryParse(newValue) ?? 0;
     data[foundable.id]['count'] = newInt;
 

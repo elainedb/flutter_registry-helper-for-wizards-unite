@@ -100,3 +100,4 @@ app.aab
 GoogleService-Info.plist
 *.aab
 flutter_export_environment.sh
+.flutter-plugins-dependencies

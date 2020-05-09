@@ -46,13 +46,13 @@ class Chapter {
   final String name;
   final String osm;
   final String examples;
-  final List<Page> pages;
+  final List<WUPage> pages;
 
   Chapter(this.id, this.name, this.osm, this.examples, this.pages);
 
   factory Chapter.fromJson(Map<String, dynamic> json) {
     var list = json['pages'] as List;
-    List<Page> pagesList = list.map((i) => Page.fromJson(i)).toList();
+    List<WUPage> pagesList = list.map((i) => WUPage.fromJson(i)).toList();
 
     return Chapter(
       json['id'],
@@ -72,18 +72,18 @@ class Chapter {
       };
 }
 
-class Page {
+class WUPage {
   final String id;
   final String name;
   final List<Foundable> foundables;
 
-  Page(this.id, this.name, this.foundables);
+  WUPage(this.id, this.name, this.foundables);
 
-  factory Page.fromJson(Map<String, dynamic> json) {
+  factory WUPage.fromJson(Map<String, dynamic> json) {
     var list = json['foundables'] as List;
     List<Foundable> foundablesList = list.map((i) => Foundable.fromJson(i)).toList();
 
-    return Page(
+    return WUPage(
       json['id'],
       json['name'],
       foundablesList,
@@ -155,8 +155,8 @@ List<String> getPagesIds(Chapter chapter) {
   return chapter.pages.map((p) => p.id).toList();
 }
 
-Page getPageWithId(Chapter chapter, String id) {
-  Page page;
+WUPage getPageWithId(Chapter chapter, String id) {
+  WUPage page;
   chapter.pages.forEach((p) {
     if (p.id == id) {
       page = p;
@@ -166,11 +166,11 @@ Page getPageWithId(Chapter chapter, String id) {
   return page;
 }
 
-List<String> getFoundablesIds(Page page) {
+List<String> getFoundablesIds(WUPage page) {
   return page.foundables.map((f) => f.id).toList();
 }
 
-Foundable getFoundableWithId(Page page, String id) {
+Foundable getFoundableWithId(WUPage page, String id) {
   Foundable foundable;
   page.foundables.forEach((f) {
     if (f.id == id) {

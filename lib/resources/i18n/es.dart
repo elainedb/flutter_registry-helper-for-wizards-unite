@@ -287,6 +287,13 @@ const Map<String, String> values_es = {
   "kc_4": "Retoño de Mandrágora",
   "kc_5": "Casco de Gigante",
 
+  "weww": "Sortilegios Weasley",
+  "weww_1": "Exhibidor de Pastillas Vomitivas",
+  "weww_2": "Lee Jordan",
+  "weww_3" :"George Weasley, Propietario",
+  "weww_4": "Fred Weasley, Propietario",
+  "weww_5": "Surtido Saltaclases Abierto",
+
   "prestige_standard": "Estandár",
   "prestige_bronze": "Bronce",
   "prestige_silver": "Plata",

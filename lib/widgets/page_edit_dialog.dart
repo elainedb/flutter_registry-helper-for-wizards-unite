@@ -12,7 +12,7 @@ import '../utils/fanalytics.dart';
 import 'foundable_slider_row.dart';
 
 class PageEditDialog extends StatefulWidget {
-  final Page page;
+  final WUPage page;
   final String dropdownValue;
   final Color darkColor;
   final Color lightColor;

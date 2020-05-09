@@ -287,6 +287,13 @@ const Map<String, String> values_pt = {
   "kc_4": "Mudinha de Mandrágora",
   "kc_5": "Elmo de Gigante",
 
+  "weww": "Gemialidades Weasley",
+  "weww_1": "Display Vomitilhas",
+  "weww_2": "Lino Jordan",
+  "weww_3" :"Jorge Weasley Proprietário",
+  "weww_4": "Fred Weasley Proprietário",
+  "weww_5": "Abrir Kit Mata-Aula",
+
   "prestige_standard": "Padrão",
   "prestige_bronze": "Bronze",
   "prestige_silver": "Prata",

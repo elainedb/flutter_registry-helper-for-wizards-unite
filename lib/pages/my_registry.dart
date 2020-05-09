@@ -100,7 +100,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
                 GestureDetector(key: globalKey4, child: Image.asset("assets/images/icons/mom.png"), onTap: () => _scrollToIndex(4)),
                 GestureDetector(child: Image.asset("assets/images/icons/m.png"), onTap: () => _scrollToIndex(5)),
                 GestureDetector(child: Image.asset("assets/images/icons/mgs.png"), onTap: () => _scrollToIndex(6)),
-                GestureDetector(child: Image.asset("assets/images/icons/ma.png"), onTap: () => _scrollToIndex(7)),
+                GestureDetector(child: Image.asset("assets/images/icons/mar.png"), onTap: () => _scrollToIndex(7)),
                 GestureDetector(child: Image.asset("assets/images/icons/www.png"), onTap: () => _scrollToIndex(8)),
                 GestureDetector(child: Image.asset("assets/images/icons/o.png"), onTap: () => _scrollToIndex(9)),
               ],
@@ -135,7 +135,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   }
 
   Widget pageCard(String pageId, Chapter chapter, Color lightColor, Color darkColor) {
-    Page page = getPageWithId(chapter, pageId);
+    WUPage page = getPageWithId(chapter, pageId);
     String dropdownValue = getPrestigeLevelWithPageId(pageId, userDataStore.data);
     var key1;
     var key3;
@@ -193,7 +193,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     );
   }
 
-  Widget foundableRow(String foundableId, Page page, Color color) {
+  Widget foundableRow(String foundableId, WUPage page, Color color) {
     Foundable foundable = getFoundableWithId(page, foundableId);
     int currentCount = userDataStore.data[foundableId]['count'];
     int currentLevel = userDataStore.data[foundableId]['level'];
@@ -233,7 +233,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
             ),
             onPressed: () {
               analytics.sendPlusEvent();
-              userDataStore.submitNewValue(foundable, (currentCount + 1).toString(), intRequirement);
+              userDataStore.submitNewValue(foundable, (currentCount + 1).toString());
             },
           ),
         ),
@@ -255,6 +255,11 @@ class MyRegistryPageState extends State<MyRegistryPage> {
         ),
       ));
     } else {
+      if (currentCount > intRequirement) {
+        // needed after 2.13 game update
+        currentCount = intRequirement;
+        userDataStore.submitNewValue(foundable, currentCount.toString());
+      }
       widgets.add(Container(
         alignment: Alignment.center,
         width: AppDimens.registryCounterWidth,
@@ -276,7 +281,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     );
   }
 
-  _pushDialog(String dropdownValue, Page page, Color darkColor, Color lightColor) {
+  _pushDialog(String dropdownValue, WUPage page, Color darkColor, Color lightColor) {
     Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
         barrierDismissible: true,

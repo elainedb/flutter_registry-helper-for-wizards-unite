@@ -46,7 +46,7 @@ mixin _$UserDataStore on _UserDataStore, Store {
   final _$setPrestigeLevelAsyncAction = AsyncAction('setPrestigeLevel');
 
   @override
-  Future setPrestigeLevel(Page page, String newValue) {
+  Future setPrestigeLevel(WUPage page, String newValue) {
     return _$setPrestigeLevelAsyncAction
         .run(() => super.setPrestigeLevel(page, newValue));
   }
@@ -54,9 +54,9 @@ mixin _$UserDataStore on _UserDataStore, Store {
   final _$submitNewValueAsyncAction = AsyncAction('submitNewValue');
 
   @override
-  Future submitNewValue(Foundable foundable, String newValue, int requirement) {
+  Future submitNewValue(Foundable foundable, String newValue) {
     return _$submitNewValueAsyncAction
-        .run(() => super.submitNewValue(foundable, newValue, requirement));
+        .run(() => super.submitNewValue(foundable, newValue));
   }
 
   final _$_UserDataStoreActionController =
