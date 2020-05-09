@@ -81,26 +81,36 @@ abstract class _RegistryStore with Store {
     var registryIds = getAllFoundablesIds(registry);
 
     if (!authentication.isAnonymous) {
+      // user is logged in
       var snapshot = await Firestore.instance.collection('userData').document(userId).get();
 
       if (!snapshot.exists) {
+        // logged & new user
         _addUserDataConnected(registryIds, userId);
       } else {
+        // logged & existing user
         _checkAndAddNewUserKeysConnected(snapshot, registryIds, userId);
         isUserDataLoading = false;
       }
     } else {
+      // user is anonymous
       var snapshot = await Firestore.instance.collection('userData').document(userId).get();
 
       if (!snapshot.exists) {
+        // anon & no data on firebase -> OK
         var userDataString = prefs.getString('userData');
         if (userDataString == null) {
+          // anon & new user
           _initAnonymousData(registryIds);
         } else {
+          // anon & existing user
           _checkAndAddNewUserKeysAnonymous(userDataString, registryIds);
           isUserDataLoading = false;
         }
       } else {
+        // anon & existing data on firebase
+        // migrate data from firebase and persist locally only
+        // this deletes the firebase data for this user
         _migrateAnonymous(snapshot.data, userId);
       }
     }
@@ -120,6 +130,11 @@ abstract class _RegistryStore with Store {
     });
 
     if (toAddIds.isNotEmpty) {
+      if (toAddIds.contains("weww_1")) {
+        // add placed boolean for every foundable
+        _addPlacedBoolean(userIds, userId);
+      }
+
       _addUserDataConnected(toAddIds, userId);
     } else {
       isUserDataLoading = false;
@@ -130,7 +145,19 @@ abstract class _RegistryStore with Store {
     Map<String, dynamic> map = Map();
 
     for (var id in ids) {
-      map[id] = {'count': 0, 'level': 1};
+      map[id] = {'count': 0, 'level': 1, 'placed': false};
+    }
+
+    Firestore.instance.collection('userData').document(userId).setData(map, merge: true).then((_) {
+      isUserDataLoading = false;
+    });
+  }
+
+  _addPlacedBoolean(List<String> ids, String userId) {
+    Map<String, dynamic> map = Map();
+
+    for (var id in ids) {
+      map[id] = {'placed': false};
     }
 
     Firestore.instance.collection('userData').document(userId).setData(map, merge: true).then((_) {
@@ -156,6 +183,11 @@ abstract class _RegistryStore with Store {
     });
 
     if (toAddIds.isNotEmpty) {
+      if (toAddIds.contains("weww_1")) {
+        // add placed boolean for every foundable
+        _addPlacedBooleanAnonymous(userIds, oldUserData);
+      }
+
       _addUserDataAnonymous(toAddIds, oldUserData);
     } else {
       isUserDataLoading = false;
@@ -173,7 +205,7 @@ abstract class _RegistryStore with Store {
   _initAnonymousData(List<String> ids) async {
     Map<String, dynamic> map = Map();
     for (var id in ids) {
-      map[id] = {'count': 0, 'level': 1};
+      map[id] = {'count': 0, 'level': 1, 'placed': false};
     }
 
     await saveUserDataToPrefs(UserData(map));
@@ -183,7 +215,18 @@ abstract class _RegistryStore with Store {
   _addUserDataAnonymous(List<String> newIds, UserData oldUserData) {
     Map<String, dynamic> map = oldUserData.fragmentDataList;
     for (var id in newIds) {
-      map[id] = {'count': 0, 'level': 1};
+      map[id] = {'count': 0, 'level': 1, 'placed': false};
+    }
+
+    saveUserDataToPrefs(UserData(map)).then((value) {
+      isUserDataLoading = false;
+    });
+  }
+
+  _addPlacedBooleanAnonymous(List<String> ids, UserData oldUserData) {
+    Map<String, dynamic> map = oldUserData.fragmentDataList;
+    for (var id in ids) {
+      map[id]['placed'] = false;
     }
 
     saveUserDataToPrefs(UserData(map)).then((value) {
