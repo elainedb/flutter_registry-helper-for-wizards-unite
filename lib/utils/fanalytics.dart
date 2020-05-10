@@ -35,6 +35,12 @@ class FAnalytics {
     );
   }
 
+  sendPlacedEvent() async {
+    await analytics.logEvent(
+      name: 'click_placed',
+    );
+  }
+
   sendScrollToEvent(int value) async {
     await analytics.logEvent(
       name: 'scroll_to',

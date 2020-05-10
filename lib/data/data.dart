@@ -329,30 +329,33 @@ MissingTraces getMissingTracesForChapter(Chapter chapter, Map<String, dynamic> d
   chapter.pages.forEach((page) {
     page.foundables.forEach((foundable) {
       var level = data[foundable.id]["level"];
-      var total = getRequirementWithLevel(foundable, level);
+      var isPlaced = data[foundable.id]["placed"];
       var returned = data[foundable.id]["count"];
+      var total = getRequirementWithLevel(foundable, level);
       var remainder = total - returned;
 
-      if (foundable.howToCatch.contains("f")) {
-        challenges += remainder;
-      }
-      if (foundable.howToCatch == "w" || foundable.howToCatch.contains("p")) {
-        switch (foundable.threatLevel) {
-          case "l":
-            low += remainder;
-            break;
-          case "m":
-            medium += remainder;
-            break;
-          case "h":
-            high += remainder;
-            break;
-          case "s":
-            severe += remainder;
-            break;
-          case "e":
-            emergency += remainder;
-            break;
+      if (!isPlaced) {
+        if (foundable.howToCatch.contains("f")) {
+          challenges += remainder;
+        }
+        if (foundable.howToCatch == "w" || foundable.howToCatch.contains("p")) {
+          switch (foundable.threatLevel) {
+            case "l":
+              low += remainder;
+              break;
+            case "m":
+              medium += remainder;
+              break;
+            case "h":
+              high += remainder;
+              break;
+            case "s":
+              severe += remainder;
+              break;
+            case "e":
+              emergency += remainder;
+              break;
+          }
         }
       }
     });
@@ -369,10 +372,11 @@ List<AlmostCompletePage> getPagesWithOneOreTwoMissing(Chapter chapter, Map<Strin
 
     page.foundables.forEach((foundable) {
       var level = data[foundable.id]["level"];
-      var total = getRequirementWithLevel(foundable, level);
+      var isPlaced = data[foundable.id]["placed"];
       var returned = data[foundable.id]["count"];
+      var total = getRequirementWithLevel(foundable, level);
       var remainder = total - returned;
-      if (remainder > 0) {
+      if (remainder > 0 && !isPlaced) {
         incompleteFoundables.add(IncompleteFoundable(chapter.id, foundable, remainder));
       }
     });

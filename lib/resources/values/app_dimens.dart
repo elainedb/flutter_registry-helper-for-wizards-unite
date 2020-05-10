@@ -10,6 +10,7 @@ abstract class AppDimens {
   static const gigaSize = 36.0;
   static const teraSize = 96.0;
 
+  static const miniImageSize = 15.0;
   static const smallImageSize = 30.0;
   static const mediumImageSize = 50.0;
   static const largeImageSize = 80.0;

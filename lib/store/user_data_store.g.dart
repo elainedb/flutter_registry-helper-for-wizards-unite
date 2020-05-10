@@ -59,6 +59,22 @@ mixin _$UserDataStore on _UserDataStore, Store {
         .run(() => super.submitNewValue(foundable, newValue));
   }
 
+  final _$submitNewPageAsyncAction = AsyncAction('submitNewPage');
+
+  @override
+  Future<void> submitNewPage(Map<String, double> foundableCount) {
+    return _$submitNewPageAsyncAction
+        .run(() => super.submitNewPage(foundableCount));
+  }
+
+  final _$submitPlacedAsyncAction = AsyncAction('submitPlaced');
+
+  @override
+  Future submitPlaced(Foundable foundable, bool newValue) {
+    return _$submitPlacedAsyncAction
+        .run(() => super.submitPlaced(foundable, newValue));
+  }
+
   final _$_UserDataStoreActionController =
       ActionController(name: '_UserDataStore');
 

@@ -38,10 +38,11 @@ abstract class _UserDataStore with Store {
     Map<String, dynamic> newData = Map();
     page.foundables.forEach((foundable) {
       data[foundable.id]['count'] = 0;
+      data[foundable.id]['placed'] = false;
       data[foundable.id]['level'] = getPrestigeLevelWithPrestigeValue(newValue);
 
       if (!authentication.isAnonymous) {
-        newData[foundable.id] = {'count': 0, 'level': getPrestigeLevelWithPrestigeValue(newValue)};
+        newData[foundable.id] = {'count': 0, 'placed': false, 'level': getPrestigeLevelWithPrestigeValue(newValue)};
       }
     });
 
@@ -72,6 +73,7 @@ abstract class _UserDataStore with Store {
     }
   }
 
+  @action
   Future<void> submitNewPage(Map<String, double> foundableCount) async {
     Map<String, dynamic> newData = Map();
     foundableCount.forEach((id, count) {
@@ -92,5 +94,22 @@ abstract class _UserDataStore with Store {
     }
 
     return Future.value(0);
+  }
+
+  @action
+  submitPlaced(Foundable foundable, bool newValue) async {
+    data[foundable.id]['placed'] = newValue;
+
+    if (!authentication.isAnonymous) {
+      Firestore.instance.collection('userData').document(authentication.userId).setData({
+        foundable.id: {'placed': newValue}
+      }, merge: true);
+    } else {
+      await saveUserDataToPrefs(UserData(data));
+      getUserDataFromPrefs().then((d) {
+        data = d.fragmentDataList;
+      });
+    }
+
   }
 }

@@ -231,21 +231,36 @@ class ChartsPageState extends State<ChartsPage> {
 
   Widget getHowToCatchForChapter(Chapter chapter) {
     List<Widget> list = List();
+    List<Widget> listPlaced = List();
     var key;
     if (chapter.id == "cmc") key = globalKey2;
 
     chapter.pages.forEach((page) {
       page.foundables.forEach((foundable) {
+        bool isPlaced = userDataStore.data[foundable.id]['placed'];
         list.add(getIconWithFoundable(foundable, AppDimens.smallSize));
+        listPlaced.add(Icon(
+          Icons.stars,
+          color: isPlaced ? Colors.green : Colors.grey,
+          size: AppDimens.miniImageSize,
+        ),);
       });
     });
 
     return Padding(
       padding: AppStyles.chartsHowToCatchInsets,
-      child: Row(
-        key: key,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: list,
+      child: Column(
+        children: [
+          Row(
+            key: key,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: list,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: listPlaced,
+          ),
+        ],
       ),
     );
   }

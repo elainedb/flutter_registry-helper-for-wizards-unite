@@ -266,7 +266,7 @@
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core-framework/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library-framework/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb-framework/nanopb.framework",
-				"${PODS_ROOT}/../.symlinks/flutter/ios/Flutter.framework",
+				"${PODS_ROOT}/../.symlinks/flutter/ios-release/Flutter.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/apple_sign_in/apple_sign_in.framework",

@@ -197,6 +197,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     Foundable foundable = getFoundableWithId(page, foundableId);
     int currentCount = userDataStore.data[foundableId]['count'];
     int currentLevel = userDataStore.data[foundableId]['level'];
+    bool isPlaced = userDataStore.data[foundableId]['placed'];
     var intRequirement = getRequirementWithLevel(foundable, currentLevel);
 
     List<Widget> widgets = List();
@@ -207,10 +208,25 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     }
 
     widgets.addAll([
-      Container(
-        width: AppDimens.mediumImageSize,
-        height: AppDimens.mediumImageSize,
-        child: Image.asset("assets/images/foundables/$foundableId.png"),
+      GestureDetector(
+        onTap: () {
+          userDataStore.submitPlaced(foundable, !isPlaced);
+          analytics.sendPlacedEvent();
+        },
+        child: Stack(
+          children: [
+            Container(
+              width: AppDimens.mediumImageSize,
+              height: AppDimens.mediumImageSize,
+              child: Image.asset("assets/images/foundables/$foundableId.png"),
+            ),
+            Icon(
+              Icons.stars,
+              color: isPlaced ? Colors.green : Colors.grey,
+              size: AppDimens.miniImageSize,
+            ),
+          ],
+        ),
       ),
       Expanded(
           child: Text(
