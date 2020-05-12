@@ -101,3 +101,6 @@ GoogleService-Info.plist
 *.aab
 flutter_export_environment.sh
 .flutter-plugins-dependencies
+assets/images/traces_transparent_original
+assets/images/foundables_original
+assets/images/icons_original
