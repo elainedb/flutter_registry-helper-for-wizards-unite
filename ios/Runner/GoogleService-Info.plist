@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>102766677023-66p9q2tdeuuufo2f81d8ak35fbuvbukg.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.102766677023-66p9q2tdeuuufo2f81d8ak35fbuvbukg</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>102766677023-6utg2jlvhqp4rhborispv2dmj1i9f5h8.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDK_j0fFZ4kmpUhqEgtzEwz_Nw16n-jzFw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>102766677023</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>elainedb.dev.registry-helper-for-wu</string>
+	<key>PROJECT_ID</key>
+	<string>wu-registry-helper</string>
+	<key>STORAGE_BUCKET</key>
+	<string>wu-registry-helper.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:102766677023:ios:97d860e44b43fbfd</string>
+	<key>DATABASE_URL</key>
+	<string>https://wu-registry-helper.firebaseio.com</string>
+</dict>
+</plist>
