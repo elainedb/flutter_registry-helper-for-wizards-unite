@@ -1565,6 +1565,62 @@
               "threatLevel": "l"
             }
           ]
+        },
+        {
+          "id": "hq2",
+          "name": "Hogwarts Quidditch Pitch II",
+          "foundables": [
+            {
+              "id": "hq2_1",
+              "name": "Slytherin Quidditch Banner",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch": "f",
+              "threatLevel": "l"
+            },
+            {
+              "id": "hq2_2",
+              "name": "Quidditch Captain...",
+              "fragmentRequirementStandard":5,
+              "fragmentRequirementBronze":10,
+              "fragmentRequirementSilver":13,
+              "fragmentRequirementGold":18,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            },
+            {
+              "id": "hq2_3",
+              "name": "Quidditch Captain Marcus Flint",
+              "fragmentRequirementStandard":12,
+              "fragmentRequirementBronze":20,
+              "fragmentRequirementSilver":30,
+              "fragmentRequirementGold":45,
+              "howToCatch": "w",
+              "threatLevel": "m"
+            },
+            {
+              "id": "hq2_4",
+              "name": "Quidditch Hunter Malfoy",
+              "fragmentRequirementStandard":5,
+              "fragmentRequirementBronze":10,
+              "fragmentRequirementSilver":13,
+              "fragmentRequirementGold":18,
+              "howToCatch":"w",
+              "threatLevel":"s"
+            },
+            {
+              "id": "hq2_5",
+              "name": "Madam Hooch",
+              "fragmentRequirementStandard":9,
+              "fragmentRequirementBronze":15,
+              "fragmentRequirementSilver":22,
+              "fragmentRequirementGold":30,
+              "howToCatch":"w",
+              "threatLevel":"h"
+            }
+          ]
         }
       ]
     },

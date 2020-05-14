@@ -213,6 +213,13 @@ const Map<String, String> values_es = {
   "hqs_4": "Luna Lovegood, Fan de Quidditch",
   "hqs_5": "Bandera de Quidditch de Gryffindor",
 
+  "hq2": "Hogwarts Quidditch Pitch II",
+  "hq2_1": "Slytherin Quidditch Banner",
+  "hq2_2": "Quidditch Captain...",
+  "hq2_3": "Quidditch Captain Marcus Flint",
+  "hq2_4": "Quidditch Hunter Malfoy",
+  "hq2_5": "Madam Hooch",
+
   "ma": "Atrio del Ministerio",
   "ma_1": "Memorándums Interdepartamentales",
   "ma_2": "Puesto del Diaro El Profeta",
