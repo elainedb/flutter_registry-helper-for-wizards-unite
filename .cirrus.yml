@@ -1,0 +1,17 @@
+task:
+  name: Android Build
+  container:
+    image: cirrusci/flutter:stable
+  pub_cache:
+    folder: ~/.pub-cache
+  build_script:
+    - flutter build appbundle
+
+task:
+  name: iOS Build
+  osx_instance:
+    image: catalina-flutter
+  pub_cache:
+    folder: ~/.pub-cache
+  build_script:
+    - flutter build ios --no-codesign
