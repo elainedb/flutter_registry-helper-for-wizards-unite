@@ -101,3 +101,5 @@ flutter_export_environment.sh
 assets/images/traces_transparent_original
 assets/images/foundables_original
 assets/images/icons_original
+google-services.json
+GoogleService-Info.plist

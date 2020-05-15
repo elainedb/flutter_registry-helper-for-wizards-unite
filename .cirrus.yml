@@ -5,6 +5,7 @@ task:
   pub_cache:
     folder: ~/.pub-cache
   build_script:
+    - openssl aes-256-cbc -d -in android/app/google-services.json.encrypted -k ENCRYPTED[c49306f16bf1ded621f7c7289fff76a52233586e5f2c3a9be212d51fd79a99d2a8f4ddab781d6aaa5d56ddb84a1e91b7] >> android/app/google-services.json
     - flutter build appbundle
 
 task:
@@ -14,4 +15,5 @@ task:
   pub_cache:
     folder: ~/.pub-cache
   build_script:
+    - openssl aes-256-cbc -d -in ios/Runner/GoogleService-Info.plist.encrypted -k ENCRYPTED[c49306f16bf1ded621f7c7289fff76a52233586e5f2c3a9be212d51fd79a99d2a8f4ddab781d6aaa5d56ddb84a1e91b7] >> ios/Runner/GoogleService-Info.plist
     - flutter build ios --no-codesign

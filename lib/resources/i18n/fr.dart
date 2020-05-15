@@ -217,7 +217,7 @@ const Map<String, String> values_fr = {
   "hq2_1": "Drapeau de Quidditch de Serpentard",
   "hq2_2": "Cedric Diggory, Capitaine de Quidditch",
   "hq2_3": "Marcus Flint, Capitaine de Quidditch",
-  "hq2_4": "Draco Malfoy, Attrapeur de Serpentard",
+  "hq2_4": "Drago Malfoy, Attrapeur de Serpentard",
   "hq2_5": "Madame Bibine",
 
   "ma": "Atrium du Ministère",
