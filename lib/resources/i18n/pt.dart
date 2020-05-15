@@ -213,12 +213,12 @@ const Map<String, String> values_pt = {
   "hqs_4": "Luna Lovegood Fã de Quadribol",
   "hqs_5": "Bandeira de Quadribol da Grifinória",
 
-  "hq2": "Hogwarts Quidditch Pitch II",
-  "hq2_1": "Slytherin Quidditch Banner",
-  "hq2_2": "Quidditch Captain...",
-  "hq2_3": "Quidditch Captain Marcus Flint",
-  "hq2_4": "Quidditch Hunter Malfoy",
-  "hq2_5": "Madam Hooch",
+  "hq2": "Campo de Quadribol de Hogwarts II",
+  "hq2_1": "Bandeira de Quadribol da Sonserina",
+  "hq2_2": "Cedrico Diggory Capitão de Quadribol",
+  "hq2_3": "Marcos Flint Capitão de Quadribol",
+  "hq2_4": "Draco Malfoy Apanhador da Sonserina",
+  "hq2_5": "Madame Hooch",
 
   "ma": "Átrio do Ministério",
   "ma_1": "Bando de Memorandos Interdepartamentais",

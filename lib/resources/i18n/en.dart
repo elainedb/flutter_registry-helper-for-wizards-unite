@@ -215,9 +215,9 @@ const Map<String, String> values_en = {
 
   "hq2": "Hogwarts Quidditch Pitch II",
   "hq2_1": "Slytherin Quidditch Banner",
-  "hq2_2": "Quidditch Captain...",
+  "hq2_2": "Quidditch Captain Cedric Diggory",
   "hq2_3": "Quidditch Captain Marcus Flint",
-  "hq2_4": "Quidditch Hunter Malfoy",
+  "hq2_4": "Slytherin Seeker Draco Malfoy",
   "hq2_5": "Madam Hooch",
 
   "ma": "Ministry Atrium",

@@ -213,12 +213,12 @@ const Map<String, String> values_fr = {
   "hqs_4": "Luna Lovegood, Fan de Quidditch",
   "hqs_5": "Drapeau de Quidditch de Gryffondor",
 
-  "hq2": "Hogwarts Quidditch Pitch II",
-  "hq2_1": "Slytherin Quidditch Banner",
-  "hq2_2": "Quidditch Captain...",
-  "hq2_3": "Quidditch Captain Marcus Flint",
-  "hq2_4": "Quidditch Hunter Malfoy",
-  "hq2_5": "Madam Hooch",
+  "hq2": "Terrain de Quidditch de Poudlard II",
+  "hq2_1": "Drapeau de Quidditch de Serpentard",
+  "hq2_2": "Cedric Diggory, Capitaine de Quidditch",
+  "hq2_3": "Marcus Flint, Capitaine de Quidditch",
+  "hq2_4": "Draco Malfoy, Attrapeur de Serpentard",
+  "hq2_5": "Madame Bibine",
 
   "ma": "Atrium du Ministère",
   "ma_1": "Volée de Messagerie du Ministère",
