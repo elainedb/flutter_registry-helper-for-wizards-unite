@@ -31,5 +31,5 @@ task:
     - openssl aes-256-cbc -d -in ios/Runner/GoogleService-Info.plist.encrypted -k ${ENCRYPT_KEY} >> ios/Runner/GoogleService-Info.plist
     - flutter build ios --release --no-codesign
     - cd ios
-    - bundle exec match(git_basic_authorization: '${MATCH_GIT_BASIC_AUTHORIZATION}')
+    - bundle exec match(git_basic_authorization: ${MATCH_GIT_BASIC_AUTHORIZATION})
     - bundle exec fastlane beta
