@@ -32,7 +32,7 @@ platform :android do
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do
-    #vgradle(task: "clean bundleRelease")
-    upload_to_play_store --aab ../../../build/app/outputs/bundle/release/app-release.aab
+    gradle(task: "clean bundleRelease")
+    upload_to_play_store
   end
 end
