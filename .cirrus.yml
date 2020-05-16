@@ -29,5 +29,4 @@ task:
     - openssl aes-256-cbc -d -in ios/Runner/GoogleService-Info.plist.encrypted -k ${ENCRYPT_KEY} >> ios/Runner/GoogleService-Info.plist
     - flutter build ios --release --no-codesign
     - cd ios
-    - xcodebuild -exportArchive -archivePath ../build/ios/iphoneos/Runner.app -exportPath build/ios/iphoneos/
     - bundle exec fastlane beta
