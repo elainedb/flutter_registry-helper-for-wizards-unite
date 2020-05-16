@@ -26,6 +26,7 @@ task:
   pub_cache:
     folder: ~/.pub-cache
   build_script:
+    - bundle update fastlane
     - openssl aes-256-cbc -d -in ios/Runner/GoogleService-Info.plist.encrypted -k ${ENCRYPT_KEY} >> ios/Runner/GoogleService-Info.plist
     - flutter build ios --release --no-codesign
     - cd ios
