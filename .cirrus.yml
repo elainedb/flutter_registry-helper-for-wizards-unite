@@ -21,7 +21,7 @@ task:
     ENCRYPT_KEY: ENCRYPTED[c49306f16bf1ded621f7c7289fff76a52233586e5f2c3a9be212d51fd79a99d2a8f4ddab781d6aaa5d56ddb84a1e91b7]
     FASTLANE_PASSWORD: ENCRYPTED[c31e6f4125d7264c0161ce1036f149d47d19b2650b7dcb5954ad61d50ffa79ae1c742762cfb3b7862c17d2201d01e23f]
     FASTLANE_SESSION: ENCRYPTED[21bea9f2063faa26866b03d1ecd0c402af121ea5c5c502abaed04ddfb18a517f8e790b9f0cfca75f0ac203b818e6bdd7]
-    MATCH_GIT_BASIC_AUTHORIZATION: ENCRYPTED[3a1e29b5ea91aa50aa86d96b3555b10d8f54b3fb650cbf0576224ebdaf9fd53cc8ccedffd27d5f45287a1097dc94180c]
+    MATCH_GIT_BASIC_AUTHORIZATION_DECODED: ENCRYPTED[3a1e29b5ea91aa50aa86d96b3555b10d8f54b3fb650cbf0576224ebdaf9fd53cc8ccedffd27d5f45287a1097dc94180c]
     MATCH_PASSWORD: ENCRYPTED[83f9c7fb44e17242e16042cd94b0eae771e4b09aaa1fb373f4a263fb1a11ff1338b5f31cd3246461408730414d33156a]
   osx_instance:
     image: catalina-flutter
@@ -31,5 +31,5 @@ task:
     - openssl aes-256-cbc -d -in ios/Runner/GoogleService-Info.plist.encrypted -k ${ENCRYPT_KEY} >> ios/Runner/GoogleService-Info.plist
     - flutter build ios --release --no-codesign
     - cd ios
-    - echo ${MATCH_GIT_BASIC_AUTHORIZATION} | base64 > ${MATCH_GIT_BASIC_AUTHORIZATION}
+    - echo ${MATCH_GIT_BASIC_AUTHORIZATION_DECODED} | base64 > ${MATCH_GIT_BASIC_AUTHORIZATION}
     - bundle exec fastlane beta
