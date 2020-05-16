@@ -2,7 +2,7 @@ task:
   name: Android Build
   env:
     ENCRYPT_KEY: ENCRYPTED[c49306f16bf1ded621f7c7289fff76a52233586e5f2c3a9be212d51fd79a99d2a8f4ddab781d6aaa5d56ddb84a1e91b7]
-  container:
+  osx_instance:
     image: catalina-flutter
   pub_cache:
     folder: ~/.pub-cache
