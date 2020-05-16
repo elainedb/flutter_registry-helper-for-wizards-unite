@@ -11,8 +11,9 @@ task:
     - openssl aes-256-cbc -d -in android/service_account.json.encrypted -k ${ENCRYPT_KEY} >> android/app/service_account.json
     - openssl aes-256-cbc -d -in android/app/google-services.json.encrypted -k ${ENCRYPT_KEY} >> android/app/google-services.json
     - openssl aes-256-cbc -d -in android/app/elainedbdev.encrypted -k ${ENCRYPT_KEY} >> android/app/elainedbdev
+    - flutter build appbundle
     - cd android
-    - fastlane deploy
+    - bundle exec fastlane deploy
 
 task:
   name: iOS Build
@@ -25,5 +26,6 @@ task:
     folder: ~/.pub-cache
   build_script:
     - openssl aes-256-cbc -d -in ios/Runner/GoogleService-Info.plist.encrypted -k ${ENCRYPT_KEY} >> ios/Runner/GoogleService-Info.plist
+    - flutter build ios --release --no-codesign
     - cd ios
-    - fastlane beta
+    - bundle exec fastlane beta
