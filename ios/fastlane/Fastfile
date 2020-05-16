@@ -20,7 +20,7 @@ platform :ios do
   lane :beta do
     # build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     match
-    build_ios_app(export_method: "app-store")
+    build_ios_app(export_xcargs: "-allowProvisioningUpdates", export_method: "app-store")
     upload_to_testflight
   end
 end
