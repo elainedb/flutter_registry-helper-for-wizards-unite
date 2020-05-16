@@ -1,5 +1,5 @@
-app_identifier("elainedb.dev.registry-helper-for-wu") # The bundle identifier of your app
-apple_id("elainedb.dev@gmail.com") # Your Apple email address
+app_identifier("elainedb.dev.registry-helper-for-wu")
+apple_id("elainedb.dev@gmail.com")
 
 itc_team_id("118225078") # App Store Connect Team ID
 team_id("CN5S5MDNA2") # Developer Portal Team ID
