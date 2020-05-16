@@ -1,0 +1,8 @@
+app_identifier("elainedb.dev.registry-helper-for-wu") # The bundle identifier of your app
+apple_id("elainedb.dev@gmail.com") # Your Apple email address
+
+itc_team_id("118225078") # App Store Connect Team ID
+team_id("CN5S5MDNA2") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile

@@ -103,3 +103,6 @@ assets/images/foundables_original
 assets/images/icons_original
 google-services.json
 GoogleService-Info.plist
+keystore.properties
+service_account.json
+elainedbdev

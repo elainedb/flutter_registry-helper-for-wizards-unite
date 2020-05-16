@@ -7,17 +7,21 @@ task:
   pub_cache:
     folder: ~/.pub-cache
   build_script:
+    - openssl aes-256-cbc -d -in android/keystore.properties.encrypted -k ${ENCRYPT_KEY} >> android/app/keystore.properties
+    - openssl aes-256-cbc -d -in android/service_account.json.encrypted -k ${ENCRYPT_KEY} >> android/app/service_account.json
     - openssl aes-256-cbc -d -in android/app/google-services.json.encrypted -k ${ENCRYPT_KEY} >> android/app/google-services.json
-    - flutter build appbundle
+    - - openssl aes-256-cbc -d -in android/app/elainedbdev.encrypted -k ${ENCRYPT_KEY} >> android/app/elainedbdev
+    - fastlane deploy
 
 task:
   name: iOS Build
   env:
     ENCRYPT_KEY: ENCRYPTED[c49306f16bf1ded621f7c7289fff76a52233586e5f2c3a9be212d51fd79a99d2a8f4ddab781d6aaa5d56ddb84a1e91b7]
+    FASTLANE_PASSWORD: ENCRYPTED[c31e6f4125d7264c0161ce1036f149d47d19b2650b7dcb5954ad61d50ffa79ae1c742762cfb3b7862c17d2201d01e23f]
   osx_instance:
     image: catalina-flutter
   pub_cache:
     folder: ~/.pub-cache
   build_script:
-    - openssl aes-256-cbc -d -in ios/Runner/GoogleService-Info.plist.encrypted -k "${ENCRYPT_KEY}" >> ios/Runner/GoogleService-Info.plist
-    - flutter build ios --no-codesign
+    - openssl aes-256-cbc -d -in ios/Runner/GoogleService-Info.plist.encrypted -k ${ENCRYPT_KEY} >> ios/Runner/GoogleService-Info.plist
+    - fastlane beta

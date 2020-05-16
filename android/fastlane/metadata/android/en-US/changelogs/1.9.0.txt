@@ -1,0 +1,3 @@
+- Added Weasleys' Wizarding Wheezes page
+- Added new Fragment Requirements (introduced in version 2.13 of the game)
+- Added the possibility to mark a foundable as "placed" in order to give better statistics and insights.

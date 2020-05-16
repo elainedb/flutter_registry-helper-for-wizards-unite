@@ -1,0 +1,1 @@
+Registry Helper for Wizards Unite enables players to manage how many fragments they have for a quick check when hunting for missing foundables.

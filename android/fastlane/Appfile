@@ -1,0 +1,2 @@
+json_key_file("service_account.json") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+package_name("elainedb.dev.registry_helper_for_wu") # e.g. com.krausefx.app
