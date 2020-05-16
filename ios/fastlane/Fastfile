@@ -19,6 +19,8 @@ platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
     # build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
+    get_certificates
+    get_provisioning_profile
     build_ios_app(export_method: "app-store")
     upload_to_testflight
   end
