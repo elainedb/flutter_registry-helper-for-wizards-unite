@@ -21,6 +21,7 @@ task:
     ENCRYPT_KEY: ENCRYPTED[c49306f16bf1ded621f7c7289fff76a52233586e5f2c3a9be212d51fd79a99d2a8f4ddab781d6aaa5d56ddb84a1e91b7]
     FASTLANE_USER: "elainedb.dev@gmail.com"
     FASTLANE_PASSWORD: ENCRYPTED[c31e6f4125d7264c0161ce1036f149d47d19b2650b7dcb5954ad61d50ffa79ae1c742762cfb3b7862c17d2201d01e23f]
+    FASTLANE_SESSION: ENCRYPTED[0a20793a20c4aaafbad004fa8bdfcb1f69c03ae661787519af036e9923c3952572aaf3d026f61a19bc3479d0b9b89e67]
     GIT_AUTH: ENCRYPTED[3a1e29b5ea91aa50aa86d96b3555b10d8f54b3fb650cbf0576224ebdaf9fd53cc8ccedffd27d5f45287a1097dc94180c]
     MATCH_PASSWORD: ENCRYPTED[83f9c7fb44e17242e16042cd94b0eae771e4b09aaa1fb373f4a263fb1a11ff1338b5f31cd3246461408730414d33156a]
   osx_instance:
@@ -32,5 +33,4 @@ task:
     - flutter build ios --release --no-codesign
     - cd ios
     - export MATCH_GIT_BASIC_AUTHORIZATION="$(echo -n ${GIT_AUTH} | base64)"
-    - bundle exec fastlane retrieve_fastlane_session
     - bundle exec fastlane beta
