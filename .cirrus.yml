@@ -24,8 +24,10 @@ task:
     FASTLANE_SESSION: ENCRYPTED[0a20793a20c4aaafbad004fa8bdfcb1f69c03ae661787519af036e9923c3952572aaf3d026f61a19bc3479d0b9b89e67]
     GIT_AUTH: ENCRYPTED[3a1e29b5ea91aa50aa86d96b3555b10d8f54b3fb650cbf0576224ebdaf9fd53cc8ccedffd27d5f45287a1097dc94180c]
     MATCH_PASSWORD: ENCRYPTED[83f9c7fb44e17242e16042cd94b0eae771e4b09aaa1fb373f4a263fb1a11ff1338b5f31cd3246461408730414d33156a]
+    MATCH_KEYCHAIN_NAME: "keychain"
+    MATCH_KEYCHAIN_PASSWORD: "hoge"
   osx_instance:
-    image: catalina-xcode-11.3.1-flutter
+    image: catalina-flutter
   pub_cache:
     folder: ~/.pub-cache
   build_script:
