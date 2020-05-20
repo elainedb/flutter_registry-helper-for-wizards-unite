@@ -2,8 +2,8 @@
 
 [![Build Status - Cirrus][]][Build status]
 [![Twitter handle][]][Twitter badge]
-<table>
-    <tr>
+<table style="border: none;">
+    <tr style="border: none;">
         <td style="border: none;">
             <a href="https://play.google.com/store/apps/details?id=elainedb.dev.registry_helper_for_wu">
                 <img src="https://firebasestorage.googleapis.com/v0/b/wu-registry-helper.appspot.com/o/en_get.png?alt=media&token=0892e968-171a-4390-82b4-9820578b23db">
