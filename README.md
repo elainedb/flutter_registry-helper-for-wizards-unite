@@ -4,12 +4,12 @@
 [![Twitter handle][]][Twitter badge]
 <table>
     <tr>
-        <td border="0">
+        <td>
             <a href="https://play.google.com/store/apps/details?id=elainedb.dev.registry_helper_for_wu">
                 <img src="https://firebasestorage.googleapis.com/v0/b/wu-registry-helper.appspot.com/o/en_get.png?alt=media&token=0892e968-171a-4390-82b4-9820578b23db">
             </a>
         </td>
-        <td border="0">
+        <td>
             <a href="https://testflight.apple.com/join/lQjFo3iR">
                 <img src="https://firebasestorage.googleapis.com/v0/b/wu-registry-helper.appspot.com/o/testflight-download.png?alt=media&token=15efb745-e795-4e5b-9d1d-21f923f8ab36">
             </a>
