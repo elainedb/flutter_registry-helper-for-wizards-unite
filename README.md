@@ -2,7 +2,7 @@
 
 [![Build Status - Cirrus][]][Build status]
 [![Twitter handle][]][Twitter badge]
-<table style="border: none;">
+<table style="border-collapse: collapse;">
     <tr style="border: none;">
         <td style="border: none;">
             <a href="https://play.google.com/store/apps/details?id=elainedb.dev.registry_helper_for_wu">
