@@ -4,7 +4,7 @@
 [![Twitter handle][]][Twitter badge]
 <p>
     <a href="https://play.google.com/store/apps/details?id=elainedb.dev.registry_helper_for_wu">
-        <img src="https://cdn.rawgit.com/steverichey/google-play-badge-svg/master/img/fr_get.svg" width="20%">
+        <img src="https://firebasestorage.googleapis.com/v0/b/wu-registry-helper.appspot.com/o/en_get.png?alt=media&token=0892e968-171a-4390-82b4-9820578b23db">
     </a>
 </p>
 <p>
