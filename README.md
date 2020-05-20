@@ -9,7 +9,7 @@
 </p>
 <p>
     <a href="https://testflight.apple.com/join/lQjFo3iR">
-        <img src="https://firebasestorage.googleapis.com/v0/b/wu-registry-helper.appspot.com/o/testflight-download.png?alt=media&token=096e2c94-0be1-463f-a68b-c258132d7914">
+        <img src="https://firebasestorage.googleapis.com/v0/b/wu-registry-helper.appspot.com/o/testflight-download.png?alt=media&token=15efb745-e795-4e5b-9d1d-21f923f8ab36">
     </a>
 </p>
 
