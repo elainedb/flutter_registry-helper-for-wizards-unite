@@ -18,5 +18,5 @@ GIT_AUTH="elainedb:{GIT_ACCESS_TOKEN}}"
 
 [Build Status - Cirrus]: https://api.cirrus-ci.com/github/elainedb/flutter_registry-helper-for-wizards-unite.svg
 [Build status]: https://cirrus-ci.com/github/elainedb/flutter_registry-helper-for-wizards-unite
-[Twitter handle]: https://img.shields.io/twitter/follow/flutterdev.svg?style=social&label=Follow
+[Twitter handle]: https://img.shields.io/twitter/follow/elainedbatista.svg?style=social&label=Follow
 [Twitter badge]: https://twitter.com/intent/follow?screen_name=elainedbatista
