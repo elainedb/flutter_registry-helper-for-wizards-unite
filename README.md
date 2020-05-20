@@ -2,6 +2,16 @@
 
 [![Build Status - Cirrus][]][Build status]
 [![Twitter handle][]][Twitter badge]
+<p>
+    <a href="https://play.google.com/store/apps/details?id=elainedb.dev.registry_helper_for_wu">
+        <img src="https://cdn.rawgit.com/steverichey/google-play-badge-svg/master/img/fr_get.svg" width="20%">
+    </a>
+</p>
+<p>
+    <a href="https://testflight.apple.com/join/lQjFo3iR">
+        <img src="https://firebasestorage.googleapis.com/v0/b/wu-registry-helper.appspot.com/o/testflight-download.png?alt=media&token=096e2c94-0be1-463f-a68b-c258132d7914">
+    </a>
+</p>
 
 Registry Helper for Wizards Unite
 
