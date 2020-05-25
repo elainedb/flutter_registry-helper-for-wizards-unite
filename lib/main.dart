@@ -9,6 +9,7 @@ import 'bottom_bar_nav.dart';
 import 'resources/values/app_colors.dart';
 import 'resources/values/app_styles.dart';
 import 'signin.dart';
+import 'sliver.dart';
 import 'store/authentication.dart';
 import 'store/registry_store.dart';
 import 'store/signin_image.dart';
@@ -109,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: Builder(builder: (BuildContext context) {
         return Observer(builder: (_) {
-          return authentication.authState ? BottomBarNavWidget() : SignInWidget();
+          return authentication.authState ? SliverWidget() : SignInWidget();
         });
       }),
       backgroundColor: AppColors.backgroundMaterialColor,

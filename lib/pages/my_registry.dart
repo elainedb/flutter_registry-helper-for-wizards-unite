@@ -27,7 +27,7 @@ class MyRegistryPage extends StatefulWidget {
 class MyRegistryPageState extends State<MyRegistryPage> {
   MyRegistryPageState();
 
-  AutoScrollController controller;
+//  AutoScrollController controller;
 
   GlobalKey globalKey1 = GlobalKey();
   GlobalKey globalKey2 = GlobalKey();
@@ -46,10 +46,10 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     MyRegistryTutorial.initTargets(globalKey1, globalKey2, globalKey3, globalKey4);
     _getTutorialInfoFromSharedPrefs();
 
-    controller = AutoScrollController(
-      viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
-      axis: Axis.vertical,
-    );
+//    controller = AutoScrollController(
+//      viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
+//      axis: Axis.vertical,
+//    );
   }
 
   @override
@@ -69,20 +69,25 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     return Row(
       children: <Widget>[
         Expanded(
-          child: ListView(
+          child: CustomScrollView(
+            physics: const NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
-            controller: controller,
-            children: <Widget>[
-              chapterCard("cmc", AppColors.cmcDark, AppColors.cmcLight, 0),
-              chapterCard("da", AppColors.daDark, AppColors.daLight, 1),
-              chapterCard("hs", AppColors.hsDark, AppColors.hsLight, 2),
-              chapterCard("loh", AppColors.lohDark, AppColors.lohLight, 3),
-              chapterCard("mom", AppColors.momDark, AppColors.momLight, 4),
-              chapterCard("m", AppColors.mDark, AppColors.mLight, 5),
-              chapterCard("mgs", AppColors.mgsDark, AppColors.mgsLight, 6),
-              chapterCard("mar", AppColors.maDark, AppColors.maLight, 7),
-              chapterCard("www", AppColors.wwwDark, AppColors.wwwLight, 8),
-              chapterCard("o", AppColors.oDark, AppColors.oLight, 9),
+//            controller: controller,
+            slivers: <Widget>[
+              SliverOverlapInjector(
+                // This is the flip side of the SliverOverlapAbsorber above.
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              ),
+              SliverToBoxAdapter(child: chapterCard("cmc", AppColors.cmcDark, AppColors.cmcLight, 0)),
+              SliverToBoxAdapter(child: chapterCard("da", AppColors.daDark, AppColors.daLight, 1)),
+              SliverToBoxAdapter(child: chapterCard("hs", AppColors.hsDark, AppColors.hsLight, 2)),
+              SliverToBoxAdapter(child: chapterCard("loh", AppColors.lohDark, AppColors.lohLight, 3)),
+              SliverToBoxAdapter(child: chapterCard("mom", AppColors.momDark, AppColors.momLight, 4)),
+              SliverToBoxAdapter(child: chapterCard("m", AppColors.mDark, AppColors.mLight, 5)),
+              SliverToBoxAdapter(child: chapterCard("mgs", AppColors.mgsDark, AppColors.mgsLight, 6)),
+              SliverToBoxAdapter(child: chapterCard("mar", AppColors.maDark, AppColors.maLight, 7)),
+              SliverToBoxAdapter(child: chapterCard("www", AppColors.wwwDark, AppColors.wwwLight, 8)),
+              SliverToBoxAdapter(child: chapterCard("o", AppColors.oDark, AppColors.oLight, 9)),
             ],
           ),
         ),
@@ -121,17 +126,17 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     ));
     widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, light, dark)));
 
-    return AutoScrollTag(
+    return /*AutoScrollTag(
       controller: controller,
       key: ValueKey(index),
       index: index,
-      child: Card(
+      child: */Card(
         color: dark,
         child: Column(
           children: widgets,
         ),
-      ),
-    );
+      )/*,
+    )*/;
   }
 
   Widget pageCard(String pageId, Chapter chapter, Color lightColor, Color darkColor) {
@@ -308,7 +313,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
 
   Future _scrollToIndex(int index) async {
     analytics.sendScrollToEvent(index);
-    await controller.scrollToIndex(index, preferPosition: AutoScrollPosition.begin, duration: Duration(seconds: 1));
+//    await controller.scrollToIndex(index, preferPosition: AutoScrollPosition.begin, duration: Duration(seconds: 1));
   }
 
   executeAfterBuild(_) {
