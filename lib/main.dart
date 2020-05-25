@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
-import 'bottom_bar_nav.dart';
+import 'sliver.dart';
 import 'resources/values/app_colors.dart';
 import 'resources/values/app_styles.dart';
 import 'signin.dart';
@@ -109,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: Builder(builder: (BuildContext context) {
         return Observer(builder: (_) {
-          return authentication.authState ? BottomBarNavWidget() : SignInWidget();
+          return authentication.authState ? SliverWidget() : SignInWidget();
         });
       }),
       backgroundColor: AppColors.backgroundMaterialColor,

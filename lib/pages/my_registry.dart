@@ -69,22 +69,32 @@ class MyRegistryPageState extends State<MyRegistryPage> {
     return Row(
       children: <Widget>[
         Expanded(
-          child: ListView(
-            scrollDirection: Axis.vertical,
-            controller: controller,
-            children: <Widget>[
-              chapterCard("cmc", AppColors.cmcDark, AppColors.cmcLight, 0),
-              chapterCard("da", AppColors.daDark, AppColors.daLight, 1),
-              chapterCard("hs", AppColors.hsDark, AppColors.hsLight, 2),
-              chapterCard("loh", AppColors.lohDark, AppColors.lohLight, 3),
-              chapterCard("mom", AppColors.momDark, AppColors.momLight, 4),
-              chapterCard("m", AppColors.mDark, AppColors.mLight, 5),
-              chapterCard("mgs", AppColors.mgsDark, AppColors.mgsLight, 6),
-              chapterCard("mar", AppColors.maDark, AppColors.maLight, 7),
-              chapterCard("www", AppColors.wwwDark, AppColors.wwwLight, 8),
-              chapterCard("o", AppColors.oDark, AppColors.oLight, 9),
-            ],
-          ),
+          child: Builder(builder: (BuildContext context) {
+            return CustomScrollView(
+              slivers: <Widget>[
+                SliverOverlapInjector(
+                  // This is the flip side of the SliverOverlapAbsorber above.
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                ),
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    <Widget>[
+                      chapterCard("cmc", AppColors.cmcDark, AppColors.cmcLight, 0),
+                      chapterCard("da", AppColors.daDark, AppColors.daLight, 1),
+                      chapterCard("hs", AppColors.hsDark, AppColors.hsLight, 2),
+                      chapterCard("loh", AppColors.lohDark, AppColors.lohLight, 3),
+                      chapterCard("mom", AppColors.momDark, AppColors.momLight, 4),
+                      chapterCard("m", AppColors.mDark, AppColors.mLight, 5),
+                      chapterCard("mgs", AppColors.mgsDark, AppColors.mgsLight, 6),
+                      chapterCard("mar", AppColors.maDark, AppColors.maLight, 7),
+                      chapterCard("www", AppColors.wwwDark, AppColors.wwwLight, 8),
+                      chapterCard("o", AppColors.oDark, AppColors.oLight, 9),
+                    ],
+                  ),
+                )
+              ],
+            );
+          }),
         ),
         Padding(
           padding: AppStyles.registryIndexInsets,
