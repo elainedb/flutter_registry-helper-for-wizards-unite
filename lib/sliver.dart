@@ -4,6 +4,7 @@ import 'package:registry_helper_for_wu/resources/values/app_colors.dart';
 
 import 'bottom_bar_nav.dart';
 import 'resources/i18n/app_strings.dart';
+import 'resources/values/app_dimens.dart';
 import 'store/ui_store.dart';
 
 class SliverWidget extends StatefulWidget {
@@ -39,10 +40,10 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
       child: NotificationListener<ScrollNotification>(
         onNotification: (notification) {
           Future.delayed(Duration(milliseconds: 300), () {
-            if (notification.metrics.pixels >= (150 + MediaQuery.of(context).padding.top)) {
-                uiStore.isRegistryRowAtTop = true;
+            if (notification.metrics.pixels >= (MediaQuery.of(context).padding.top + 150)) {
+                uiStore.isMainChildAtTop = true;
             } else if (notification.metrics.pixels < 150 + 300) {
-              uiStore.isRegistryRowAtTop = false;
+              uiStore.isMainChildAtTop = false;
             }
           });
           return;

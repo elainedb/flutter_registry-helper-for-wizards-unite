@@ -6,5 +6,5 @@ class UiStore = _UiStore with _$UiStore;
 
 abstract class _UiStore with Store {
   @observable
-  bool isRegistryRowAtTop = false;
+  bool isMainChildAtTop = false;
 }

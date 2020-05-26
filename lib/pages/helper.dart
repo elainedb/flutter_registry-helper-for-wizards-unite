@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,6 +9,7 @@ import '../resources/values/app_dimens.dart';
 import '../resources/values/app_styles.dart';
 import '../store/authentication.dart';
 import '../store/registry_store.dart';
+import '../store/ui_store.dart';
 import '../store/user_data_store.dart';
 import '../resources/i18n/app_strings.dart';
 import '../utils/fanalytics.dart';
@@ -39,6 +41,7 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
   final registryStore = GetIt.instance<RegistryStore>();
   final userDataStore = GetIt.instance<UserDataStore>();
   final analytics = GetIt.instance<FAnalytics>();
+  final uiStore = GetIt.instance<UiStore>();
 
   @override
   void initState() {
@@ -71,7 +74,6 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
 
   Widget _tabController(Map<String, dynamic> data) {
     WidgetsBinding.instance.addPostFrameCallback((_) => executeAfterBuild(context));
-
     return DefaultTabController(
       initialIndex: _initialIndex,
       length: 2,
@@ -151,10 +153,14 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
       var missingTraces = getMissingTracesForChapter(chapter, data);
       var value = index;
 
-      if (_dropdownValue == "sort_low") value = missingTraces.low + missingTraces.medium;
-      else if (_dropdownValue == "sort_high") value = missingTraces.high;
-      else if (_dropdownValue == "sort_severe") value = missingTraces.severe;
-      else if (_dropdownValue == "sort_emergency") value = missingTraces.emergency;
+      if (_dropdownValue == "sort_low")
+        value = missingTraces.low + missingTraces.medium;
+      else if (_dropdownValue == "sort_high")
+        value = missingTraces.high;
+      else if (_dropdownValue == "sort_severe")
+        value = missingTraces.severe;
+      else if (_dropdownValue == "sort_emergency")
+        value = missingTraces.emergency;
       else if (_dropdownValue == "sort_fortress") value = missingTraces.challenges;
       chapterRowsMap[_chapterRow(chapterForDisplay, chapter, missingTraces)] = value;
     });
@@ -171,9 +177,12 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
       });
     }
 
-    return ListView(
-      children: widgets,
-    );
+    return Observer(builder: (_) {
+      return ListView(
+        physics: uiStore.isMainChildAtTop ? ClampingScrollPhysics() : NeverScrollableScrollPhysics(),
+        children: widgets,
+      );
+    });
   }
 
   Widget _insights(Map<String, dynamic> data) {
@@ -194,10 +203,13 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
       );
     }
 
-    return ListView(
-      shrinkWrap: true,
-      children: widgets,
-    );
+    return Observer(builder: (_) {
+      return ListView(
+        physics: uiStore.isMainChildAtTop ? ClampingScrollPhysics() : NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        children: widgets,
+      );
+    });
   }
 
   List<Widget> _getPagesWithOneOreTwoMissingWidgets(Map<String, dynamic> data) {

@@ -72,7 +72,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
       children: <Widget>[
         Expanded(
           child: ListView(
-            physics: uiStore.isRegistryRowAtTop ? ClampingScrollPhysics() : NeverScrollableScrollPhysics(),
+            physics: uiStore.isMainChildAtTop ? ClampingScrollPhysics() : NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             controller: controller,
             children: <Widget>[
