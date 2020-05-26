@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import 'bottom_bar_nav.dart';
 import 'resources/i18n/app_strings.dart';
-import 'resources/values/app_colors.dart';
+import 'store/ui_store.dart';
 
 class SliverWidget extends StatefulWidget {
   SliverWidget();
@@ -15,6 +16,7 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
   SliverWidgetState();
 
   TabController _controller;
+  final uiStore = GetIt.instance<UiStore>();
 
   @override
   void initState() {
@@ -33,9 +35,16 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
     return DefaultTabController(
       initialIndex: 1,
       length: 2,
-      child: NotificationListener<ScrollUpdateNotification>(
+      child: NotificationListener<ScrollNotification>(
         onNotification: (notification) {
-          print("2 ${notification.metrics.pixels >= (150 + MediaQuery.of(context).padding.top)}");
+          Future.delayed(Duration(milliseconds: 300), () {
+            if (notification.metrics.pixels >= (150 + MediaQuery.of(context).padding.top)) {
+                uiStore.isRegistryRowAtTop = true;
+            } else {
+              uiStore.isRegistryRowAtTop = false;
+            }
+          });
+          return;
         },
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {

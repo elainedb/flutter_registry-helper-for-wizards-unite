@@ -10,6 +10,7 @@ import '../resources/values/app_dimens.dart';
 import '../resources/values/app_styles.dart';
 import '../store/authentication.dart';
 import '../store/registry_store.dart';
+import '../store/ui_store.dart';
 import '../store/user_data_store.dart';
 import '../resources/i18n/app_strings.dart';
 import '../utils/fanalytics.dart';
@@ -34,12 +35,12 @@ class MyRegistryPageState extends State<MyRegistryPage> {
   GlobalKey globalKey3 = GlobalKey();
   GlobalKey globalKey4 = GlobalKey();
   bool _tutorialShown;
-  ScrollPhysics _scrollPhysics;
 
   final authentication = GetIt.instance<Authentication>();
   final registryStore = GetIt.instance<RegistryStore>();
   final userDataStore = GetIt.instance<UserDataStore>();
   final analytics = GetIt.instance<FAnalytics>();
+  final uiStore = GetIt.instance<UiStore>();
 
   @override
   void initState() {
@@ -51,9 +52,6 @@ class MyRegistryPageState extends State<MyRegistryPage> {
       viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
       axis: Axis.vertical,
     );
-
-//    _scrollPhysics = NeverScrollableScrollPhysics();
-    _scrollPhysics = ScrollPhysics();
   }
 
   @override
@@ -74,7 +72,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
       children: <Widget>[
         Expanded(
           child: ListView(
-            physics: _scrollPhysics,
+            physics: uiStore.isRegistryRowAtTop ? ClampingScrollPhysics() : NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             controller: controller,
             children: <Widget>[

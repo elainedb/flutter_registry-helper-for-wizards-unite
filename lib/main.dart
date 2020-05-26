@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:registry_helper_for_wu/store/ui_store.dart';
 
 import 'sliver.dart';
 import 'resources/values/app_colors.dart';
@@ -47,6 +48,7 @@ void main() {
   getIt.registerSingleton<RegistryStore>(RegistryStore());
   getIt.registerSingleton<UserDataStore>(UserDataStore());
   getIt.registerSingleton<FAnalytics>(FAnalytics());
+  getIt.registerSingleton<UiStore>(UiStore());
 
   runApp(MyApp());
 }
