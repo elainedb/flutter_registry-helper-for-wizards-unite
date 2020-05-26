@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:registry_helper_for_wu/resources/values/app_colors.dart';
 
 import 'bottom_bar_nav.dart';
 import 'resources/i18n/app_strings.dart';
@@ -40,7 +41,7 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
           Future.delayed(Duration(milliseconds: 300), () {
             if (notification.metrics.pixels >= (150 + MediaQuery.of(context).padding.top)) {
                 uiStore.isRegistryRowAtTop = true;
-            } else {
+            } else if (notification.metrics.pixels < 150 + 300) {
               uiStore.isRegistryRowAtTop = false;
             }
           });
@@ -55,6 +56,9 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
                   expandedHeight: 150,
                   floating: false,
                   pinned: false,
+                  actions: <Widget>[
+                    IconButton(icon: Icon(Icons.settings, color: AppColors.backgroundColorBottomBar,),),
+                  ],
                   bottom: TabBar(
                     controller: _controller,
                     labelColor: Colors.amber,
@@ -78,19 +82,6 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
         ),
       ),
     );
-  }
-
-  List<Widget> getTabBar() {
-    return [SizedBox(
-      height: 500,
-      child: TabBarView(
-        controller: _controller,
-        children: [
-          BottomBarNavWidget(),
-          BottomBarNavWidget(),
-        ],
-      ),
-    )];
   }
 
   _handleTabSelection() {
