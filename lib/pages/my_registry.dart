@@ -225,7 +225,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
             ),
             Icon(
               Icons.stars,
-              color: isPlaced ? Colors.green : Colors.grey,
+              color: isPlaced ? AppColors.placedStar : AppColors.notPlacedStar,
               size: AppDimens.miniImageSize,
             ),
           ],

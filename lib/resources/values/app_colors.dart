@@ -63,4 +63,7 @@ abstract class AppColors {
   static const Color emergencyThreatColor = Colors.red;
 
   static const Color tutorialColor = Colors.brown;
+
+  static const Color notPlacedStar = Colors.black12;
+  static const Color placedStar = Colors.green;
 }

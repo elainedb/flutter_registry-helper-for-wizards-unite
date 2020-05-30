@@ -248,7 +248,7 @@ class ChartsPageState extends State<ChartsPage> {
         listPlaced.add(
           Icon(
             Icons.stars,
-            color: isPlaced ? Colors.green : Colors.grey,
+            color: isPlaced ? AppColors.placedStar : AppColors.notPlacedStar,
             size: AppDimens.miniImageSize,
           ),
         );

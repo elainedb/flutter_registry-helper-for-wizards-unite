@@ -61,7 +61,7 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
                   actions: <Widget>[
                     IconButton(
                       icon: Icon(
-                        Icons.settings,
+                        Icons.person,
                         color: AppColors.backgroundColorBottomBar,
                       ),
                       onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => SettingsPage())),
