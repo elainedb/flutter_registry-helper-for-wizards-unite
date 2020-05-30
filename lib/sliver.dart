@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:registry_helper_for_wu/resources/values/app_colors.dart';
 
 import 'bottom_bar_nav.dart';
+import 'pages/settings.dart';
 import 'resources/i18n/app_strings.dart';
+import 'resources/values/app_colors.dart';
 import 'resources/values/app_dimens.dart';
 import 'store/ui_store.dart';
 
@@ -40,9 +41,9 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
       child: NotificationListener<ScrollNotification>(
         onNotification: (notification) {
           Future.delayed(Duration(milliseconds: 300), () {
-            if (notification.metrics.pixels >= (MediaQuery.of(context).padding.top + 150)) {
-                uiStore.isMainChildAtTop = true;
-            } else if (notification.metrics.pixels < 150 + 300) {
+            if (notification.metrics.pixels >= (MediaQuery.of(context).padding.top + AppDimens.sliverAppBarHeight)) {
+              uiStore.isMainChildAtTop = true;
+            } else if (notification.metrics.pixels < AppDimens.sliverAppBarHeight + 300) {
               uiStore.isMainChildAtTop = false;
             }
           });
@@ -54,11 +55,17 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
               SliverOverlapAbsorber(
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
-                  expandedHeight: 150,
+                  expandedHeight: AppDimens.sliverAppBarHeight,
                   floating: false,
                   pinned: false,
                   actions: <Widget>[
-                    IconButton(icon: Icon(Icons.settings, color: AppColors.backgroundColorBottomBar,),),
+                    IconButton(
+                      icon: Icon(
+                        Icons.settings,
+                        color: AppColors.backgroundColorBottomBar,
+                      ),
+                      onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => SettingsPage())),
+                    ),
                   ],
                   bottom: TabBar(
                     controller: _controller,

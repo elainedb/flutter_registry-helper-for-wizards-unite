@@ -35,4 +35,6 @@ abstract class AppDimens {
 
   static const paddingFocus = 4.0;
   static const opacityShadow = 0.8;
+
+  static const sliverAppBarHeight = 150.0;
 }

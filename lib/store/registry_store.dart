@@ -36,7 +36,6 @@ abstract class _RegistryStore with Store {
     Text("loading".i18n()),
     Text("loading".i18n()),
     Text("loading".i18n()),
-    Text("loading".i18n()),
   ];
 
   @computed
@@ -72,7 +71,6 @@ abstract class _RegistryStore with Store {
       MyRegistryPage(),
       HelperPage(sortValue),
       ChartsPage(),
-      SettingsPage(),
     ];
   }
 

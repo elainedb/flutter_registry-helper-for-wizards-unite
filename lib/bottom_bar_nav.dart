@@ -123,10 +123,6 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
               icon: Icon(Icons.insert_chart),
               title: Text("charts".i18n()),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              title: Text("settings".i18n()),
-            ),
           ],
           selectedItemColor: AppColors.backgroundColor,
           unselectedItemColor: AppColors.backgroundColorUnselected,
@@ -152,9 +148,6 @@ class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
           break;
         case 2:
           pageName = "ChartsPage";
-          break;
-        case 3:
-          pageName = "SettingsPage";
           break;
       }
 
