@@ -83,7 +83,8 @@ abstract class AppStyles {
   static const mediumInsets = EdgeInsets.all(AppDimens.mediumSize);
 
   // CHARTS
-  static const chartsHowToCatchInsets = EdgeInsets.symmetric(vertical: 0, horizontal: AppDimens.mediumSize);
+  static const chartsHowToCatchInsets = EdgeInsets.fromLTRB(AppDimens.smallSize, 0, 14, 0);
+  static const chartsPlacedInsets = EdgeInsets.fromLTRB(AppDimens.mediumSize, 0, AppDimens.mediumSize, 0);
   static const chartsSeparatorsInsets = EdgeInsets.symmetric(vertical: 0, horizontal: AppDimens.largeSize);
   static TextStyle chartsTitle(Color color) {
     return TextStyle(
@@ -91,7 +92,7 @@ abstract class AppStyles {
       fontSize: AppDimens.contentSize,
     );
   }
-  static const chartsInsets = EdgeInsets.only(top: 250);
+  static const chartsInsets = EdgeInsets.only(top: 270);
   //
 
   // HELPER

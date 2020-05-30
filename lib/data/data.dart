@@ -259,7 +259,7 @@ Widget getIconWithFoundable(Foundable foundable, double size) {
 
   if (foundable.howToCatch.contains("p") && foundable.howToCatch.contains("f")) {
     return Container(
-      width: size + 6,
+      width: size,
       color: getColorWithFoundable(foundable),
       child: Column(
         children: <Widget>[
@@ -282,22 +282,22 @@ Widget getIconWithFoundable(Foundable foundable, double size) {
 }
 
 Widget portkeyWidget(double size, Foundable foundable, String km) {
-  return Container(
-    width: size + 4,
-    color: getColorWithFoundable(foundable),
+  return SizedBox(
+    width: size,
     child: Stack(
-      alignment: Alignment.bottomRight,
+      alignment: Alignment.center,
       children: <Widget>[
-        Text(
-          km,
-          style: TextStyle(
-            fontSize: size * 0.7,
-          ),
-        ),
         Text(
           "🔑️",
           style: TextStyle(
+            backgroundColor: getColorWithFoundable(foundable),
             fontSize: size,
+          ),
+        ),
+        Text(
+          km,
+          style: TextStyle(
+            fontSize: size * 0.95,
           ),
         ),
       ],
@@ -306,7 +306,7 @@ Widget portkeyWidget(double size, Foundable foundable, String km) {
 }
 
 Widget regularWidget(double size, Foundable foundable, String data) {
-  return Container(
+  return SizedBox(
     width: size,
     child: Text(
       data,

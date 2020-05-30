@@ -25,7 +25,7 @@ abstract class AppDimens {
   static const chartsCardWidth = 100.0;
   static const dashWidth = 2.0;
   static const dashHeight = 8.0;
-  static const dashCount = 20;
+  static const dashCount = 22;
 
   static const missingWidgetSize = 44.0;
   static const negativeDialogMargin = -120.0;

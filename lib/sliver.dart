@@ -81,6 +81,7 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
             ];
           },
           body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
             controller: _controller,
             children: [
               BottomBarNavWidget(),

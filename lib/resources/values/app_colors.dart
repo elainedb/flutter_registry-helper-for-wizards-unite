@@ -59,7 +59,7 @@ abstract class AppColors {
   static const Color lowAltThreatColor = Colors.black;
   static const Color mediumThreatColor = Colors.white;
   static const Color highThreatColor = Colors.yellow;
-  static const Color severeThreatColor = Colors.orange;
+  static const Color severeThreatColor = Colors.orangeAccent;
   static const Color emergencyThreatColor = Colors.red;
 
   static const Color tutorialColor = Colors.brown;

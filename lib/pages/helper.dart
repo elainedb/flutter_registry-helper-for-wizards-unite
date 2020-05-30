@@ -249,17 +249,17 @@ class HelperPageState extends State<HelperPage> with SingleTickerProviderStateMi
       widgets.add(Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Container(
+          SizedBox(
             width: AppDimens.mediumImageSize,
             child: Image.asset("assets/images/traces_transparent/$chapterId.png"),
           ),
-          Container(
+          SizedBox(
             width: AppDimens.mediumImageSize,
             height: AppDimens.mediumImageSize,
             child: Image.asset("assets/images/foundables/${foundable.foundable.id}.png"),
           ),
-          Container(
-            width: AppDimens.mediumImageSize,
+          SizedBox(
+            width: AppDimens.smallImageSize,
             child: getIconWithFoundable(foundable.foundable, AppDimens.smallImageSize),
           ),
           Text(

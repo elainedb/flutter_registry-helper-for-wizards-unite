@@ -216,17 +216,23 @@ class ChartsPageState extends State<ChartsPage> {
           chapter.id.i18n(),
           style: AppStyles.chartsTitle(Color(hexToInt(light))),
         ),
-        Stack(
-          key: key,
-          alignment: AlignmentDirectional.center,
-          children: <Widget>[
-            getPageSeparators(chapter),
-            StackedBarChart(chartData, true, callback),
-            Container(
-              margin: AppStyles.chartsInsets,
-              child: getHowToCatchForChapter(chapter),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: SizedBox(
+            width: (chartData.elementAt(0).data.length * 30).toDouble(),
+            child: Stack(
+              key: key,
+              alignment: AlignmentDirectional.center,
+              children: <Widget>[
+                getPageSeparators(chapter),
+                StackedBarChart(chartData, true, callback),
+                Container(
+                  margin: AppStyles.chartsInsets,
+                  child: getHowToCatchForChapter(chapter),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
         Container(
           height: AppDimens.megaSize,
@@ -244,32 +250,35 @@ class ChartsPageState extends State<ChartsPage> {
     chapter.pages.forEach((page) {
       page.foundables.forEach((foundable) {
         bool isPlaced = userDataStore.data[foundable.id]['placed'];
-        list.add(getIconWithFoundable(foundable, AppDimens.smallSize));
+        list.add(SizedBox(width: AppDimens.mediumSize, child: getIconWithFoundable(foundable, AppDimens.mediumSize)));
         listPlaced.add(
           Icon(
             Icons.stars,
             color: isPlaced ? AppColors.placedStar : AppColors.notPlacedStar,
-            size: AppDimens.miniImageSize,
+            size: AppDimens.largeSize,
           ),
         );
       });
     });
 
-    return Padding(
-      padding: AppStyles.chartsHowToCatchInsets,
-      child: Column(
-        children: [
-          Row(
+    return Column(
+      children: [
+        Padding(
+          padding: AppStyles.chartsHowToCatchInsets,
+          child: Row(
             key: key,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: list,
           ),
-          Row(
+        ),
+        Padding(
+          padding: AppStyles.chartsPlacedInsets,
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: listPlaced,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
