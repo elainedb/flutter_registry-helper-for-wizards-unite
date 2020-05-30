@@ -77,6 +77,7 @@ class SettingsPage extends StatelessWidget {
                   onPressed: () async {
                     analytics.sendLogoutEvent();
                     authentication.signOut();
+                    Navigator.of(context).pop();
                   },
                   label: Text("sign_out".i18n()),
                   icon: Icon(Icons.close),
