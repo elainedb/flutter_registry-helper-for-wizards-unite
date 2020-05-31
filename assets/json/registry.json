@@ -2283,6 +2283,684 @@
           ]
         }
       ]
+    },
+    {
+      "id": "bo",
+      "name": "Books",
+      "pages": [
+        {
+          "id":"bo1",
+          "name":"Books I",
+          "foundables":[
+            {
+              "id":"bo1_1",
+              "name":"Hogwarts: A History",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r1",
+              "threatLevel":"l"
+            },
+            {
+              "id":"bo1_2",
+              "name":"Magical Waterplants of the Mediterranean",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r1,r2",
+              "threatLevel":"l"
+            },
+            {
+              "id":"bo1_3",
+              "name":"A Beginner's Guide to Transfiguration",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r1,r2",
+              "threatLevel":"l"
+            },
+            {
+              "id":"bo1_4",
+              "name":"Advanced Rune Translation",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r1,r2",
+              "threatLevel":"l"
+            },
+            {
+              "id":"bo1_5",
+              "name":"Unfogging the Future",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r1,r2",
+              "threatLevel":"l"
+            }
+          ]
+        },
+        {
+          "id":"bo2",
+          "name":"Books II",
+          "foundables":[
+            {
+              "id":"bo2_1",
+              "name":"The Essential Defence Against the Dark Arts",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r1,r2,r3",
+              "threatLevel":"l"
+            },
+            {
+              "id":"bo2_2",
+              "name":"A History of Magic",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r1,r2",
+              "threatLevel":"l"
+            },
+            {
+              "id":"bo2_3",
+              "name":"Moste Potente Potions",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r1,r2,r3",
+              "threatLevel":"l"
+            },
+            {
+              "id":"bo2_4",
+              "name":"The Standard Book of Spells",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r1,r2",
+              "threatLevel":"l"
+            },
+            {
+              "id":"bo2_5",
+              "name":"A New Theory of Numerology",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r1,r2,r3",
+              "threatLevel":"l"
+            }
+          ]
+        },
+        {
+          "id":"bo3",
+          "name":"Books III",
+          "foundables":[
+            {
+              "id":"bo3_1",
+              "name":"Easy Spells to Fool Muggles",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r2,r3,r4",
+              "threatLevel":"l"
+            },
+            {
+              "id":"bo3_2",
+              "name":"The Adventures of Martin Miggs, the Mad Muggle",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r3,r4",
+              "threatLevel":"l"
+            },
+            {
+              "id":"bo3_3",
+              "name":"The Tales of Beedle the Bard",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r3,r4,r5",
+              "threatLevel":"l"
+            },
+            {
+              "id":"bo3_4",
+              "name":"The Life and Lies of Albus Dumbledore",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r3,r4",
+              "threatLevel":"l"
+            },
+            {
+              "id":"bo3_5",
+              "name":"Jiggery Pokery and Hocus Pocus",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r3,r4,r5",
+              "threatLevel":"l"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jp",
+      "name": "Joke Products",
+      "pages": [
+        {
+          "id":"jp1",
+          "name":"Joke Products I",
+          "foundables":[
+            {
+              "id":"jp1_1",
+              "name":"Extendable Ears",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r4,r5",
+              "threatLevel":"l"
+            },
+            {
+              "id":"jp1_2",
+              "name":"Exploding Whizz Popper",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"t1,t2,t3",
+              "threatLevel":"l"
+            },
+            {
+              "id":"jp1_3",
+              "name":"Nose-Biting Teacup",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r4,r5,t1",
+              "threatLevel":"l"
+            },
+            {
+              "id":"jp1_4",
+              "name":"Dungbomb",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"t1,t2,t3",
+              "threatLevel":"l"
+            }
+          ]
+        },
+        {
+          "id":"jp2",
+          "name":"Joke Products II",
+          "foundables":[
+            {
+              "id":"jp2_1",
+              "name":"U-No-Poo",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r5,t1,t2",
+              "threatLevel":"l"
+            },
+            {
+              "id":"jp2_2",
+              "name":"Fanged Frisbee",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r3,r4,r5",
+              "threatLevel":"l"
+            },
+            {
+              "id":"jp2_3",
+              "name":"Screaming Yo-Yo",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r4,r5,t1,t2",
+              "threatLevel":"l"
+            },
+            {
+              "id":"jp2_4",
+              "name":"Trick Wand",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r4,r5,t1",
+              "threatLevel":"l"
+            }
+          ]
+        },
+        {
+          "id":"jp3",
+          "name":"Joke Products III",
+          "foundables":[
+            {
+              "id":"jp3_1",
+              "name":"Canary Creme",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r5,t1,t2",
+              "threatLevel":"l"
+            },
+            {
+              "id":"jp3_2",
+              "name":"Skiving Snackbox",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"t1,t2,t3,t4",
+              "threatLevel":"l"
+            },
+            {
+              "id":"jp3_3",
+              "name":"Portable Swamp",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"r5,t1,t2,t3",
+              "threatLevel":"l"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "md",
+      "name": "Magical Devices",
+      "pages": [
+        {
+          "id":"md1",
+          "name":"Magical Devices I",
+          "foundables":[
+            {
+              "id":"md1_1",
+              "name":"Ministry Time-Turner",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"f2,f3,f4,f5,d1",
+              "threatLevel":"l"
+            },
+            {
+              "id":"md1_2",
+              "name":"Probity Probe",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"f3,f4,f5,d1,d2",
+              "threatLevel":"l"
+            },
+            {
+              "id":"md1_3",
+              "name":"Skeeter's Quick-Quotes Quill",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"f3,f4,f5,d1",
+              "threatLevel":"l"
+            },
+            {
+              "id":"md1_4",
+              "name":"Moody's Sneakoscope",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"f5,d1,d2,d3,d4,d5",
+              "threatLevel":"l"
+            }
+          ]
+        },
+        {
+          "id":"md2",
+          "name":"Magical Devices II",
+          "foundables":[
+            {
+              "id":"md2_1",
+              "name":"Secrecy Sensor",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"f3,f4,f5,d1,d2",
+              "threatLevel":"l"
+            },
+            {
+              "id":"md2_2",
+              "name":"Spectrespecs",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"f4,f5,d1,d2,d3",
+              "threatLevel":"l"
+            },
+            {
+              "id":"md2_3",
+              "name":"Deluminator",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"f4,f5,d1,d2,d3",
+              "threatLevel":"l"
+            },
+            {
+              "id":"md2_4",
+              "name":"Harry/Sirius Two Way Mirror",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"f5,d1,d2,d3",
+              "threatLevel":"l"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sww",
+      "name": "Symbols of the Wizarding World",
+      "pages": [
+        {
+          "id":"sww1",
+          "name":"Symbols of the Wizarding World I",
+          "foundables":[
+            {
+              "id":"sww1_1",
+              "name":"Dark Mark",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"t2,t3,t4,t5",
+              "threatLevel":"l"
+            },
+            {
+              "id":"sww1_2",
+              "name":"Ministry Crest",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"f1,f2,f3,f4,f5",
+              "threatLevel":"l"
+            },
+            {
+              "id":"sww1_3",
+              "name":"Dealthy Hallows",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"t2,t3,t4,t5",
+              "threatLevel":"l"
+            },
+            {
+              "id":"sww1_4",
+              "name":"MACUSA Crest",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"f1,f2,f3,f4,f5",
+              "threatLevel":"l"
+            }
+          ]
+        },
+        {
+          "id":"sww2",
+          "name":"Symbols of the Wizarding World II",
+          "foundables":[
+            {
+              "id":"sww2_1",
+              "name":"Gryffindor Crest",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"t2,t3,t4,t5",
+              "threatLevel":"l"
+            },
+            {
+              "id":"sww2_2",
+              "name":"Slytherin Crest",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"t3,t4,t5,f1,f2",
+              "threatLevel":"l"
+            },
+            {
+              "id":"sww2_3",
+              "name":"Hogwarts Crest",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"t4,t5,f1,f2",
+              "threatLevel":"l"
+            },
+            {
+              "id":"sww2_4",
+              "name":"Hufflepuff Crest",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"t3,t4,t5,f1",
+              "threatLevel":"l"
+            },
+            {
+              "id":"sww2_5",
+              "name":"Ravenclaw Crest",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"t3,t4,t5",
+              "threatLevel":"l"
+            }
+          ]
+        },
+        {
+          "id":"sww3",
+          "name":"Symbols of the Wizarding World III",
+          "foundables":[
+            {
+              "id":"sww3_1",
+              "name":"Department of International Magical Cooperation Emblem",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"t4,t5,f1,f2,f3",
+              "threatLevel":"l"
+            },
+            {
+              "id":"sww3_2",
+              "name":"Department of Magical Accidents and Catastrophes Emblem",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"t4,t5,f1,f2",
+              "threatLevel":"l"
+            },
+            {
+              "id":"sww3_3",
+              "name":"Department of Magical Law Enforcement Emblem",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"f1,f2,f3,f4",
+              "threatLevel":"l"
+            },
+            {
+              "id":"bo3_4",
+              "name":"Department of Magical Transportation Emblem",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"f1,f2,f3,f4",
+              "threatLevel":"l"
+            },
+            {
+              "id":"bo3_5",
+              "name":"Department for the Regulation and Control of Magical Creatures Emblem",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"t5,f1,f2,f3",
+              "threatLevel":"l"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wda",
+      "name": "Wands of Dumbledore's Army",
+      "pages": [
+        {
+          "id":"wda1",
+          "name":"Wands of Dumbledore's Army I",
+          "foundables":[
+            {
+              "id":"wda1_1",
+              "name":"Ron Weasley's Wand",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"d1,d2,d3,d4,d5",
+              "threatLevel":"l"
+            },
+            {
+              "id":"wda1_2",
+              "name":"Cho Chang's Wand",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"d4,d5",
+              "threatLevel":"l"
+            },
+            {
+              "id":"wda1_3",
+              "name":"Harry Potter's Wand",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"d1,d2,d3,d4,d5",
+              "threatLevel":"l"
+            },
+            {
+              "id":"wda1_4",
+              "name":"Ginny Weasley's Wand",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"d2,d3,d4,d5",
+              "threatLevel":"l"
+            }
+          ]
+        },
+        {
+          "id":"wda2",
+          "name":"Wands of Dumbledore's Army II",
+          "foundables":[
+            {
+              "id":"wda2_1",
+              "name":"Fred Weasley's Wand",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"d4,d5",
+              "threatLevel":"l"
+            },
+            {
+              "id":"wda2_2",
+              "name":"George Weasley's Wand",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"d4,d5",
+              "threatLevel":"l"
+            },
+            {
+              "id":"wda2_3",
+              "name":"Luna Lovegood's Wand",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"d3,d4,d5",
+              "threatLevel":"l"
+            },
+            {
+              "id":"wda2_4",
+              "name":"Hermione Granger's Wand",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"d2,d3,d4,d5",
+              "threatLevel":"l"
+            },
+            {
+              "id":"wda2_5",
+              "name":"Neville Longbottom's Wand",
+              "fragmentRequirementStandard":7,
+              "fragmentRequirementBronze":14,
+              "fragmentRequirementSilver":21,
+              "fragmentRequirementGold":25,
+              "howToCatch":"d3,d4,d5",
+              "threatLevel":"l"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
