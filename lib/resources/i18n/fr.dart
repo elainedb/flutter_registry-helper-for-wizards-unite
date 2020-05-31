@@ -2,12 +2,17 @@ const Map<String, String> values_fr = {
   "error": "Une erreur est survenue.",
   "loading": "Chargement...",
 
+  "app_name": "Registry Helper pour Wizards Unite",
+  "app_name_short": "Registry Helper",
   "welcome": "Bienvenue sur Registry Helper pour Wizards Unite!",
   "backup_data": "Pour sauvegader tes données automatiquement, connecte-toi.",
   "sign_in_google": "Connexion Google",
   "sign_in_apple": "Connexion Apple",
   "try_out": "Si tu veux essayer d'abord, tu peux te connecter de manière anonyme.",
   "sign_in_anon": "Connexion anonyme",
+
+  "exploration": "Exploration",
+  "challenges": "Défis",
 
   "my_registry": "Mon Registre",
   "helper": "Assistant",

@@ -2,12 +2,17 @@ const Map<String, String> values_es = {
   "error": "Ocurrió un error inesperado.",
   "loading": "Cargando...",
 
+  "app_name": "Registry Helper para Wizards Unite",
+  "app_name_short": "Registry Helper",
   "welcome": "¡Bienvenido a Registry Helper para Wizards Unite!",
   "backup_data": "Para hacer una copia de seguridad automática de sus datos, inicie sesión.",
   "sign_in_google": "Inicia sesión con Google",
   "sign_in_apple": "Inicia sesión con Apple",
   "try_out": "Si desea probar primero, puede iniciar sesión de forma anónima.",
   "sign_in_anon": "Inicio de sesión anónimo",
+
+  "exploration": "Exploración",
+  "challenges": "Desafíos",
 
   "my_registry":"Mi Registro",
   "helper": "Asistente",

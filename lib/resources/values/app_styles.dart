@@ -48,6 +48,18 @@ abstract class AppStyles {
     color: AppColors.darkTextColor,
   );
 
+  static const darkBoldText = TextStyle(
+    color: AppColors.darkTextColor,
+    fontWeight: FontWeight.bold,
+  );
+
+  static const darkBoldUnderlinedText = TextStyle(
+    color: AppColors.darkTextColor,
+    fontWeight: FontWeight.bold,
+    decoration: TextDecoration.underline,
+    decorationThickness: 3,
+  );
+
   static const darkContentText = TextStyle(
     fontSize: AppDimens.contentSize,
     color: AppColors.darkTextColor,
@@ -81,6 +93,7 @@ abstract class AppStyles {
   static const zeroInsets = EdgeInsets.all(0.0);
   static const miniInsets = EdgeInsets.all(AppDimens.miniSize);
   static const mediumInsets = EdgeInsets.all(AppDimens.mediumSize);
+  static const largeInsets = EdgeInsets.all(AppDimens.largeSize);
 
   // CHARTS
   static const chartsHowToCatchInsets = EdgeInsets.fromLTRB(AppDimens.smallSize, 0, 14, 0);

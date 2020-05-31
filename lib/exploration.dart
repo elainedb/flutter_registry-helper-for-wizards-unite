@@ -15,15 +15,15 @@ import 'widgets/loading.dart';
 //https://github.com/hpwizardsunite-dev-contrib
 //https://wizardsunitehub.info/foundables/
 
-class BottomBarNavWidget extends StatefulWidget {
-  BottomBarNavWidget();
+class ExplorationWidget extends StatefulWidget {
+  ExplorationWidget();
 
   @override
-  State<StatefulWidget> createState() => BottomBarNavWidgetState();
+  State<StatefulWidget> createState() => ExplorationWidgetState();
 }
 
-class BottomBarNavWidgetState extends State<BottomBarNavWidget> {
-  BottomBarNavWidgetState();
+class ExplorationWidgetState extends State<ExplorationWidget> {
+  ExplorationWidgetState();
 
   String _shortcut = "";
   String _sortValue = "";

@@ -2,6 +2,8 @@ const Map<String, String> values_pt = {
   "error": "Um erro inesperado ocorreu.",
   "loading": "Carregando...",
 
+  "app_name": "Registry Helper para Wizards Unite",
+  "app_name_short": "Registry Helper",
   "welcome": "Bem-vindo ao Registry Helper para Wizards Unite!",
   "backup_data": "Para fazer backup automático de seus dados, faça login.",
   "sign_in_google": "Login Google",
@@ -9,10 +11,14 @@ const Map<String, String> values_pt = {
   "try_out": "Se você quiser experimentar primeiro, faça login anonimamente.",
   "sign_in_anon": "Login anônimo",
 
+  "exploration": "Exploração",
+  "challenges": "Desafios",
+
   "my_registry":"Meu Registro",
   "helper": "Assistente",
   "charts": "Gráficos",
   "settings": "Configurações",
+
   "cmc": "Trato das Criaturas Mágicas",
   "da": "Artes das Trevas",
   "hs": "Hogwarts",
