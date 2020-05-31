@@ -13,11 +13,14 @@ const Map<String, String> values_en = {
 
   "exploration": "Exploration",
   "challenges": "Challenges",
+  "settings": "Settings",
 
   "my_registry":"My Registry",
-  "helper": "Helper",
+  "assistant": "Assistant",
+  "insights": "Insights",
   "charts": "Charts",
-  "settings": "Settings",
+  "summary": "Summary",
+
   "cmc": "Care of Magical Creatures",
   "da": "Dark Arts",
   "hs": "Hogwarts School",
@@ -351,7 +354,6 @@ const Map<String, String> values_en = {
   "www_osm": "No specific pattern",
   "www_examples": "N.A.",
 
-  "insights": "Insights",
   "no_click_zone": "Below is your no-click zone! You currently have no missing foundables on your Registry for the following families/categories:",
   "focused_playing": "Focused playing: this is a list of pages that have only one or two remaining foundables in order to be complete!",
   "left": "arg1 left",

@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:registry_helper_for_wu/pages/3_insights/exp_insights.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/data.dart';
-import '../pages/charts.dart';
-import '../pages/helper.dart';
-import '../pages/my_registry.dart';
-import '../pages/settings.dart';
+import '../pages/4_charts/exp_charts.dart';
+import '../pages/2_assistant/exp_assistant.dart';
+import '../pages/1_my_registry/exp_my_registry.dart';
 import '../resources/i18n/app_strings.dart';
 import 'authentication.dart';
 
@@ -32,7 +32,8 @@ abstract class _RegistryStore with Store {
   bool isUserDataLoading = false;
 
   @observable
-  List<Widget> widgetOptions = <Widget>[
+  List<Widget> explorationWidgetOptions = <Widget>[
+    Text("loading".i18n()),
     Text("loading".i18n()),
     Text("loading".i18n()),
     Text("loading".i18n()),
@@ -66,11 +67,12 @@ abstract class _RegistryStore with Store {
   }
 
   @action
-  updateWidgets(String sortValue) {
-    widgetOptions = <Widget>[
-      MyRegistryPage(),
-      HelperPage(sortValue),
-      ChartsPage(),
+  updateExplorationWidgets(String sortValue) {
+    explorationWidgetOptions = <Widget>[
+      ExpMyRegistryPage(),
+      ExpAssistantPage(sortValue),
+      ExpInsightsPage(),
+      ExpChartsPage(),
     ];
   }
 

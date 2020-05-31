@@ -13,11 +13,13 @@ const Map<String, String> values_pt = {
 
   "exploration": "Exploração",
   "challenges": "Desafios",
+  "settings": "Configurações",
 
   "my_registry":"Meu Registro",
-  "helper": "Assistente",
+  "assistant": "Assistente",
+  "insights": "Conselhos",
   "charts": "Gráficos",
-  "settings": "Configurações",
+  "summary": "Resumo",
 
   "cmc": "Trato das Criaturas Mágicas",
   "da": "Artes das Trevas",
@@ -352,7 +354,6 @@ const Map<String, String> values_pt = {
   "www_osm": "Nenhum padrão específico",
   "www_examples": "N.A.",
 
-  "insights": "Conselhos",
   "no_click_zone": "Abaixo está a sua zona de não-clique! Você atualmente não precisa de nenhum Magi nas famílias/categorias seguintes:",
   "focused_playing": "Jogo otimizado: esta é uma lista de páginas nas quais só faltam um ou dois Magis para completar!",
   "left": "Falta(m) arg1",

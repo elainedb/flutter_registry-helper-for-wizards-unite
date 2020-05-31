@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../pages/helper.dart';
+import '../pages/2_assistant/exp_assistant.dart';
 import '../resources/values/app_colors.dart';
 import '../resources/i18n/app_strings.dart';
 
 const prestigeValues = ['prestige_standard', 'prestige_bronze', 'prestige_silver', 'prestige_gold'];
 const sortValues = ['sort_default', 'sort_low', 'sort_high', 'sort_severe', 'sort_emergency', 'sort_fortress'];
-var chaptersForDisplay = [
+var explorationChaptersForDisplay = [
   ChapterForDisplay("cmc", AppColors.cmcDark, AppColors.cmcLight),
   ChapterForDisplay("da", AppColors.daDark, AppColors.daLight),
   ChapterForDisplay("hs", AppColors.hsDark, AppColors.hsLight),

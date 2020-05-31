@@ -4,29 +4,29 @@ import 'package:get_it/get_it.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../data/data.dart';
-import '../resources/values/app_colors.dart';
-import '../resources/values/app_dimens.dart';
-import '../resources/values/app_styles.dart';
-import '../store/authentication.dart';
-import '../store/registry_store.dart';
-import '../store/ui_store.dart';
-import '../store/user_data_store.dart';
-import '../resources/i18n/app_strings.dart';
-import '../utils/fanalytics.dart';
-import '../widgets/page_edit_dialog.dart';
-import '../widgets/loading.dart';
-import 'tutorial/my_registry_tutorial.dart';
+import '../../data/data.dart';
+import '../../resources/values/app_colors.dart';
+import '../../resources/values/app_dimens.dart';
+import '../../resources/values/app_styles.dart';
+import '../../store/authentication.dart';
+import '../../store/registry_store.dart';
+import '../../store/ui_store.dart';
+import '../../store/user_data_store.dart';
+import '../../resources/i18n/app_strings.dart';
+import '../../utils/fanalytics.dart';
+import 'page_edit_dialog.dart';
+import '../../widgets/loading.dart';
+import 'tutorial.dart';
 
-class MyRegistryPage extends StatefulWidget {
-  MyRegistryPage();
+class ExpMyRegistryPage extends StatefulWidget {
+  ExpMyRegistryPage();
 
   @override
-  State<StatefulWidget> createState() => MyRegistryPageState();
+  State<StatefulWidget> createState() => ExpMyRegistryPageState();
 }
 
-class MyRegistryPageState extends State<MyRegistryPage> {
-  MyRegistryPageState();
+class ExpMyRegistryPageState extends State<ExpMyRegistryPage> {
+  ExpMyRegistryPageState();
 
   AutoScrollController controller;
 
@@ -50,7 +50,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
 
     controller = AutoScrollController(
       viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
-      axis: Axis.vertical,
+      axis: Axis.vertical
     );
   }
 
@@ -311,6 +311,7 @@ class MyRegistryPageState extends State<MyRegistryPage> {
 
   Future _scrollToIndex(int index) async {
     analytics.sendScrollToEvent(index);
+//    await controller.animateTo(150, duration: Duration(milliseconds: 100), curve: Curves.linear);
     await controller.scrollToIndex(index, preferPosition: AutoScrollPosition.begin, duration: Duration(seconds: 1));
   }
 

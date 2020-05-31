@@ -13,11 +13,14 @@ const Map<String, String> values_fr = {
 
   "exploration": "Exploration",
   "challenges": "Défis",
+  "settings": "Réglages",
 
   "my_registry": "Mon Registre",
-  "helper": "Assistant",
+  "assistant": "Assistant",
+  "insights": "Conseils",
   "charts": "Graphiques",
-  "settings": "Réglages",
+  "summary": "Résumé",
+
   "cmc": "Soins aux Créatures Magiques",
   "da": "Forces du Mal",
   "hs": "Collège Poudlard",
@@ -351,7 +354,6 @@ const Map<String, String> values_fr = {
   "www_osm": "Pas de patron",
   "www_examples": "N.A.",
 
-  "insights": "Conseils",
   "no_click_zone": "Ci-dessous tu as ta zone de non-click ! En ce moment, tu n'as pas de retrouvable manquant sur ton Registre pour les familles/catégories suivantes :",
   "focused_playing": "Séance dédiée: ceci est une liste de pages pour lesquelles il te manque juste un ou deux retrouvables pour la compléter !",
   "left": "plus que arg1",

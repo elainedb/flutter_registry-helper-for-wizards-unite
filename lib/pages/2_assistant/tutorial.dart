@@ -7,10 +7,10 @@ import '../../resources/values/app_colors.dart';
 import '../../resources/values/app_dimens.dart';
 import '../../resources/values/app_styles.dart';
 
-abstract class HelperTutorial {
+abstract class AssistantTutorial {
   static List<TargetFocus> targets = List();
 
-  static initTargets(GlobalKey globalKey1, GlobalKey globalKey2, GlobalKey globalKey3) {
+  static initTargets(GlobalKey globalKey1, GlobalKey globalKey2) {
     targets.add(
       TargetFocus(
         identify: "target1",
@@ -37,23 +37,6 @@ abstract class HelperTutorial {
             align: AlignContent.bottom,
             child: Text(
               "tutorial_helper_2".i18n(),
-              style: AppStyles.tutorialText,
-              textAlign: TextAlign.right,
-            ),
-          ),
-        ],
-      ),
-    );
-    targets.add(
-      TargetFocus(
-        identify: "target3",
-        keyTarget: globalKey3,
-        shape: ShapeLightFocus.RRect,
-        contents: [
-          ContentTarget(
-            align: AlignContent.bottom,
-            child: Text(
-              "tutorial_helper_3".i18n(),
               style: AppStyles.tutorialText,
               textAlign: TextAlign.right,
             ),

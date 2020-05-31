@@ -71,16 +71,16 @@ mixin _$RegistryStore on _RegistryStore, Store {
   final _$widgetOptionsAtom = Atom(name: '_RegistryStore.widgetOptions');
 
   @override
-  List<Widget> get widgetOptions {
+  List<Widget> get explorationWidgetOptions {
     _$widgetOptionsAtom.context.enforceReadPolicy(_$widgetOptionsAtom);
     _$widgetOptionsAtom.reportObserved();
-    return super.widgetOptions;
+    return super.explorationWidgetOptions;
   }
 
   @override
-  set widgetOptions(List<Widget> value) {
+  set explorationWidgetOptions(List<Widget> value) {
     _$widgetOptionsAtom.context.conditionallyRunInAction(() {
-      super.widgetOptions = value;
+      super.explorationWidgetOptions = value;
       _$widgetOptionsAtom.reportChanged();
     }, _$widgetOptionsAtom, name: '${_$widgetOptionsAtom.name}_set');
   }
@@ -107,10 +107,10 @@ mixin _$RegistryStore on _RegistryStore, Store {
       ActionController(name: '_RegistryStore');
 
   @override
-  dynamic updateWidgets(String sortValue) {
+  dynamic updateExplorationWidgets(String sortValue) {
     final _$actionInfo = _$_RegistryStoreActionController.startAction();
     try {
-      return super.updateWidgets(sortValue);
+      return super.updateExplorationWidgets(sortValue);
     } finally {
       _$_RegistryStoreActionController.endAction(_$actionInfo);
     }

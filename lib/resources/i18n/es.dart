@@ -13,11 +13,14 @@ const Map<String, String> values_es = {
 
   "exploration": "Exploración",
   "challenges": "Desafíos",
+  "settings": "Ajustes",
 
   "my_registry":"Mi Registro",
-  "helper": "Asistente",
+  "assistant": "Asistente",
+  "insights": "Consejos",
   "charts": "Gráficos",
-  "settings": "Ajustes",
+  "summary": "Resumen",
+
   "cmc": "Cuidado de Criaturas Mágicas",
   "da": "Artes Oscuras",
   "hs": "Colegio Hogwarts",
@@ -351,7 +354,6 @@ const Map<String, String> values_es = {
   "www_osm": "Sin patrón específico",
   "www_examples": "N.A.",
 
-  "insights": "Consejos",
   "no_click_zone": "¡A continuación se muestra su zona de no clic! Actualmente no tiene recuperables faltantes en su Registro para las siguientes familias / categorías:",
   "focused_playing": "Juego enfocado: ¡esta es una lista de páginas que solo tienen uno o dos recuperables restantes para completar!",
   "left": "Falta(n) arg1",

@@ -45,7 +45,7 @@ class ExplorationWidgetState extends State<ExplorationWidget> {
       if (registryStore.registry == null) {
         registryStore.getRegistryFromSharedPrefs();
       }
-      registryStore.updateWidgets(_sortValue);
+      registryStore.updateExplorationWidgets(_sortValue);
 
       final QuickActions quickActions = QuickActions();
       quickActions.initialize((String shortcutType) {
@@ -67,7 +67,7 @@ class ExplorationWidgetState extends State<ExplorationWidget> {
               _selectedIndex = 2;
               break;
           }
-          registryStore.updateWidgets(_sortValue);
+          registryStore.updateExplorationWidgets(_sortValue);
         });
       });
 
@@ -107,7 +107,7 @@ class ExplorationWidgetState extends State<ExplorationWidget> {
         return LoadingWidget();
       }
       return Scaffold(
-        body: registryStore.widgetOptions.elementAt(_selectedIndex),
+        body: registryStore.explorationWidgetOptions.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
@@ -117,7 +117,11 @@ class ExplorationWidgetState extends State<ExplorationWidget> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.star),
-              title: Text("helper".i18n()),
+              title: Text("assistant".i18n()),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.lightbulb_outline),
+              title: Text("insights".i18n()),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.insert_chart),
@@ -141,13 +145,16 @@ class ExplorationWidgetState extends State<ExplorationWidget> {
       String pageName = "";
       switch (index) {
         case 0:
-          pageName = "MyRegistryPage";
+          pageName = "ExpMyRegistryPage";
           break;
         case 1:
-          pageName = "HelperPage_MissingFoundables";
+          pageName = "ExpAssistantPage";
           break;
         case 2:
-          pageName = "ChartsPage";
+          pageName = "ExpInsightsPage";
+          break;
+        case 3:
+          pageName = "ExpChartsPage";
           break;
       }
 

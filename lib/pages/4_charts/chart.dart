@@ -1,8 +1,8 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
-import '../pages/charts.dart';
-import '../resources/values/app_dimens.dart';
+import 'exp_charts.dart';
+import '../../resources/values/app_dimens.dart';
 
 class StackedBarChart extends StatefulWidget {
   final Function callback;

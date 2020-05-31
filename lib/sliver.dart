@@ -21,7 +21,8 @@ class SliverWidget extends StatefulWidget {
 class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderStateMixin {
   SliverWidgetState();
 
-  TabController _controller;
+  TabController _tabController;
+  ScrollController _scrollController;
   final uiStore = GetIt.instance<UiStore>();
   bool isLeftSelected = true;
 
@@ -29,31 +30,41 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
   void initState() {
     super.initState();
 
-    _controller = TabController(vsync: this, length: 2);
-    _controller.addListener(_handleTabSelection);
+    _tabController = TabController(vsync: this, length: 2);
+    _tabController.addListener(_handleTabSelection);
+
+    _scrollController = ScrollController();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _tabController();
+    return _tabControllerWidget();
   }
 
-  Widget _tabController() {
+  Widget _tabControllerWidget() {
     return DefaultTabController(
       initialIndex: 1,
       length: 2,
       child: NotificationListener<ScrollNotification>(
         onNotification: (notification) {
-          Future.delayed(Duration(milliseconds: 300), () {
-            if (notification.metrics.pixels >= (MediaQuery.of(context).padding.top + AppDimens.sliverAppBarHeight)) {
-              uiStore.isMainChildAtTop = true;
-            } else if (notification.metrics.pixels < AppDimens.sliverAppBarHeight + 300) {
+          if (notification is ScrollStartNotification) {
+            if(notification.dragDetails == null && uiStore.isMainChildAtTop) {
+              _scrollController.jumpTo(AppDimens.sliverAppBarHeight);
               uiStore.isMainChildAtTop = false;
             }
-          });
+          } else {
+            Future.delayed(Duration(milliseconds: 300), () {
+              if (notification.metrics.pixels >= (MediaQuery.of(context).padding.top + AppDimens.sliverAppBarHeight)) {
+                uiStore.isMainChildAtTop = true;
+              } else if (notification.metrics.pixels < AppDimens.sliverAppBarHeight + 300) {
+                uiStore.isMainChildAtTop = false;
+              }
+            });
+          }
           return;
         },
         child: NestedScrollView(
+          controller: _scrollController,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
               /*SliverToBoxAdapter(
@@ -91,7 +102,7 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
                   ],
                   bottom: TabBar(
                     labelPadding: EdgeInsets.zero,
-                    controller: _controller,
+                    controller: _tabController,
                     labelColor: AppColors.backgroundColor,
                     indicatorColor: AppColors.backgroundColor,
                     unselectedLabelColor: AppColors.backgroundColor,
@@ -155,7 +166,7 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
           },
           body: TabBarView(
             physics: NeverScrollableScrollPhysics(),
-            controller: _controller,
+            controller: _tabController,
             children: [
               ExplorationWidget(),
               ExplorationWidget(),
@@ -169,7 +180,7 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
   _handleTabSelection() {
     setState(() {
       String pageName = "";
-      switch (_controller.index) {
+      switch (_tabController.index) {
         case 0:
           setState(() {
             isLeftSelected = true;

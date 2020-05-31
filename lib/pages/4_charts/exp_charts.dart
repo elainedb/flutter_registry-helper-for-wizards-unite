@@ -4,30 +4,30 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../data/data.dart';
-import '../resources/values/app_colors.dart';
-import '../resources/values/app_dimens.dart';
-import '../resources/values/app_styles.dart';
-import '../store/authentication.dart';
-import '../store/registry_store.dart';
-import '../store/ui_store.dart';
-import '../store/user_data_store.dart';
-import '../resources/i18n/app_strings.dart';
-import '../utils/fanalytics.dart';
-import '../utils/utils.dart';
-import '../widgets/chart.dart';
-import '../widgets/loading.dart';
-import 'tutorial/charts_helper.dart';
+import '../../data/data.dart';
+import '../../resources/values/app_colors.dart';
+import '../../resources/values/app_dimens.dart';
+import '../../resources/values/app_styles.dart';
+import '../../store/authentication.dart';
+import '../../store/registry_store.dart';
+import '../../store/ui_store.dart';
+import '../../store/user_data_store.dart';
+import '../../resources/i18n/app_strings.dart';
+import '../../utils/fanalytics.dart';
+import '../../utils/utils.dart';
+import 'chart.dart';
+import '../../widgets/loading.dart';
+import 'tutorial.dart';
 
-class ChartsPage extends StatefulWidget {
-  ChartsPage();
+class ExpChartsPage extends StatefulWidget {
+  ExpChartsPage();
 
   @override
-  State<StatefulWidget> createState() => ChartsPageState();
+  State<StatefulWidget> createState() => ExpChartsPageState();
 }
 
-class ChartsPageState extends State<ChartsPage> {
-  ChartsPageState();
+class ExpChartsPageState extends State<ExpChartsPage> {
+  ExpChartsPageState();
 
   FoundablesData _selectedFoundableData;
 

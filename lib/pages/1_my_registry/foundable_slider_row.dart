@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import '../data/data.dart';
-import '../resources/values/app_colors.dart';
-import '../resources/values/app_dimens.dart';
-import '../resources/values/app_styles.dart';
-import '../store/user_data_store.dart';
-import '../resources/i18n/app_strings.dart';
+import '../../data/data.dart';
+import '../../resources/values/app_colors.dart';
+import '../../resources/values/app_dimens.dart';
+import '../../resources/values/app_styles.dart';
+import '../../store/user_data_store.dart';
+import '../../resources/i18n/app_strings.dart';
 
 class FoundableSliderRow extends StatefulWidget {
   final Function callback;
