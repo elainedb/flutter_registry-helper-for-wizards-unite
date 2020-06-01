@@ -12,10 +12,10 @@ import '../../store/authentication.dart';
 import '../../store/registry_store.dart';
 import '../../store/ui_store.dart';
 import '../../store/user_data_store.dart';
-import '../../resources/i18n/app_strings.dart';
 import '../../utils/fanalytics.dart';
-import 'page_edit_dialog.dart';
 import '../../widgets/loading.dart';
+import 'page_edit_dialog.dart';
+import 'registry_widgets.dart';
 import 'tutorial.dart';
 
 class ExpMyRegistryPage extends StatefulWidget {
@@ -76,16 +76,16 @@ class ExpMyRegistryPageState extends State<ExpMyRegistryPage> {
             scrollDirection: Axis.vertical,
             controller: controller,
             children: <Widget>[
-              chapterCard("cmc", AppColors.cmcDark, AppColors.cmcLight, 0),
-              chapterCard("da", AppColors.daDark, AppColors.daLight, 1),
-              chapterCard("hs", AppColors.hsDark, AppColors.hsLight, 2),
-              chapterCard("loh", AppColors.lohDark, AppColors.lohLight, 3),
-              chapterCard("mom", AppColors.momDark, AppColors.momLight, 4),
-              chapterCard("m", AppColors.mDark, AppColors.mLight, 5),
-              chapterCard("mgs", AppColors.mgsDark, AppColors.mgsLight, 6),
-              chapterCard("mar", AppColors.maDark, AppColors.maLight, 7),
-              chapterCard("www", AppColors.wwwDark, AppColors.wwwLight, 8),
-              chapterCard("o", AppColors.oDark, AppColors.oLight, 9),
+              chapterCard("cmc", AppColors.cmcDark, AppColors.cmcLight, 0, controller, globalKey1, globalKey2, globalKey3, _pushDialog),
+              chapterCard("da", AppColors.daDark, AppColors.daLight, 1, controller, globalKey1, globalKey2, globalKey3, _pushDialog),
+              chapterCard("hs", AppColors.hsDark, AppColors.hsLight, 2, controller, globalKey1, globalKey2, globalKey3, _pushDialog),
+              chapterCard("loh", AppColors.lohDark, AppColors.lohLight, 3, controller, globalKey1, globalKey2, globalKey3, _pushDialog),
+              chapterCard("mom", AppColors.momDark, AppColors.momLight, 4, controller, globalKey1, globalKey2, globalKey3, _pushDialog),
+              chapterCard("m", AppColors.mDark, AppColors.mLight, 5, controller, globalKey1, globalKey2, globalKey3, _pushDialog),
+              chapterCard("mgs", AppColors.mgsDark, AppColors.mgsLight, 6, controller, globalKey1, globalKey2, globalKey3, _pushDialog),
+              chapterCard("mar", AppColors.maDark, AppColors.maLight, 7, controller, globalKey1, globalKey2, globalKey3, _pushDialog),
+              chapterCard("www", AppColors.wwwDark, AppColors.wwwLight, 8, controller, globalKey1, globalKey2, globalKey3, _pushDialog),
+              chapterCard("o", AppColors.oDark, AppColors.oLight, 9, controller, globalKey1, globalKey2, globalKey3, _pushDialog),
             ],
           ),
         ),
@@ -114,192 +114,6 @@ class ExpMyRegistryPageState extends State<ExpMyRegistryPage> {
     );
   }
 
-  Widget chapterCard(String chapterId, Color dark, Color light, int index) {
-    Chapter chapter = getChapterWithId(registryStore.registry, chapterId);
-
-    List<Widget> widgets = List();
-    widgets.add(Text(
-      "${chapter.id.i18n()}",
-      style: AppStyles.lightContentText,
-    ));
-    widgets.addAll(getPagesIds(chapter).map((p) => pageCard(p, chapter, light, dark)));
-
-    return AutoScrollTag(
-      controller: controller,
-      key: ValueKey(index),
-      index: index,
-      child: Card(
-        color: dark,
-        child: Column(
-          children: widgets,
-        ),
-      ),
-    );
-  }
-
-  Widget pageCard(String pageId, Chapter chapter, Color lightColor, Color darkColor) {
-    WUPage page = getPageWithId(chapter, pageId);
-    String dropdownValue = getPrestigeLevelWithPageId(pageId, userDataStore.data);
-    var key1;
-    var key3;
-    if (pageId == "hh") {
-      key1 = globalKey1;
-      key3 = globalKey3;
-    }
-
-    Widget header = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        Flexible(
-            child: Text(
-          "${page.id.i18n()}",
-          style: AppStyles.darkBoldContentText,
-          textAlign: TextAlign.center,
-        )),
-        DropdownButton<String>(
-          key: key3,
-          value: dropdownValue,
-          onChanged: (newValue) => userDataStore.setPrestigeLevel(page, newValue),
-          items: prestigeValues.map<DropdownMenuItem<String>>((value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(
-                value.i18n(),
-                style: AppStyles.darkContentText,
-              ),
-            );
-          }).toList(),
-        ),
-        IconButton(
-          key: key1,
-          icon: Icon(
-            Icons.edit,
-            color: AppColors.darkColor,
-          ),
-          onPressed: () => _pushDialog(dropdownValue, page, darkColor, lightColor),
-        )
-      ],
-    );
-
-    List<Widget> widgets = List();
-    widgets.add(header);
-    widgets.addAll(getFoundablesIds(page).map((f) => foundableRow(f, page, darkColor)));
-
-    return Card(
-      color: lightColor,
-      child: Padding(
-        padding: AppStyles.miniInsets,
-        child: Column(
-          children: widgets,
-        ),
-      ),
-    );
-  }
-
-  Widget foundableRow(String foundableId, WUPage page, Color color) {
-    Foundable foundable = getFoundableWithId(page, foundableId);
-    int currentCount = userDataStore.data[foundableId]['count'];
-    int currentLevel = userDataStore.data[foundableId]['level'];
-    bool isPlaced = userDataStore.data[foundableId]['placed'];
-    var intRequirement = getRequirementWithLevel(foundable, currentLevel);
-
-    List<Widget> widgets = List();
-
-    var key2;
-    if (foundableId == "hh_1") {
-      key2 = globalKey2;
-    }
-
-    widgets.addAll([
-      GestureDetector(
-        onTap: () {
-          userDataStore.submitPlaced(foundable, !isPlaced);
-          analytics.sendPlacedEvent();
-        },
-        child: Stack(
-          children: [
-            Container(
-              width: AppDimens.mediumImageSize,
-              height: AppDimens.mediumImageSize,
-              child: Image.asset("assets/images/foundables/$foundableId.png"),
-            ),
-            Icon(
-              Icons.stars,
-              color: isPlaced ? AppColors.placedStar : AppColors.notPlacedStar,
-              size: AppDimens.miniImageSize,
-            ),
-          ],
-        ),
-      ),
-      Expanded(
-          child: Text(
-        foundable.id.i18n(),
-        style: AppStyles.darkContentText,
-      )),
-    ]);
-
-    if (currentCount < intRequirement) {
-      widgets.addAll([
-        Container(
-          width: AppDimens.gigaSize,
-          child: RaisedButton(
-            key: key2,
-            color: AppColors.backgroundColor,
-            padding: AppStyles.zeroInsets,
-            child: Text(
-              "+",
-              style: AppStyles.quantityText,
-            ),
-            onPressed: () {
-              analytics.sendPlusEvent();
-              userDataStore.submitNewValue(foundable, (currentCount + 1).toString());
-            },
-          ),
-        ),
-      ]);
-
-      widgets.add(Container(
-        alignment: Alignment.center,
-        width: AppDimens.registryCounterWidth,
-        child: Card(
-          child: Padding(
-            padding: AppStyles.miniInsets,
-            child: Text(
-              "$currentCount / $intRequirement",
-              style: AppStyles.darkContentText,
-            ),
-          ),
-          color: Colors.transparent,
-          elevation: 0,
-        ),
-      ));
-    } else {
-      if (currentCount > intRequirement) {
-        // needed after 2.13 game update
-        currentCount = intRequirement;
-        userDataStore.submitNewValue(foundable, currentCount.toString());
-      }
-      widgets.add(Container(
-        alignment: Alignment.center,
-        width: AppDimens.registryCounterWidth,
-        child: Card(
-          child: Padding(
-            padding: AppStyles.miniInsets,
-            child: Text(
-              "$currentCount / $intRequirement",
-              style: AppStyles.lightContentText,
-            ),
-          ),
-          color: color,
-        ),
-      ));
-    }
-
-    return Row(
-      children: widgets,
-    );
-  }
-
   _pushDialog(String dropdownValue, WUPage page, Color darkColor, Color lightColor) {
     Navigator.of(context).push(PageRouteBuilder(
         opaque: false,
@@ -311,7 +125,6 @@ class ExpMyRegistryPageState extends State<ExpMyRegistryPage> {
 
   Future _scrollToIndex(int index) async {
     analytics.sendScrollToEvent(index);
-//    await controller.animateTo(150, duration: Duration(milliseconds: 100), curve: Curves.linear);
     await controller.scrollToIndex(index, preferPosition: AutoScrollPosition.begin, duration: Duration(seconds: 1));
   }
 

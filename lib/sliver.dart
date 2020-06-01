@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import 'challenges.dart';
 import 'exploration.dart';
 import 'pages/settings.dart';
 import 'resources/i18n/app_strings.dart';
@@ -169,7 +170,7 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
             controller: _tabController,
             children: [
               ExplorationWidget(),
-              ExplorationWidget(),
+              ChallengesWidget(),
             ].toList(),
           ),
         ),

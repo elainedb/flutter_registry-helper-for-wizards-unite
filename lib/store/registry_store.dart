@@ -8,9 +8,11 @@ import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/data.dart';
+import '../pages/1_my_registry/cha_my_registry.dart';
 import '../pages/1_my_registry/exp_my_registry.dart';
 import '../pages/2_assistant/exp_assistant.dart';
 import '../pages/3_insights/exp_insights.dart';
+import '../pages/4_charts/cha_charts.dart';
 import '../pages/4_charts/exp_charts.dart';
 import '../resources/i18n/app_strings.dart';
 import 'authentication.dart';
@@ -37,6 +39,14 @@ abstract class _RegistryStore with Store {
     Text("loading".i18n()),
     Text("loading".i18n()),
     Text("loading".i18n()),
+  ];
+
+  @observable
+  List<Widget> challengesWidgetOptions = <Widget>[
+    Text("loading".i18n()),
+    Text("loading".i18n()),
+//    Text("loading".i18n()),
+//    Text("loading".i18n()),
   ];
 
   @computed
@@ -73,6 +83,17 @@ abstract class _RegistryStore with Store {
       ExpAssistantPage(sortValue),
       ExpInsightsPage(),
       ExpChartsPage(),
+    ];
+  }
+
+  @action
+  updateChallengesWidgets() {
+    challengesWidgetOptions = <Widget>[
+      ChaMyRegistryPage(),
+      ChaChartsPage(),
+//      ExpAssistantPage(sortValue),
+//      ExpInsightsPage(),
+//      ExpChartsPage(),
     ];
   }
 

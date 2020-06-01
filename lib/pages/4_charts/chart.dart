@@ -1,6 +1,7 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
+import 'charts_widgets.dart';
 import 'exp_charts.dart';
 import '../../resources/values/app_dimens.dart';
 

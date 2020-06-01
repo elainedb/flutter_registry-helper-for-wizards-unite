@@ -68,21 +68,44 @@ mixin _$RegistryStore on _RegistryStore, Store {
     }, _$isUserDataLoadingAtom, name: '${_$isUserDataLoadingAtom.name}_set');
   }
 
-  final _$widgetOptionsAtom = Atom(name: '_RegistryStore.widgetOptions');
+  final _$explorationWidgetOptionsAtom =
+      Atom(name: '_RegistryStore.explorationWidgetOptions');
 
   @override
   List<Widget> get explorationWidgetOptions {
-    _$widgetOptionsAtom.context.enforceReadPolicy(_$widgetOptionsAtom);
-    _$widgetOptionsAtom.reportObserved();
+    _$explorationWidgetOptionsAtom.context
+        .enforceReadPolicy(_$explorationWidgetOptionsAtom);
+    _$explorationWidgetOptionsAtom.reportObserved();
     return super.explorationWidgetOptions;
   }
 
   @override
   set explorationWidgetOptions(List<Widget> value) {
-    _$widgetOptionsAtom.context.conditionallyRunInAction(() {
+    _$explorationWidgetOptionsAtom.context.conditionallyRunInAction(() {
       super.explorationWidgetOptions = value;
-      _$widgetOptionsAtom.reportChanged();
-    }, _$widgetOptionsAtom, name: '${_$widgetOptionsAtom.name}_set');
+      _$explorationWidgetOptionsAtom.reportChanged();
+    }, _$explorationWidgetOptionsAtom,
+        name: '${_$explorationWidgetOptionsAtom.name}_set');
+  }
+
+  final _$challengesWidgetOptionsAtom =
+      Atom(name: '_RegistryStore.challengesWidgetOptions');
+
+  @override
+  List<Widget> get challengesWidgetOptions {
+    _$challengesWidgetOptionsAtom.context
+        .enforceReadPolicy(_$challengesWidgetOptionsAtom);
+    _$challengesWidgetOptionsAtom.reportObserved();
+    return super.challengesWidgetOptions;
+  }
+
+  @override
+  set challengesWidgetOptions(List<Widget> value) {
+    _$challengesWidgetOptionsAtom.context.conditionallyRunInAction(() {
+      super.challengesWidgetOptions = value;
+      _$challengesWidgetOptionsAtom.reportChanged();
+    }, _$challengesWidgetOptionsAtom,
+        name: '${_$challengesWidgetOptionsAtom.name}_set');
   }
 
   final _$initRegistryDataFromJsonAsyncAction =
@@ -111,6 +134,16 @@ mixin _$RegistryStore on _RegistryStore, Store {
     final _$actionInfo = _$_RegistryStoreActionController.startAction();
     try {
       return super.updateExplorationWidgets(sortValue);
+    } finally {
+      _$_RegistryStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic updateChallengesWidgets() {
+    final _$actionInfo = _$_RegistryStoreActionController.startAction();
+    try {
+      return super.updateChallengesWidgets();
     } finally {
       _$_RegistryStoreActionController.endAction(_$actionInfo);
     }
