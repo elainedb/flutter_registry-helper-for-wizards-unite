@@ -475,4 +475,28 @@ const Map<String, String> values_fr = {
   "wda2_3": "Baguette de Luna Lovegood",
   "wda2_4": "Baguette d'Hermione Granger",
   "wda2_5": "Baguette de Neville Londubat",
+
+  "r1": "Chambre des Ruines I",
+  "r2": "Chambre des Ruines II",
+  "r3": "Chambre des Ruines III",
+  "r4": "Chambre des Ruines IV",
+  "r5": "Chambre des Ruines V",
+
+  "t1": "Chambre de la Tour I",
+  "t2": "Chambre de la Tour II",
+  "t3": "Chambre de la Tour III",
+  "t4": "Chambre de la Tour IV",
+  "t5": "Chambre de la Tour V",
+
+  "f1": "Chambre de la Forêt I",
+  "f2": "Chambre de la Forêt II",
+  "f3": "Chambre de la Forêt III",
+  "f4": "Chambre de la Forêt IV",
+  "f5": "Chambre de la Forêt V",
+
+  "d1": "Chambre Sombre I",
+  "d2": "Chambre Sombre II",
+  "d3": "Chambre Sombre III",
+  "d4": "Chambre Sombre IV",
+  "d5": "Chambre Sombre V",
 };

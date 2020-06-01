@@ -476,4 +476,28 @@ const Map<String, String> values_en = {
   "wda2_4": "Hermione Granger's Wand",
   "wda2_5": "Neville Longbottom's Wand",
 
+  "r1": "Ruins Chamber I",
+  "r2": "Ruins Chamber II",
+  "r3": "Ruins Chamber III",
+  "r4": "Ruins Chamber IV",
+  "r5": "Ruins Chamber V",
+
+  "t1": "Tower Chamber I",
+  "t2": "Tower Chamber II",
+  "t3": "Tower Chamber III",
+  "t4": "Tower Chamber IV",
+  "t5": "Tower Chamber V",
+
+  "f1": "Forest Chamber I",
+  "f2": "Forest Chamber II",
+  "f3": "Forest Chamber III",
+  "f4": "Forest Chamber IV",
+  "f5": "Forest Chamber V",
+
+  "d1": "Dark Chamber I",
+  "d2": "Dark Chamber II",
+  "d3": "Dark Chamber III",
+  "d4": "Dark Chamber IV",
+  "d5": "Dark Chamber V",
+
 };

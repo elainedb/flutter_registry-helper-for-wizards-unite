@@ -475,4 +475,28 @@ const Map<String, String> values_pt = {
   "wda2_3": "Varinha de Luna Lovegood",
   "wda2_4": "Varinha de Hermione Granger",
   "wda2_5": "Varinha de Neville Longbottom",
+
+  "r1": "Câmara das Ruínas I",
+  "r2": "Câmara das Ruínas II",
+  "r3": "Câmara das Ruínas III",
+  "r4": "Câmara das Ruínas IV",
+  "r5": "Câmara das Ruínas V",
+
+  "t1": "Câmara da Torre I",
+  "t2": "Câmara da Torre II",
+  "t3": "Câmara da Torre III",
+  "t4": "Câmara da Torre IV",
+  "t5": "Câmara da Torre V",
+
+  "f1": "Câmara da Floresta I",
+  "f2": "Câmara da Floresta II",
+  "f3": "Câmara da Floresta III",
+  "f4": "Câmara da Floresta IV",
+  "f5": "Câmara da Floresta V",
+
+  "d1": "Câmara Sombria I",
+  "d2": "Câmara Sombria II",
+  "d3": "Câmara Sombria III",
+  "d4": "Câmara Sombria IV",
+  "d5": "Câmara Sombria V",
 };

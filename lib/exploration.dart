@@ -130,7 +130,7 @@ class ExplorationWidgetState extends State<ExplorationWidget> {
           ],
           selectedItemColor: AppColors.backgroundColor,
           unselectedItemColor: AppColors.backgroundColorUnselected,
-          backgroundColor: AppColors.backgroundColorBottomBar,
+          backgroundColor: AppColors.explorationBackgroundColor,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
         ),

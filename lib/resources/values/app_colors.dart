@@ -21,7 +21,8 @@ abstract class AppColors {
   static const backgroundColorInt = 0xFF371F21;
   static const Color backgroundColor = Color(backgroundColorInt);
   static const Color backgroundColorUnselected = Color(0x88371F21);
-  static const Color backgroundColorBottomBar = Color(0xFFf4c862);
+  static const Color explorationBackgroundColor = Color(0xFFf4c862);
+  static const Color challengesBackgroundColor = Colors.orange;
   static const MaterialColor backgroundMaterialColor = MaterialColor(backgroundColorInt, backgroundColorMap);
 
   static const Color lightTextColor = lightColor;

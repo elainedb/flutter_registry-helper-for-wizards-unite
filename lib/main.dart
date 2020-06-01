@@ -38,7 +38,6 @@ void main() {
           ),
         ),
       ),
-      backgroundColor: AppColors.backgroundMaterialColor,
     );
   };
 

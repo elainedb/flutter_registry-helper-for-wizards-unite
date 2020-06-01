@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../data/data.dart';
 import '../../resources/i18n/app_strings.dart';
+import '../../resources/values/app_colors.dart';
 import '../../resources/values/app_dimens.dart';
 import '../../resources/values/app_styles.dart';
 import '../../store/registry_store.dart';
@@ -64,7 +65,36 @@ Widget _getAlmostCompletePageWidget(AlmostCompletePage almostCompletePage, Strin
         ),
       ],
     ));
+
+    widgets.add(
+      Text(
+        foundable.foundable.name,
+        style: AppStyles.lightBoldContentText,
+      ),
+    );
+
+    if (foundable.foundable.howToCatch.contains(",") || foundable.foundable.howToCatch.contains("r1")) {
+      widgets.add(
+        Text(
+          foundable.foundable.howToCatch.split(",").map((e) => e.i18n()).join("\n"),
+          style: AppStyles.lightContentText,
+        ),
+      );
+    }
+
+    widgets.add(
+      Padding(
+        padding: AppStyles.mediumInsets,
+        child: Container(
+          color: AppColors.lightColor,
+          height: AppDimens.picoSize,
+        ),
+      ),
+    );
   });
+
+  widgets.removeLast();
+
   return Card(
     color: Colors.transparent,
     child: Padding(

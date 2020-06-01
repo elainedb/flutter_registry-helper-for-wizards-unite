@@ -475,4 +475,28 @@ const Map<String, String> values_es = {
   "wda2_3": "Varita de Luna Lovegood",
   "wda2_4": "Varita de Hermione Granger",
   "wda2_5": "Varita de Neville Longbottom",
+
+  "r1": "Cámara de las Ruinas I",
+  "r2": "Cámara de las Ruinas II",
+  "r3": "Cámara de las Ruinas III",
+  "r4": "Cámara de las Ruinas IV",
+  "r5": "Cámara de las Ruinas V",
+
+  "t1": "Cámara de la Torre I",
+  "t2": "Cámara de la Torre II",
+  "t3": "Cámara de la Torre III",
+  "t4": "Cámara de la Torre IV",
+  "t5": "Cámara de la Torre V",
+
+  "f1": "Cámara del Bosque I",
+  "f2": "Cámara del Bosque II",
+  "f3": "Cámara del Bosque III",
+  "f4": "Cámara del Bosque IV",
+  "f5": "Cámara del Bosque V",
+
+  "d1": "Cámara Tenebrosa I",
+  "d2": "Cámara Tenebrosa II",
+  "d3": "Cámara Tenebrosa III",
+  "d4": "Cámara Tenebrosa IV",
+  "d5": "Cámara Tenebrosa V",
 };

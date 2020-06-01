@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:quick_actions/quick_actions.dart';
 
 import 'resources/values/app_colors.dart';
 import 'store/authentication.dart';
@@ -69,14 +68,14 @@ class ChallengesWidgetState extends State<ChallengesWidget> {
               icon: Icon(Icons.lightbulb_outline),
               title: Text("insights".i18n()),
             ),
-            /*BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(Icons.insert_chart),
               title: Text("charts".i18n()),
-            ),*/
+            ),
           ],
           selectedItemColor: AppColors.backgroundColor,
           unselectedItemColor: AppColors.backgroundColorUnselected,
-          backgroundColor: AppColors.backgroundColorBottomBar,
+          backgroundColor: AppColors.challengesBackgroundColor,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
         ),

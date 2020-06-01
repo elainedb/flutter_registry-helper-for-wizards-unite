@@ -11,6 +11,7 @@ import 'resources/values/app_colors.dart';
 import 'resources/values/app_dimens.dart';
 import 'resources/values/app_styles.dart';
 import 'store/ui_store.dart';
+import 'utils/fanalytics.dart';
 
 class SliverWidget extends StatefulWidget {
   SliverWidget();
@@ -25,7 +26,9 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
   TabController _tabController;
   ScrollController _scrollController;
   final uiStore = GetIt.instance<UiStore>();
+  final analytics = GetIt.instance<FAnalytics>();
   bool isLeftSelected = true;
+  Color backgroundColor = AppColors.explorationBackgroundColor;
 
   @override
   void initState() {
@@ -78,7 +81,7 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
 //                  backgroundColor: Colors.transparent,
-                  backgroundColor: AppColors.backgroundColorBottomBar,
+                  backgroundColor: backgroundColor,
                   /*title: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     clipBehavior: Clip.hardEdge,
@@ -117,7 +120,7 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
                           clipper: CurvedBottomClipper(true),
                           child: Container(
                             width: MediaQuery.of(context).size.width / 2,
-                            color: AppColors.backgroundColorBottomBar,
+                            color: backgroundColor,
                             child: Center(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -140,10 +143,10 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
                           clipper: CurvedBottomClipper(false),
                           child: Container(
                             width: MediaQuery.of(context).size.width / 2,
-                            color: AppColors.backgroundColorBottomBar,
+                            color: backgroundColor,
                             child: Container(
                               width: MediaQuery.of(context).size.width / 2,
-                              color: AppColors.backgroundColorBottomBar,
+                              color: backgroundColor,
                               child: Center(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -185,18 +188,22 @@ class SliverWidgetState extends State<SliverWidget> with SingleTickerProviderSta
         case 0:
           setState(() {
             isLeftSelected = true;
+            backgroundColor = AppColors.explorationBackgroundColor;
+            uiStore.isMainChildAtTop = true;
           });
-          pageName = "HelperPage_MissingFoundables";
+          pageName = "ExplorationPage";
           break;
         case 1:
           setState(() {
             isLeftSelected = false;
+            backgroundColor = AppColors.challengesBackgroundColor;
+            uiStore.isMainChildAtTop = true;
           });
-          pageName = "HelperPage_Insights";
+          pageName = "ChallengesPage";
           break;
       }
 
-//      analytics.sendTab(pageName);
+      analytics.sendTab(pageName);
     });
   }
 }
