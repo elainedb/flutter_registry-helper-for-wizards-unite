@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:registry_helper_for_wu/data/data.dart';
-import 'package:registry_helper_for_wu/resources/values/app_colors.dart';
-import 'package:registry_helper_for_wu/resources/values/app_dimens.dart';
-import 'package:registry_helper_for_wu/resources/values/app_styles.dart';
-import 'package:registry_helper_for_wu/store/authentication.dart';
-import 'package:registry_helper_for_wu/store/registry_store.dart';
-import 'package:registry_helper_for_wu/store/ui_store.dart';
-import 'package:registry_helper_for_wu/store/user_data_store.dart';
-import 'package:registry_helper_for_wu/utils/fanalytics.dart';
-import 'package:registry_helper_for_wu/widgets/loading.dart';
+
+import '../../data/data.dart';
 import '../../resources/i18n/app_strings.dart';
+import '../../resources/values/app_colors.dart';
+import '../../resources/values/app_dimens.dart';
+import '../../resources/values/app_styles.dart';
+import '../../store/authentication.dart';
+import '../../store/registry_store.dart';
+import '../../store/ui_store.dart';
+import '../../store/user_data_store.dart';
+import '../../utils/fanalytics.dart';
+import '../../widgets/loading.dart';
+import 'insights_widgets.dart';
 
 class ExpInsightsPage extends StatefulWidget {
 
@@ -43,11 +45,11 @@ class ExpInsightsPageState extends State<ExpInsightsPage> {
       widgets.addAll(_getNoClickWidgets(data));
     }
 
-    if (_getPagesWithOneOreTwoMissingWidgets(data) != null) {
-      widgets.addAll(_getPagesWithOneOreTwoMissingWidgets(data));
+    if (getPagesWithOneOreTwoMissingWidgets(data, explorationChaptersForDisplay) != null) {
+      widgets.addAll(getPagesWithOneOreTwoMissingWidgets(data, explorationChaptersForDisplay));
     }
 
-    if (_getPagesWithOneOreTwoMissingWidgets(data) == null && _getNoClickWidgets(data) == null) {
+    if (getPagesWithOneOreTwoMissingWidgets(data, explorationChaptersForDisplay) == null && _getNoClickWidgets(data) == null) {
       return Text(
         "No insights for now!",
         style: AppStyles.lightContentText,
@@ -61,74 +63,6 @@ class ExpInsightsPageState extends State<ExpInsightsPage> {
         children: widgets,
       );
     });
-  }
-
-  List<Widget> _getPagesWithOneOreTwoMissingWidgets(Map<String, dynamic> data) {
-    List<Widget> widgets = List();
-    widgets.add(Padding(
-      padding: AppStyles.mediumInsets,
-      child: Text(
-        "focused_playing".i18n(),
-        style: AppStyles.lightContentText,
-        textAlign: TextAlign.center,
-      ),
-    ));
-    explorationChaptersForDisplay.forEach((chapterForDisplay) {
-      var chapter = getChapterWithId(registryStore.registry, chapterForDisplay.id);
-      List<AlmostCompletePage> almostCompletePages = getPagesWithOneOreTwoMissing(chapter, data);
-      almostCompletePages.forEach((almostCompletePage) {
-        widgets.add(_getAlmostCompletePageWidget(almostCompletePage, chapter.id));
-      });
-    });
-
-    if (widgets.length == 1) {
-      return null;
-    }
-    return widgets;
-  }
-
-  Widget _getAlmostCompletePageWidget(AlmostCompletePage almostCompletePage, String chapterId) {
-    List<Widget> widgets = List();
-    widgets.add(Padding(
-      padding: AppStyles.helperAlmostCompleteInsets,
-      child: Text(
-        almostCompletePage.pageName,
-        style: AppStyles.lightContentText,
-      ),
-    ));
-    almostCompletePage.foundables.forEach((foundable) {
-      widgets.add(Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          SizedBox(
-            width: AppDimens.mediumImageSize,
-            child: Image.asset("assets/images/traces_transparent/$chapterId.png"),
-          ),
-          SizedBox(
-            width: AppDimens.mediumImageSize,
-            height: AppDimens.mediumImageSize,
-            child: Image.asset("assets/images/foundables/${foundable.foundable.id}.png"),
-          ),
-          SizedBox(
-            width: AppDimens.smallImageSize,
-            child: getIconWithFoundable(foundable.foundable, AppDimens.smallImageSize),
-          ),
-          Text(
-            "left".i18n().replaceFirst("arg1", "${foundable.remainingFragments}"),
-            style: AppStyles.lightContentText,
-          ),
-        ],
-      ));
-    });
-    return Card(
-      color: Colors.transparent,
-      child: Padding(
-        padding: AppStyles.miniInsets,
-        child: Column(
-          children: widgets,
-        ),
-      ),
-    );
   }
 
   List<Widget> _getNoClickWidgets(Map<String, dynamic> data) {

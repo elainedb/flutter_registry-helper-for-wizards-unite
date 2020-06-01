@@ -11,6 +11,7 @@ import '../data/data.dart';
 import '../pages/1_my_registry/cha_my_registry.dart';
 import '../pages/1_my_registry/exp_my_registry.dart';
 import '../pages/2_assistant/exp_assistant.dart';
+import '../pages/3_insights/cha_insights.dart';
 import '../pages/3_insights/exp_insights.dart';
 import '../pages/4_charts/cha_charts.dart';
 import '../pages/4_charts/exp_charts.dart';
@@ -45,7 +46,7 @@ abstract class _RegistryStore with Store {
   List<Widget> challengesWidgetOptions = <Widget>[
     Text("loading".i18n()),
     Text("loading".i18n()),
-//    Text("loading".i18n()),
+    Text("loading".i18n()),
 //    Text("loading".i18n()),
   ];
 
@@ -90,10 +91,8 @@ abstract class _RegistryStore with Store {
   updateChallengesWidgets() {
     challengesWidgetOptions = <Widget>[
       ChaMyRegistryPage(),
+      ChaInsightsPage(),
       ChaChartsPage(),
-//      ExpAssistantPage(sortValue),
-//      ExpInsightsPage(),
-//      ExpChartsPage(),
     ];
   }
 

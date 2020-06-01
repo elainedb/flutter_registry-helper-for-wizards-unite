@@ -65,11 +65,11 @@ class ChallengesWidgetState extends State<ChallengesWidget> {
               icon: Icon(Icons.star),
               title: Text("assistant".i18n()),
             ),
-            /*BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(Icons.lightbulb_outline),
               title: Text("insights".i18n()),
             ),
-            BottomNavigationBarItem(
+            /*BottomNavigationBarItem(
               icon: Icon(Icons.insert_chart),
               title: Text("charts".i18n()),
             ),*/

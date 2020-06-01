@@ -21,6 +21,13 @@ var explorationChaptersForDisplay = [
   ChapterForDisplay("www", AppColors.wwwDark, AppColors.wwwLight),
   ChapterForDisplay("o", AppColors.oDark, AppColors.oLight),
 ];
+var challengesChaptersForDisplay = [
+  ChapterForDisplay("bo", AppColors.lohDark, AppColors.lohLight),
+  ChapterForDisplay("jp", AppColors.lohDark, AppColors.lohLight),
+  ChapterForDisplay("md", AppColors.lohDark, AppColors.lohLight),
+  ChapterForDisplay("sww", AppColors.lohDark, AppColors.lohLight),
+  ChapterForDisplay("wda", AppColors.lohDark, AppColors.lohLight),
+];
 
 class Registry {
   final List<Chapter> chapters;
