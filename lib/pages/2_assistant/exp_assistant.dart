@@ -67,6 +67,8 @@ class ExpAssistantPageState extends State<ExpAssistantPage> {
   }
 
   Widget _generalHelper(Map<String, dynamic> data) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => executeAfterBuild(context));
+
     List<Widget> widgets = List();
     widgets.add(Padding(
       padding: AppStyles.miniInsets,

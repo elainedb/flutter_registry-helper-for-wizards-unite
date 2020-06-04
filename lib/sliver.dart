@@ -222,9 +222,9 @@ class CurvedBottomClipper extends CustomClipper<Path> {
 
     // this is rectangle that will be used to draw arc
     // arc is drawn from center of this rectangle, so it's height has to be twice roundingHeight
-    Rect roundingRectangle = Rect.fromLTRB(-size.width, size.height - roundingHeight * 2, size.width + 5, size.height);
+    Rect roundingRectangle = Rect.fromLTRB(-size.width, size.height - roundingHeight * 2, size.width + 15, size.height);
     if (isLeft) {
-      roundingRectangle = Rect.fromLTRB(-5, size.height - roundingHeight * 2, size.width * 2, size.height);
+      roundingRectangle = Rect.fromLTRB(-15, size.height - roundingHeight * 2, size.width * 2, size.height);
     }
 
     final path = Path();
