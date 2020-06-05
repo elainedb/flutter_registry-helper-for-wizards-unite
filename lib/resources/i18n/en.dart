@@ -500,4 +500,6 @@ const Map<String, String> values_en = {
   "d4": "Dark Chamber IV",
   "d5": "Dark Chamber V",
 
+  "image_apple_button": "assets/images/buttons/appleid_button_en.png",
+
 };

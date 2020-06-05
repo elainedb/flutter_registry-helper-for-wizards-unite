@@ -499,4 +499,6 @@ const Map<String, String> values_fr = {
   "d3": "Chambre Sombre III",
   "d4": "Chambre Sombre IV",
   "d5": "Chambre Sombre V",
+
+  "image_apple_button": "assets/images/buttons/appleid_button_fr.png",
 };

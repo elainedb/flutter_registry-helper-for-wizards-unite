@@ -499,4 +499,6 @@ const Map<String, String> values_pt = {
   "d3": "Câmara Sombria III",
   "d4": "Câmara Sombria IV",
   "d5": "Câmara Sombria V",
+
+  "image_apple_button": "assets/images/buttons/appleid_button_pt.png",
 };
