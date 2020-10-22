@@ -4,7 +4,7 @@ description: Registry Helper for Wizards Unite
 # buildName+buildNumber
 # Android: buildName = versionName / buildNumber = versionCode
 # iOS: buildName = CFBundleShortVersionString / buildNumber = CFBundleVersion
-version: 2.0.0+31
+version: 2.0.0+32
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -51,6 +51,8 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/buttons/
+    - assets/images/buttons/3.0x/ # https://appleid.cdn-apple.com/appleid/button?border_radius=50&height=48&color=white&scale=3&locale=fr_FR&width=200
     - assets/images/icons/
     - assets/images/foundables/
     - assets/images/foundables/3.0x/

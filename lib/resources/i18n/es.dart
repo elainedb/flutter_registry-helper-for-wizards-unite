@@ -499,4 +499,6 @@ const Map<String, String> values_es = {
   "d3": "Cámara Tenebrosa III",
   "d4": "Cámara Tenebrosa IV",
   "d5": "Cámara Tenebrosa V",
+
+  "image_apple_button": "assets/images/buttons/appleid_button_es.png",
 };

@@ -182,14 +182,12 @@ class SignInWidgetState extends State<SignInWidget> with TickerProviderStateMixi
         Container(
           height: AppDimens.mediumSize,
         ),
-        FloatingActionButton.extended(
-          backgroundColor: AppColors.fabBackgroundColor,
-          onPressed: () async {
-            authentication.signInWithApple();
-          },
-          label: Text("sign_in_apple".i18n()),
-          icon: Icon(Icons.account_circle),
-        )
+        FlatButton(
+            onPressed: () async {
+              authentication.signInWithApple();
+            },
+            padding: EdgeInsets.all(0.0),
+            child: Image.asset("image_apple_button".i18n())),
       ]);
     }
 
