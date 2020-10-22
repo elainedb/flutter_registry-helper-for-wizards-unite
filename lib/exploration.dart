@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -47,52 +48,54 @@ class ExplorationWidgetState extends State<ExplorationWidget> {
       }
       registryStore.updateExplorationWidgets(_sortValue);
 
-      final QuickActions quickActions = QuickActions();
-      quickActions.initialize((String shortcutType) {
-        setState(() {
-          if (shortcutType != null) _shortcut = shortcutType;
-          switch (_shortcut) {
-            case 'helper_low':
-              _selectedIndex = 1;
-              _sortValue = "sort_low".i18n();
-              break;
-            case 'helper_challenges':
-              _selectedIndex = 1;
-              _sortValue = "sort_fortress".i18n();
-              break;
-            case 'my_registry':
-              _selectedIndex = 0;
-              break;
-            case 'charts':
-              _selectedIndex = 2;
-              break;
-          }
-          registryStore.updateExplorationWidgets(_sortValue);
+      if (!kIsWeb) {
+        final QuickActions quickActions = QuickActions();
+        quickActions.initialize((String shortcutType) {
+          setState(() {
+            if (shortcutType != null) _shortcut = shortcutType;
+            switch (_shortcut) {
+              case 'helper_low':
+                _selectedIndex = 1;
+                _sortValue = "sort_low".i18n();
+                break;
+              case 'helper_challenges':
+                _selectedIndex = 1;
+                _sortValue = "sort_fortress".i18n();
+                break;
+              case 'my_registry':
+                _selectedIndex = 0;
+                break;
+              case 'charts':
+                _selectedIndex = 2;
+                break;
+            }
+            registryStore.updateExplorationWidgets(_sortValue);
+          });
         });
-      });
 
-      quickActions.setShortcutItems(<ShortcutItem>[
-        ShortcutItem(
-          type: 'helper_low',
-          localizedTitle: "shortcut_title_low".i18n(),
-          icon: 'ic_wild',
-        ),
-        ShortcutItem(
-          type: 'helper_challenges',
-          localizedTitle: "shortcut_title_challenges".i18n(),
-          icon: 'ic_challenges',
-        ),
-        ShortcutItem(
-          type: 'charts',
-          localizedTitle: "charts".i18n(),
-          icon: 'ic_charts',
-        ),
-        ShortcutItem(
-          type: 'my_registry',
-          localizedTitle: "my_registry".i18n(),
-          icon: 'ic_folder',
-        ),
-      ]);
+        quickActions.setShortcutItems(<ShortcutItem>[
+          ShortcutItem(
+            type: 'helper_low',
+            localizedTitle: "shortcut_title_low".i18n(),
+            icon: 'ic_wild',
+          ),
+          ShortcutItem(
+            type: 'helper_challenges',
+            localizedTitle: "shortcut_title_challenges".i18n(),
+            icon: 'ic_challenges',
+          ),
+          ShortcutItem(
+            type: 'charts',
+            localizedTitle: "charts".i18n(),
+            icon: 'ic_charts',
+          ),
+          ShortcutItem(
+            type: 'my_registry',
+            localizedTitle: "my_registry".i18n(),
+            icon: 'ic_folder',
+          ),
+        ]);
+      }
 
       userDataStore.initData();
     });

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -47,7 +48,7 @@ class SettingsPage extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Center(
+              if (!kIsWeb) Center(
                 child: FloatingActionButton.extended(
                   heroTag: "share_button",
                   backgroundColor: AppColors.fabBackgroundColor,
@@ -88,7 +89,7 @@ class SettingsPage extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              Center(child: VersionWidget()),
+              if (!kIsWeb) Center(child: VersionWidget()),
               Container(
                 height: AppDimens.mediumSize,
               ),

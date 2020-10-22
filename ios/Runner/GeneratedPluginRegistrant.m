@@ -10,20 +10,20 @@
 @import apple_sign_in;
 #endif
 
-#if __has_include(<cloud_firestore/CloudFirestorePlugin.h>)
-#import <cloud_firestore/CloudFirestorePlugin.h>
+#if __has_include(<cloud_firestore/FLTFirebaseFirestorePlugin.h>)
+#import <cloud_firestore/FLTFirebaseFirestorePlugin.h>
 #else
 @import cloud_firestore;
 #endif
 
-#if __has_include(<device_info/DeviceInfoPlugin.h>)
-#import <device_info/DeviceInfoPlugin.h>
+#if __has_include(<device_info/FLTDeviceInfoPlugin.h>)
+#import <device_info/FLTDeviceInfoPlugin.h>
 #else
 @import device_info;
 #endif
 
-#if __has_include(<firebase_analytics/FirebaseAnalyticsPlugin.h>)
-#import <firebase_analytics/FirebaseAnalyticsPlugin.h>
+#if __has_include(<firebase_analytics/FLTFirebaseAnalyticsPlugin.h>)
+#import <firebase_analytics/FLTFirebaseAnalyticsPlugin.h>
 #else
 @import firebase_analytics;
 #endif
@@ -40,8 +40,8 @@
 @import firebase_core;
 #endif
 
-#if __has_include(<firebase_crashlytics/FirebaseCrashlyticsPlugin.h>)
-#import <firebase_crashlytics/FirebaseCrashlyticsPlugin.h>
+#if __has_include(<firebase_crashlytics/FLTFirebaseCrashlyticsPlugin.h>)
+#import <firebase_crashlytics/FLTFirebaseCrashlyticsPlugin.h>
 #else
 @import firebase_crashlytics;
 #endif
@@ -52,32 +52,32 @@
 @import firebase_performance;
 #endif
 
-#if __has_include(<google_sign_in/GoogleSignInPlugin.h>)
-#import <google_sign_in/GoogleSignInPlugin.h>
+#if __has_include(<google_sign_in/FLTGoogleSignInPlugin.h>)
+#import <google_sign_in/FLTGoogleSignInPlugin.h>
 #else
 @import google_sign_in;
 #endif
 
-#if __has_include(<package_info/PackageInfoPlugin.h>)
-#import <package_info/PackageInfoPlugin.h>
+#if __has_include(<package_info/FLTPackageInfoPlugin.h>)
+#import <package_info/FLTPackageInfoPlugin.h>
 #else
 @import package_info;
 #endif
 
-#if __has_include(<quick_actions/QuickActionsPlugin.h>)
-#import <quick_actions/QuickActionsPlugin.h>
+#if __has_include(<quick_actions/FLTQuickActionsPlugin.h>)
+#import <quick_actions/FLTQuickActionsPlugin.h>
 #else
 @import quick_actions;
 #endif
 
-#if __has_include(<share/SharePlugin.h>)
-#import <share/SharePlugin.h>
+#if __has_include(<share/FLTSharePlugin.h>)
+#import <share/FLTSharePlugin.h>
 #else
 @import share;
 #endif
 
-#if __has_include(<shared_preferences/SharedPreferencesPlugin.h>)
-#import <shared_preferences/SharedPreferencesPlugin.h>
+#if __has_include(<shared_preferences/FLTSharedPreferencesPlugin.h>)
+#import <shared_preferences/FLTSharedPreferencesPlugin.h>
 #else
 @import shared_preferences;
 #endif
@@ -86,12 +86,12 @@
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [AppleSignInPlugin registerWithRegistrar:[registry registrarForPlugin:@"AppleSignInPlugin"]];
-  [FLTCloudFirestorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTCloudFirestorePlugin"]];
+  [FLTFirebaseFirestorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseFirestorePlugin"]];
   [FLTDeviceInfoPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTDeviceInfoPlugin"]];
   [FLTFirebaseAnalyticsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAnalyticsPlugin"]];
   [FLTFirebaseAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAuthPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
-  [FirebaseCrashlyticsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FirebaseCrashlyticsPlugin"]];
+  [FLTFirebaseCrashlyticsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCrashlyticsPlugin"]];
   [FLTFirebasePerformancePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebasePerformancePlugin"]];
   [FLTGoogleSignInPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleSignInPlugin"]];
   [FLTPackageInfoPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPackageInfoPlugin"]];

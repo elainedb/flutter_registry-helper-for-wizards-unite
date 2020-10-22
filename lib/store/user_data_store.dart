@@ -27,7 +27,7 @@ abstract class _UserDataStore with Store {
       });
     } else {
       Firestore.instance.collection('userData').document(authentication.userId).snapshots().listen((snapshot) {
-        data = snapshot.data;
+        data = snapshot.data();
         isLoading = false;
       });
     }
@@ -47,7 +47,7 @@ abstract class _UserDataStore with Store {
     });
 
     if (!authentication.isAnonymous) {
-      Firestore.instance.collection('userData').document(authentication.userId).setData(newData, merge: true);
+      FirebaseFirestore.instance.collection('userData').doc(authentication.userId).set(newData, SetOptions(merge: true));
     } else {
       await saveUserDataToPrefs(UserData(data));
       getUserDataFromPrefs().then((d) {
@@ -62,9 +62,9 @@ abstract class _UserDataStore with Store {
     data[foundable.id]['count'] = newInt;
 
     if (!authentication.isAnonymous) {
-      Firestore.instance.collection('userData').document(authentication.userId).setData({
+      FirebaseFirestore.instance.collection('userData').doc(authentication.userId).set({
         foundable.id: {'count': newInt}
-      }, merge: true);
+      }, SetOptions(merge: true));
     } else {
       await saveUserDataToPrefs(UserData(data));
       getUserDataFromPrefs().then((d) {
@@ -81,7 +81,7 @@ abstract class _UserDataStore with Store {
     });
 
     if (!authentication.isAnonymous) {
-      Firestore.instance.collection('userData').document(authentication.userId).setData(newData, merge: true);
+      FirebaseFirestore.instance.collection('userData').doc(authentication.userId).set(newData, SetOptions(merge: true));
     } else {
       foundableCount.forEach((id, count) {
         data[id]['count'] = count.truncate();
@@ -101,9 +101,9 @@ abstract class _UserDataStore with Store {
     data[foundable.id]['placed'] = newValue;
 
     if (!authentication.isAnonymous) {
-      Firestore.instance.collection('userData').document(authentication.userId).setData({
+      FirebaseFirestore.instance.collection('userData').doc(authentication.userId).set({
         foundable.id: {'placed': newValue}
-      }, merge: true);
+      }, SetOptions(merge: true));
     } else {
       await saveUserDataToPrefs(UserData(data));
       getUserDataFromPrefs().then((d) {

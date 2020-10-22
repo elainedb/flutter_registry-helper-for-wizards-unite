@@ -20,7 +20,7 @@ abstract class _Authentication with Store {
   String email = "";
 
   @observable
-  FirebaseUser user;
+  User user;
 
   @action
   void setAuthState(dynamic newState) {
@@ -41,8 +41,8 @@ abstract class _Authentication with Store {
   }
 
   @action
-  getEmail() async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+  getEmail() {
+    User user = FirebaseAuth.instance.currentUser;
     if (user.isAnonymous) {
       email = "Anonymous";
     } else {
@@ -54,13 +54,13 @@ abstract class _Authentication with Store {
   signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await getGoogleUser();
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
+    final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
 
-    AuthResult authResult = await _auth.signInWithCredential(credential);
-    user = authResult.user;
+    UserCredential userCredential = await _auth.signInWithCredential(credential);
+    user = userCredential.user;
     authState = user != null;
   }
 
@@ -74,12 +74,12 @@ abstract class _Authentication with Store {
 
     switch (result.status) {
       case AuthorizationStatus.authorized:
-        final AuthCredential credential = OAuthProvider(providerId: "apple.com").getCredential(
+        final AuthCredential credential = OAuthProvider("apple.com").credential(
           idToken: utf8.decode(result.credential.identityToken),
           accessToken: utf8.decode(result.credential.authorizationCode),
         );
-        AuthResult authResult = await _auth.signInWithCredential(credential);
-        user = authResult.user;
+        UserCredential userCredential = await _auth.signInWithCredential(credential);
+        user = userCredential.user;
         authState = user != null;
         break;
 
@@ -95,16 +95,16 @@ abstract class _Authentication with Store {
 
   @action
   signInAnonymous() async {
-    AuthResult authResult = await _auth.signInAnonymously();
-    user = authResult.user;
+    UserCredential userCredential = await _auth.signInAnonymously();
+    user = userCredential.user;
     authState = user != null;
   }
 
   @action
   initAuthState() async {
-    FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
-    authState = firebaseUser != null;
-    user = firebaseUser;
+    User currentUser = FirebaseAuth.instance.currentUser;
+    authState = currentUser != null;
+    user = currentUser;
   }
 
   Future getGoogleUser() async {

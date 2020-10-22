@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,28 +20,33 @@ import 'resources/i18n/app_strings.dart';
 import 'utils/fanalytics.dart';
 import 'utils/globals.dart' as globals;
 
-void main() {
-  Crashlytics.instance.enableInDevMode = false;
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
-  FlutterError.onError = (FlutterErrorDetails details) {
-    Crashlytics.instance.recordFlutterError(details);
-  };
+  if (!kIsWeb) {
+    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
 
-  //override the red screen of death
-  ErrorWidget.builder = (FlutterErrorDetails details) {
-    Crashlytics.instance.recordFlutterError(details);
-    return Scaffold(
-      body: Padding(
-        padding: AppStyles.miniInsets,
-        child: Center(
-          child: Text(
-            "error".i18n(),
-            style: AppStyles.largeText,
+    FlutterError.onError = (FlutterErrorDetails details) {
+      FirebaseCrashlytics.instance.recordFlutterError(details);
+    };
+
+    //override the red screen of death
+    ErrorWidget.builder = (FlutterErrorDetails details) {
+      FirebaseCrashlytics.instance.recordFlutterError(details);
+      return Scaffold(
+        body: Padding(
+          padding: AppStyles.miniInsets,
+          child: Center(
+            child: Text(
+              "error".i18n(),
+              style: AppStyles.largeText,
+            ),
           ),
         ),
-      ),
-    );
-  };
+      );
+    };
+  }
 
   GetIt getIt = GetIt.instance;
   getIt.registerSingleton<Authentication>(Authentication());
@@ -55,10 +62,12 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    if (!kIsWeb) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    }
 
     return MaterialApp(
       theme: AppStyles.appThemeData,

@@ -57,14 +57,14 @@ mixin _$Authentication on _Authentication, Store {
   final _$userAtom = Atom(name: '_Authentication.user');
 
   @override
-  FirebaseUser get user {
+  User get user {
     _$userAtom.context.enforceReadPolicy(_$userAtom);
     _$userAtom.reportObserved();
     return super.user;
   }
 
   @override
-  set user(FirebaseUser value) {
+  set user(User value) {
     _$userAtom.context.conditionallyRunInAction(() {
       super.user = value;
       _$userAtom.reportChanged();
@@ -76,13 +76,6 @@ mixin _$Authentication on _Authentication, Store {
   @override
   Future signOut() {
     return _$signOutAsyncAction.run(() => super.signOut());
-  }
-
-  final _$getEmailAsyncAction = AsyncAction('getEmail');
-
-  @override
-  Future getEmail() {
-    return _$getEmailAsyncAction.run(() => super.getEmail());
   }
 
   final _$signInWithGoogleAsyncAction = AsyncAction('signInWithGoogle');
@@ -121,6 +114,16 @@ mixin _$Authentication on _Authentication, Store {
     final _$actionInfo = _$_AuthenticationActionController.startAction();
     try {
       return super.setAuthState(newState);
+    } finally {
+      _$_AuthenticationActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic getEmail() {
+    final _$actionInfo = _$_AuthenticationActionController.startAction();
+    try {
+      return super.getEmail();
     } finally {
       _$_AuthenticationActionController.endAction(_$actionInfo);
     }

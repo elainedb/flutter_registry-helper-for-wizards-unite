@@ -133,7 +133,7 @@ abstract class _RegistryStore with Store {
         // anon & existing data on firebase
         // migrate data from firebase and persist locally only
         // this deletes the firebase data for this user
-        _migrateAnonymous(snapshot.data, userId);
+        _migrateAnonymous(snapshot.data(), userId);
       }
     }
   }
@@ -141,7 +141,7 @@ abstract class _RegistryStore with Store {
   _checkAndAddNewUserKeysConnected(DocumentSnapshot snapshot, List<String> registryIds, String userId) {
     var userIds = List<String>();
     var toAddIds = List<String>();
-    snapshot.data.forEach((id, value) {
+    snapshot.data().forEach((id, value) {
       userIds.add(id);
     });
 
@@ -170,7 +170,7 @@ abstract class _RegistryStore with Store {
       map[id] = {'count': 0, 'level': 1, 'placed': false};
     }
 
-    Firestore.instance.collection('userData').document(userId).setData(map, merge: true).then((_) {
+    FirebaseFirestore.instance.collection('userData').doc(userId).set(map, SetOptions(merge: true)).then((_) {
       isUserDataLoading = false;
     });
   }
@@ -182,7 +182,7 @@ abstract class _RegistryStore with Store {
       map[id] = {'placed': false};
     }
 
-    Firestore.instance.collection('userData').document(userId).setData(map, merge: true).then((_) {
+    FirebaseFirestore.instance.collection('userData').doc(userId).set(map, SetOptions(merge: true)).then((_) {
       isUserDataLoading = false;
     });
   }
